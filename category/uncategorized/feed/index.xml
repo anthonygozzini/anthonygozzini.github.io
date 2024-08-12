@@ -9,8 +9,8 @@
 
 <channel>
 	<title>Uncategorized &#8211; Anthony Logan Gozzini</title>
-	<atom:link href="https://anthonygozzini.github.io/category/uncategorized/feed/" rel="self" type="application/rss+xml" />
-	<link>https://anthonygozzini.github.io</link>
+	<atom:link href="/category/uncategorized/feed/" rel="self" type="application/rss+xml" />
+	<link></link>
 	<description>Your Needs, My Mission</description>
 	<lastBuildDate>Tue, 30 Nov -001 00:00:00 +0000</lastBuildDate>
 	<language>it-IT</language>
@@ -21,27 +21,27 @@
 	<generator>https://wordpress.org/?v=6.6.1</generator>
 
 <image>
-	<url>https://anthonygozzini.github.io/wp-content/uploads/2018/01/cv-home-header-bg-75x75.jpg</url>
+	<url>/wp-content/uploads/2024/08/cropped-logo-32x32.png</url>
 	<title>Uncategorized &#8211; Anthony Logan Gozzini</title>
-	<link>https://anthonygozzini.github.io</link>
+	<link></link>
 	<width>32</width>
 	<height>32</height>
 </image> 
 	<item>
 		<title>Hello world!</title>
-		<link>https://anthonygozzini.github.io/hello-world/</link>
-					<comments>https://anthonygozzini.github.io/hello-world/#respond</comments>
+		<link>/2018/01/03/hello-world/</link>
+					<comments>/2018/01/03/hello-world/#respond</comments>
 		
 		<dc:creator><![CDATA[logan]]></dc:creator>
 		<pubDate>Wed, 03 Jan 2018 15:05:17 +0000</pubDate>
 				<category><![CDATA[Uncategorized]]></category>
-		<guid isPermaLink="false">https://5.91.200.59/mio/?p=1</guid>
+		<guid isPermaLink="false">/?p=1</guid>
 
 					<description><![CDATA[Welcome to WordPress. This is your first post. Edit or delete it, then start writing!]]></description>
 										<content:encoded><![CDATA[<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>
 ]]></content:encoded>
 					
-					<wfw:commentRss>https://anthonygozzini.github.io/hello-world/feed/</wfw:commentRss>
+					<wfw:commentRss>/2018/01/03/hello-world/feed/</wfw:commentRss>
 			<slash:comments>0</slash:comments>
 		
 		

@@ -8,10 +8,10 @@
 <channel>
 	<title>
 	Commenti a: Home	</title>
-	<atom:link href="https://anthonygozzini.github.io/home/feed/" rel="self" type="application/rss+xml" />
-	<link>https://anthonygozzini.github.io</link>
+	<atom:link href="/home/feed/" rel="self" type="application/rss+xml" />
+	<link></link>
 	<description>Your Needs, My Mission</description>
-	<lastBuildDate>Mon, 12 Aug 2024 12:26:37 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 12 Aug 2024 18:14:55 +0000</lastBuildDate>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
 	<sy:updateFrequency>
