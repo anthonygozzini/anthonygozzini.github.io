@@ -4,7 +4,9 @@
 Usage: python3 _src/build.py [--preview]
   --preview  write links as .../index.html, so pages also work when opened straight from disk.
 """
+import base64
 import datetime
+import functools
 import hashlib
 import html
 import json
@@ -141,20 +143,24 @@ STYLE = (ROOT / "assets" / "site.css").read_text(encoding="utf-8")
 
 
 def picture(page, file, alt, sizes, priority="lazy", extra=""):
-    """A JPEG with WebP copies from images.py. priority: "lazy" below the fold, "high" for the image that is the page's LCP."""
+    """A JPEG with AVIF and WebP copies from images.py, best format first.
+    priority: "lazy" below the fold, "high" for the image that is the page's LCP."""
     if not (file and (ROOT / "assets" / "img" / file).exists()):
         warnings.append(f"immagine mancante: assets/img/{file}")
         return ""
     stem = Path(file).with_suffix("").as_posix().replace("/", "--")
-    sized = sorted((int(w), f.name) for f in (ROOT / "assets" / "img" / "sized").glob(f"{stem}-*.webp")
-                   for base, _, w in [f.stem.rpartition("-")] if base == stem and w.isdigit())
     loading = {"lazy": ' loading="lazy"', "high": ' fetchpriority="high"'}.get(priority, "")
     img = f'<img src="{page.asset("img/" + file)}" alt="{esc(alt)}"{extra}{loading}>'
-    if not sized:
-        warnings.append(f"copie webp mancanti per assets/img/{file}: esegui python3 _src/images.py")
-        return img
-    srcset = ", ".join(f'{page.asset("img/sized/" + name)} {w}w' for w, name in sized)
-    return f'<picture><source type="image/webp" srcset="{srcset}" sizes="{sizes}">{img}</picture>'
+    sources = []
+    for ext in ("avif", "webp"):
+        sized = sorted((int(w), f.name) for f in (ROOT / "assets" / "img" / "sized").glob(f"{stem}-*.{ext}")
+                       for base, _, w in [f.stem.rpartition("-")] if base == stem and w.isdigit())
+        if not sized:
+            warnings.append(f"copie {ext} mancanti per assets/img/{file}: esegui python3 _src/images.py")
+            continue
+        srcset = ", ".join(f'{page.asset("img/sized/" + name)} {w}w' for w, name in sized)
+        sources.append(f'<source type="image/{ext}" srcset="{srcset}" sizes="{sizes}">')
+    return f'<picture>{"".join(sources)}{img}</picture>' if sources else img
 
 
 def cover(page, file, alt, sizes, priority="lazy"):
@@ -335,12 +341,27 @@ def head_tags(page, title, description, meta):
                    '<meta name="twitter:card" content="summary_large_image">\n')
 
 
-def inline_style(page):
-    """site.css inside the page: one request fewer before the first paint, and GitHub Pages caches files for 10 minutes anyway.
+FONTS = Path(__file__).resolve().parent / "fonts"
 
-    The fonts are deliberately not preloaded: Chrome holds the first paint for preloaded fonts (RenderBlockingFonts), and on
-    GitHub Pages that hold ran to its 1.5 s cap on most pages even after the fonts had arrived (traced 2026-09-16)."""
-    return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", lambda m: f"url({page.asset(m.group(1))})", STYLE)
+
+@functools.cache
+def font_data_uri(name):
+    return "data:font/woff2;base64," + base64.b64encode((FONTS / name).read_bytes()).decode("ascii")
+
+
+def inline_style(page):
+    """site.css inside the page, with the fonts from _src/fonts.py embedded as data URIs.
+
+    Linked or preloaded fonts each broke a PageSpeed result on GitHub Pages (traced 2026-09-16): preloaded, Chrome held the
+    first paint up to its 1.5 s RenderBlockingFonts cap; linked, the late swap shifted the update cards (CLS 0.317).
+    Even embedded, a font decodes after the first layout, so the head script starts both with document.fonts.load():
+    Chrome then waits the few ms for them and lays the page out once, in Geist."""
+    def resolve(match):
+        url = match.group(1)
+        if url.startswith("fonts/") and url.endswith(".woff2"):
+            return f"url({font_data_uri(url.removeprefix('fonts/'))})"
+        return f"url({page.asset(url)})"
+    return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", resolve, STYLE)
 
 
 def document(page, key, title, description, body, width, meta):
@@ -353,7 +374,7 @@ def document(page, key, title, description, body, width, meta):
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <style>{inline_style(page)}</style>
-<script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}</script>
+<script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}try{{document.fonts.load('1em Geist');document.fonts.load('1em "Geist Mono"')}}catch(e){{}}</script>
 </head>
 <body>
 <a class="skip" href="#main">{esc(tr(C.UI["skip"], lang))}</a>

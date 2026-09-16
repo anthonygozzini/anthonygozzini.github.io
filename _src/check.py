@@ -3,6 +3,7 @@
 
 Usage: python3 _src/check.py [--external]
 """
+import html
 import json
 import re
 import subprocess
@@ -113,6 +114,30 @@ def llms_problems(locs):
     return problems + markdown_problems("llms.txt", text)
 
 
+# Arrows and the play triangle are not in Geist at all, so the system font draws them whatever we embed.
+NOT_IN_GEIST = set("\u2190\u2192\u2197\u25b6")
+
+
+def font_problems(pages):
+    """Every character a page shows must be in the font build.py embeds (see _src/fonts.py), or it falls back mid-word."""
+    coverage = ROOT / "_src" / "fonts" / "coverage.txt"
+    if not coverage.exists():
+        return ["_src/fonts/coverage.txt manca: esegui python3 _src/fonts.py"]
+    faces = dict(line.split("\t", 1) for line in coverage.read_text(encoding="utf-8").splitlines())
+    sans = set(faces["geist-sans.woff2"])
+    problems = []
+    for page in pages:
+        text = page.read_text(encoding="utf-8")
+        if "data:font/woff2" not in text:
+            continue
+        text = re.sub(r"<(script|style)\b.*?</\1>", " ", text, flags=re.S)
+        shown = set(html.unescape(re.sub(r"<[^>]+>", " ", text)))
+        missing = sorted(c for c in shown - sans - NOT_IN_GEIST if not c.isspace())
+        if missing:
+            problems.append(f"{page.relative_to(ROOT)}: caratteri fuori dal font incorporato {''.join(missing)} (aggiungili in _src/fonts.py)")
+    return problems
+
+
 def seo_problems(cache):
     """Every sitemap URL: its own description within the snippet limit, a matching canonical and og:url, valid JSON-LD naming the
     person, and a markdown copy that the page links to."""
@@ -201,6 +226,11 @@ def main():
     for p in seo[1]:
         print("  ", p)
     problems += seo[1]
+    fonts = font_problems(cache)
+    print(f"pagine con font incorporati controllate: {len(cache)}, problemi: {len(fonts)}")
+    for p in fonts:
+        print("  ", p)
+    problems += fonts
 
     bad_external = []
     if "--external" in sys.argv:
