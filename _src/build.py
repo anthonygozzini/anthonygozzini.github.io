@@ -400,25 +400,102 @@ FACES = (("Geist", "400 600", "geist-sans.woff2"), ("Geist Mono", "500", "geist-
 
 
 @functools.cache
-def font_script(families=None):
-    """JS that hands the fonts from _src/fonts.py to the page, for the <head>.
+def font_blocks(families=None):
+    """HTML for the <head> that hands the fonts from _src/fonts.py to the page before its first layout.
 
     Linked or preloaded fonts each broke a PageSpeed result on GitHub Pages (traced 2026-09-16): preloaded, Chrome held the
-    first paint up to its 1.5 s RenderBlockingFonts cap; linked, the late swap shifted the update cards (CLS 0.317).
-    Embedded in CSS they counted as 14 KB of unused CSS. Built from bytes, a FontFace is ready before the first layout."""
-    faces = ",".join(f'["{family}","{weight}","{base64.b64encode((FONTS / name).read_bytes()).decode("ascii")}"]'
-                     for family, weight, name in FACES if families is None or family in families)
-    return ("try{[" + faces + "].forEach(function(f){var s=atob(f[2]),b=new Uint8Array(s.length);"
-            "for(var i=0;i<s.length;i++)b[i]=s.charCodeAt(i);"
-            "document.fonts.add(new FontFace(f[0],b,{weight:f[1],display:'block'}))})}catch(e){}")
+    first paint up to its 1.5 s RenderBlockingFonts cap; linked, the late swap shifted the update cards (CLS 0.317);
+    embedded in CSS they counted as 14 KB of unused CSS. The bytes sit in data blocks the browser never compiles (as a
+    40 KB script they were PageSpeed's 50-78 ms long task) and a short script builds each FontFace from them;
+    Uint8Array.fromBase64 decodes in one native call, the byte loop is for older browsers."""
+    blocks = "".join(
+        f'<script type="application/octet-stream" data-font="{family}" data-weight="{weight}">'
+        f'{base64.b64encode((FONTS / name).read_bytes()).decode("ascii")}</script>\n'
+        for family, weight, name in FACES if families is None or family in families)
+    loader = ("<script>try{document.querySelectorAll('script[data-font]').forEach(function(e){var s=e.textContent,b;"
+              "if(Uint8Array.fromBase64)b=Uint8Array.fromBase64(s);"
+              "else{s=atob(s);b=new Uint8Array(s.length);for(var i=0;i<s.length;i++)b[i]=s.charCodeAt(i)}"
+              "document.fonts.add(new FontFace(e.dataset.font,b,{weight:e.dataset.weight,display:'block'}))})}catch(e){}</script>\n")
+    return blocks + loader
 
 
-def inline_style(page):
-    """site.css inside the page: one request fewer before the first paint, and GitHub Pages caches files for 10 minutes anyway."""
-    return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", lambda m: f"url({page.asset(m.group(1))})", STYLE)
+# The saved theme is applied in the first animation frame: still before anything is painted, but outside the task that
+# parses the page. Read during parsing, the first localStorage access pushed that task past PageSpeed's 50 ms line.
+THEME_SCRIPT = ("<script>requestAnimationFrame(function(){try{var t=localStorage.getItem('ag-theme');"
+                "if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}})</script>")
+
+
+def css_items(css):
+    """Top-level (prelude, body) pairs of a stylesheet, comments dropped. site.css has no braces inside strings."""
+    css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
+    items, i = [], 0
+    while (j := css.find("{", i)) >= 0:
+        depth, k = 1, j + 1
+        while depth:
+            depth += {"{": 1, "}": -1}.get(css[k], 0)
+            k += 1
+        items.append((css[i:j].strip(), css[j + 1:k - 1].strip()))
+        i = k
+    return items
+
+
+# site.js sets these on elements that may not carry them in the HTML yet.
+SCRIPTED_ATTRIBUTES = {"data-theme", "hidden", "aria-pressed", "aria-selected"}
+
+
+def page_tokens(document):
+    tags = set(re.findall(r"<([a-z][a-z0-9]*)", document))
+    classes = {c for value in re.findall(r'\sclass="([^"]*)"', document) for c in value.split()}
+    ids = set(re.findall(r'\sid="([^"]*)"', document))
+    attributes = set(re.findall(r"\s([a-z][\w-]*)(?==|[\s>])", document)) | SCRIPTED_ATTRIBUTES
+    return tags, classes, ids, attributes
+
+
+def selector_matches(selector, tokens):
+    """Whether a selector can match: every class, id, tag and attribute it requires is in the page. Pseudo-classes and
+    their arguments (:not, :is, :has...) are ignored, so a rule is only dropped when it certainly cannot apply."""
+    tags, classes, ids, attributes = tokens
+    rest = re.sub(r"::?[\w-]+(\((?:[^()]|\([^()]*\))*\))?", " ", selector)
+    wanted_attributes = set(re.findall(r"\[\s*([\w-]+)", rest))
+    rest = re.sub(r"\[[^\]]*\]", " ", rest)
+    wanted_classes = set(re.findall(r"\.([\w-]+)", rest))
+    wanted_ids = set(re.findall(r"#([\w-]+)", rest))
+    wanted_tags = set(re.findall(r"(?:^|[\s>+~(,])([a-z][a-z0-9]*)", rest))
+    return (wanted_classes <= classes and wanted_ids <= ids and wanted_tags <= tags and wanted_attributes <= attributes)
+
+
+def purge_css(css, tokens):
+    out = []
+    for prelude, body in css_items(css):
+        if prelude.startswith("@media"):
+            inner = purge_css(body, tokens)
+            if inner:
+                out.append(f"{prelude}{{{inner}}}")
+        elif prelude.startswith("@"):
+            out.append(f"{prelude}{{{body}}}")
+        else:
+            kept = [s.strip() for s in prelude.split(",") if selector_matches(s.strip(), tokens)]
+            if kept:
+                out.append(f"{','.join(kept)}{{{body}}}")
+    return "\n".join(out)
+
+
+def inline_style(page, document=None):
+    """site.css inside the page, cut to the rules that can apply to it: one request fewer before the first paint (GitHub
+    Pages caches files for 10 minutes anyway), and less CSS to parse and match in the task that parses the page."""
+    css = re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", lambda m: f"url({page.asset(m.group(1))})", STYLE)
+    return purge_css(css, page_tokens(document)) if document is not None else css
+
+
+CSS_SLOT = "/*site.css*/"
 
 
 def document(page, key, title, description, body, width, meta):
+    html_text = document_shell(page, key, title, description, body, width, meta)
+    return html_text.replace(CSS_SLOT, inline_style(page, html_text), 1)
+
+
+def document_shell(page, key, title, description, body, width, meta):
     lang = page.lang
     return f"""<!doctype html>
 <html lang="{lang}">
@@ -428,8 +505,8 @@ def document(page, key, title, description, body, width, meta):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
-<style>{inline_style(page)}</style>
-<script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}{font_script()}</script>
+<style>{CSS_SLOT}</style>
+{font_blocks()}{THEME_SCRIPT}
 </head>
 <body>
 <a class="skip" href="#main">{esc(tr(C.UI["skip"], lang))}</a>
@@ -453,10 +530,11 @@ def document(page, key, title, description, body, width, meta):
 
 
 def greeting_script(lang):
-    """Swap the fallback greeting for the time of day before the first paint, so the heading never changes size on screen."""
+    """Swap the fallback greeting for the time of day before the first layout, so the heading never changes size on screen.
+    It runs in the first animation frame, like THEME_SCRIPT, to stay out of the task that parses the page."""
     words = json.dumps(tr(C.UI["greetings"], lang), ensure_ascii=False)
-    return ("(function(){var w=" + words + ",h=new Date().getHours();"
-            "document.currentScript.previousElementSibling.textContent=h>=5&&h<12?w[0]:h>=12&&h<18?w[1]:w[2]})();")
+    return ("requestAnimationFrame(function(){var w=" + words + ",h=new Date().getHours(),g=document.querySelector('.greeting');"
+            "if(g)g.textContent=h>=5&&h<12?w[0]:h>=12&&h<18?w[1]:w[2]})")
 
 
 def section_head(title, href=None, label=None):
@@ -751,7 +829,7 @@ def play_blocks(page):
     head = ('\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<link rel="preconnect" href="https://cdn.jsdelivr.net">\n' + head_tags(page, P["title"], P["description"], meta)
             + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{unity_css}</style>\n'
-            + f"<script>{font_script(('Geist',))}</script>\n")
+            + font_blocks(("Geist",)))
     return {"head": head, "top": top, "facade": facade, "about": about}
 
 
