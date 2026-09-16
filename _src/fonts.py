@@ -46,6 +46,63 @@ def cut(source, weights, text):
     return out.getvalue(), covered
 
 
+ROOT = FONTS.parent.parent
+FAVICON = ROOT / "assets" / "favicon.svg"
+# The "AG" mark: 24 px Geist semibold, centred on x = 32 with its baseline at y = 41, in a 64 px dark tile.
+MARK = {"text": "AG", "size": 24, "weight": 600, "center": 32, "baseline": 41}
+
+
+def pair_kerning(font, left, right):
+    """The kern feature's adjustment between two glyphs (pair positioning, formats 1 and 2)."""
+    gpos = font["GPOS"].table
+    indices = {i for record in gpos.FeatureList.FeatureRecord if record.FeatureTag == "kern"
+               for i in record.Feature.LookupListIndex}
+    for index in sorted(indices):
+        lookup = gpos.LookupList.Lookup[index]
+        for sub in lookup.SubTable:
+            sub = getattr(sub, "ExtSubTable", sub)
+            if getattr(sub, "LookupType", lookup.LookupType) != 2 or left not in sub.Coverage.glyphs:
+                continue
+            if sub.Format == 1:
+                pairs = sub.PairSet[sub.Coverage.glyphs.index(left)].PairValueRecord
+                for pair in pairs:
+                    if pair.SecondGlyph == right:
+                        return getattr(pair.Value1, "XAdvance", 0) or 0
+            else:
+                first = sub.ClassDef1.classDefs.get(left, 0)
+                second = sub.ClassDef2.classDefs.get(right, 0)
+                value = sub.Class1Record[first].Class2Record[second].Value1
+                advance = getattr(value, "XAdvance", 0) if value else 0
+                if advance:
+                    return advance
+            break
+    return 0
+
+
+def write_favicon():
+    """The favicon's letters as outlines: an SVG image cannot use the page's fonts, so <text> made Chrome search the
+    system fonts on every page load (a 9-17 ms main-thread layout, PageSpeed's "unattributable" long task)."""
+    from fontTools.pens.svgPathPen import SVGPathPen
+    from fontTools.pens.transformPen import TransformPen
+    font = instancer.instantiateVariableFont(TTFont(FONTS / "Geist-Variable.woff2"), {"wght": MARK["weight"]})
+    cmap, glyphs = font.getBestCmap(), font.getGlyphSet()
+    names = [cmap[ord(c)] for c in MARK["text"]]
+    scale = MARK["size"] / font["head"].unitsPerEm
+    advances = [font["hmtx"][n][0] for n in names]
+    kerns = [pair_kerning(font, a, b) for a, b in zip(names, names[1:])] + [0]
+    width = sum(advances) + sum(kerns)
+    x = MARK["center"] / scale - width / 2
+    paths = []
+    for name, advance, kern in zip(names, advances, kerns):
+        pen = SVGPathPen(glyphs, ntos=lambda v: f"{v:.2f}".rstrip("0").rstrip("."))
+        glyphs[name].draw(TransformPen(pen, (scale, 0, 0, -scale, x * scale, MARK["baseline"])))
+        paths.append(pen.getCommands())
+        x += advance + kern
+    FAVICON.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#121417"/>'
+                       f'<path fill="#ffffff" d="{" ".join(paths)}"/></svg>\n', encoding="utf-8")
+    return width * scale, sum(kerns) * scale
+
+
 def main():
     coverage = {}
     for source, output, weights, text in FACES:
@@ -54,6 +111,8 @@ def main():
         coverage[output] = covered
         missing = sorted(set(text) - set(covered))
         print(f"{output}: {len(data)} byte, {len(covered)} caratteri" + (f", assenti nel font: {''.join(missing)}" if missing else ""))
+    width, kern = write_favicon()
+    print(f"favicon.svg: lettere in tracciati, larghezza {width:.2f} px, crenatura {kern:.3f} px")
     (FONTS / "coverage.txt").write_text("".join(f"{name}\t{chars}\n" for name, chars in coverage.items()), encoding="utf-8")
     return 0
 
