@@ -703,7 +703,8 @@ def render_404(page):
 
 PLAY_STYLE = (".ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 'Geist',system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}"
               ".ag-back:hover{background:#121417}"
-              "#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}"
+              "#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:min(960px,100%);margin:64px auto 0}"
+              "#unity-container.unity-desktop #unity-canvas{max-width:100%;height:auto!important;aspect-ratio:16/10}"
               "#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}"
               ".ag-play{position:absolute;left:0;top:0;z-index:2;width:100%;aspect-ratio:16/10;padding:0;border:0;background:#231F20;cursor:pointer}"
               ".ag-play img{width:100%;height:100%;display:block;object-fit:cover}"
@@ -745,7 +746,10 @@ def play_blocks(page):
     unity_css = unity_css.replace("font-family: arial", 'font-family: "Geist", arial')
     font_face = ('@font-face { font-family: "Geist"; font-style: normal; font-weight: 400 600; font-display: block; '
                  f'src: url({font_data_uri("geist-sans.woff2")}) format("woff2"); }}\n')
-    head = ('\n<link rel="preconnect" href="https://cdn.jsdelivr.net">\n' + head_tags(page, P["title"], P["description"], meta)
+    # Unity only adds a viewport tag from script on phones; until then the phone lays out 980 px wide and starts fetching
+    # the 1200 px cover from the CDN, which cost 0.7 s of simulated LCP on PageSpeed's phone.
+    head = ('\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+            '<link rel="preconnect" href="https://cdn.jsdelivr.net">\n' + head_tags(page, P["title"], P["description"], meta)
             + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{font_face}{unity_css}</style>\n'
             + "<script>try{document.fonts.load('1em Geist')}catch(e){}</script>\n")
     return {"head": head, "top": top, "facade": facade, "about": about}
