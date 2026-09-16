@@ -23,9 +23,10 @@
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
-  <body><!-- ag:top --><a class="ag-back" href="../../projects/#sgamers">← Anthony Gozzini</a><style>.ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}.ag-back:hover{background:#121417}#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}.ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 system-ui,sans-serif;color:#2B3038}.ag-about h1{margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:600;color:#121417}.ag-about p{margin:0 0 14px}.ag-lead{font-size:18px;color:#121417}.ag-about a{color:#121417}</style><!-- /ag:top -->
+  <body><!-- ag:top --><a class="ag-back" href="../../projects/#sgamers">← Anthony Gozzini</a><style>.ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}.ag-back:hover{background:#121417}#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}.ag-play{position:absolute;left:0;top:0;z-index:2;width:100%;aspect-ratio:16/10;padding:0;border:0;background:#231F20;cursor:pointer}.ag-play img{width:100%;height:100%;display:block;object-fit:cover}.ag-play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:12px;background:#121417;color:#fff;font:600 18px/1 system-ui,sans-serif;white-space:nowrap}.ag-play:hover span,.ag-play:focus-visible span{background:#08629A}.ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 system-ui,sans-serif;color:#2B3038}.ag-about h1{margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:600;color:#121417}.ag-about p{margin:0 0 14px}.ag-lead{font-size:18px;color:#121417}.ag-about a{color:#121417}</style><!-- /ag:top -->
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+      <!-- ag:facade --><button type="button" id="ag-play" class="ag-play"><picture><source type="image/webp" srcset="../../assets/img/sized/cover-sgamers-200.webp 200w, ../../assets/img/sized/cover-sgamers-480.webp 480w, ../../assets/img/sized/cover-sgamers-800.webp 800w, ../../assets/img/sized/cover-sgamers-1200.webp 1200w" sizes="(max-width: 960px) 100vw, 960px"><img src="../../assets/img/cover-sgamers.jpg" alt="" fetchpriority="high"></picture><span>▶ Play Sgamers</span></button><!-- /ag:facade -->
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -39,7 +40,7 @@
         <div id="unity-build-title">Sgamers</div>
       </div>
     </div>
-    <!-- ag:about --><section class="ag-about"><h1>Sgamers</h1><p class="ag-lead">My first game, made in Unity in 2018 and rebuilt in 2026.</p><p>A short 3D game with a main menu, one level and a credits screen, made while learning Unity with Brackeys&#x27; tutorials. The project folder was lost and only the compiled game survived, so in 2026 I rebuilt the project from that build, upgraded it to Unity 6 and brought it back to life in the browser. You can play it right here with a keyboard: arrow keys or A and D to move, Space to jump. The original Windows build is attached to the release.</p><p class="ag-links"><a href="https://github.com/anthonygozzini/sgamers" target="_blank" rel="noopener">Code</a> · <a href="https://github.com/anthonygozzini/sgamers/releases/tag/v1.0.0" target="_blank" rel="noopener">Windows build</a> · <a href="../../writing/rebuilding-sgamers/">How I rebuilt it</a></p></section><!-- /ag:about -->
+    <!-- ag:about --><main class="ag-about"><h1>Sgamers</h1><p class="ag-lead">My first game, made in Unity in 2018 and rebuilt in 2026.</p><p>A short 3D game with a main menu, one level and a credits screen, made while learning Unity with Brackeys&#x27; tutorials. The project folder was lost and only the compiled game survived, so in 2026 I rebuilt the project from that build, upgraded it to Unity 6 and brought it back to life in the browser. You can play it right here with a keyboard: arrow keys or A and D to move, Space to jump. The original Windows build is attached to the release.</p><p class="ag-links"><a href="https://github.com/anthonygozzini/sgamers" target="_blank" rel="noopener">Code</a> · <a href="https://github.com/anthonygozzini/sgamers/releases/tag/v1.0.0" target="_blank" rel="noopener">Windows build</a> · <a href="../../writing/rebuilding-sgamers/">How I rebuilt it</a></p></main><!-- /ag:about -->
     <script>
       var canvas = document.querySelector("#unity-canvas");
 
@@ -109,7 +110,7 @@
 
         var meta = document.createElement('meta');
         meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+        meta.content = 'width=device-width, initial-scale=1.0';
         document.getElementsByTagName('head')[0].appendChild(meta);
         document.querySelector("#unity-container").className = "unity-mobile";
         canvas.className = "unity-mobile";
@@ -125,6 +126,8 @@
         canvas.style.height = "600px";
       }
 
+      // The 12 MB game loads only when the visitor asks for it (the cover button filled in by _src/build.py).
+      function startGame() {
       document.querySelector("#unity-loading-bar").style.display = "block";
 
       var script = document.createElement("script");
@@ -144,6 +147,14 @@
             };
 
       document.body.appendChild(script);
+      }
+
+      var playButton = document.querySelector("#ag-play");
+      playButton.addEventListener("click", () => {
+        playButton.remove();
+        canvas.focus();
+        startGame();
+      });
 
     </script>
   </body>

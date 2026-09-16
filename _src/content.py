@@ -28,6 +28,7 @@ SITE = {
 
 UI = {
     "greeting_fallback": L("Hello", "Ciao"),
+    "greetings": L(["Good morning", "Good afternoon", "Good evening"], ["Buongiorno", "Buon pomeriggio", "Buonasera"]),
     "resources": L("Resources", "Risorse"),
     "connect": L("Connect", "Contatti"),
     "book_call": L("Book a call", "Prenota una call"),
@@ -491,6 +492,7 @@ PLAY = {
     "project": "sgamers",
     "title": "Sgamers: play my first Unity game in your browser — Anthony Gozzini",
     "description": "Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.",
+    "play_label": "Play Sgamers",
     "created": "2018-11",
     "published": "2026-09-15",
 }

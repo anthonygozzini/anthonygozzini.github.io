@@ -41,6 +41,8 @@ class Collector(HTMLParser):
         for key in ("href", "src"):
             if key in a and a[key] and not (tag == "use" or a[key].startswith("#i-")):
                 self.refs.append(a[key])
+        if a.get("srcset"):
+            self.refs += [candidate.split()[0] for candidate in a["srcset"].split(",")]
 
     def handle_data(self, data):
         if self._in_ld:

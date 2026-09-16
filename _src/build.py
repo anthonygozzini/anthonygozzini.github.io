@@ -124,11 +124,36 @@ def sprite():
     return f'<svg width="0" height="0" style="position:absolute" aria-hidden="true">{symbols}</svg>'
 
 
-def cover(page, file, alt=""):
-    if file and (ROOT / "assets" / "img" / file).exists():
-        return f'<img src="{page.asset("img/" + file)}" alt="{esc(alt)}" loading="lazy">'
-    warnings.append(f"copertina mancante: assets/img/{file}")
-    return ""
+# The width each kind of image is drawn at, from the layout in site.css, so the browser picks the smallest WebP that covers it.
+SIZES = {
+    "grid": "(max-width: 600px) calc(100vw - 40px), (max-width: 1180px) 45vw, 264px",
+    "grid3": "(max-width: 880px) 45vw, 350px",
+    "feature": "(max-width: 1100px) calc(100vw - 40px), 560px",
+    "project": "(max-width: 880px) calc(100vw - 36px), 660px",
+    "post": "(max-width: 880px) calc(100vw - 36px), 760px",
+    "play": "(max-width: 960px) 100vw, 960px",
+}
+
+
+def picture(page, file, alt, sizes, priority="lazy", extra=""):
+    """A JPEG with WebP copies from images.py. priority: "lazy" below the fold, "high" for the image that is the page's LCP."""
+    if not (file and (ROOT / "assets" / "img" / file).exists()):
+        warnings.append(f"immagine mancante: assets/img/{file}")
+        return ""
+    stem = Path(file).with_suffix("").as_posix().replace("/", "--")
+    sized = sorted((int(w), f.name) for f in (ROOT / "assets" / "img" / "sized").glob(f"{stem}-*.webp")
+                   for base, _, w in [f.stem.rpartition("-")] if base == stem and w.isdigit())
+    loading = {"lazy": ' loading="lazy"', "high": ' fetchpriority="high"'}.get(priority, "")
+    img = f'<img src="{page.asset("img/" + file)}" alt="{esc(alt)}"{extra}{loading}>'
+    if not sized:
+        warnings.append(f"copie webp mancanti per assets/img/{file}: esegui python3 _src/images.py")
+        return img
+    srcset = ", ".join(f'{page.asset("img/sized/" + name)} {w}w' for w, name in sized)
+    return f'<picture><source type="image/webp" srcset="{srcset}" sizes="{sizes}">{img}</picture>'
+
+
+def cover(page, file, alt, sizes, priority="lazy"):
+    return picture(page, file, alt, SIZES[sizes], priority)
 
 
 def logo(page, key, name, cls="tile"):
@@ -198,7 +223,7 @@ def sidebar(page, key):
 
 def mobile_top(page):
     label = esc(tr(C.UI["theme"], page.lang))
-    return (f'<header class="mtop"><a class="brand" href="{page.link("")}"><span class="brand-mark" aria-hidden="true">AG</span><span class="brand-name">Anthony Gozzini</span></a>'
+    return (f'<header class="mtop"><a class="brand" href="{page.link("")}" aria-label="Anthony Gozzini"><span class="brand-mark" aria-hidden="true">AG</span><span class="brand-name">Anthony Gozzini</span></a>'
             f'<div class="mtop-actions">{lang_switch(page)}<button type="button" class="icon-btn" data-theme-cycle aria-label="{label}">'
             f'{icon("sun", "i i-light")}{icon("moon", "i i-dark")}{icon("monitor", "i i-auto")}</button></div></header>')
 
@@ -211,9 +236,18 @@ def tabbar(page, key):
     return f'<nav class="tabbar" aria-label="{esc(tr(C.UI["pages"], page.lang))}">{"".join(items)}</nav>'
 
 
+def content_digest(body):
+    """Fingerprint of what a reader gets: the visible text plus each image and its alt text, not the markup around them."""
+    body = re.sub(r"<(script|style)\b.*?</\1>", " ", body, flags=re.S)
+    images = [(re.search(r'\ssrc="([^"]*)"', attrs).group(1), (re.search(r'\salt="([^"]*)"', attrs) or [None, ""])[1])
+              for attrs in re.findall(r"<img\b([^>]*)>", body)]
+    text = " ".join(html.unescape(re.sub(r"<[^>]+>", " ", body)).split())
+    return hashlib.sha256((text + repr(images)).encode("utf-8")).hexdigest()[:16]
+
+
 def modified(page, body):
-    """Date the page's main content last changed: kept while the rendered body is identical, today once it differs."""
-    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()[:16]
+    """Date the page's content last changed: kept while its content_digest is the same, today once it differs."""
+    digest = content_digest(body)
     entry = stamps.get(page.full)
     # Preview bodies carry index.html links, so their hash never matches: keep the published date.
     if entry and (entry["hash"] == digest or PREVIEW):
@@ -305,9 +339,7 @@ def document(page, key, title, description, body, width, meta):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="preload" href="{page.asset('fonts/geist-latin.woff2')}" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{page.asset('site.css')}">
 <script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}</script>
 </head>
@@ -332,6 +364,13 @@ def document(page, key, title, description, body, width, meta):
 """
 
 
+def greeting_script(lang):
+    """Swap the fallback greeting for the time of day before the first paint, so the heading never changes size on screen."""
+    words = json.dumps(tr(C.UI["greetings"], lang), ensure_ascii=False)
+    return ("(function(){var w=" + words + ",h=new Date().getHours();"
+            "document.currentScript.previousElementSibling.textContent=h>=5&&h<12?w[0]:h>=12&&h<18?w[1]:w[2]})();")
+
+
 def section_head(title, href=None, label=None):
     more = f'<a class="view-all" href="{href}">{esc(label)}</a>' if href else ""
     return f'<div class="block-head"><h2>{esc(title)}</h2>{more}</div>'
@@ -347,13 +386,13 @@ def update_card(page, u):
     return card("", tr(u["title"], lang), tr(u["text"], lang), meta, top, tag="div")
 
 
-def post_cover(page, post):
-    return cover(page, post.get("cover"), tr(post["title"], page.lang))
+def post_cover(page, post, sizes, priority="lazy"):
+    return cover(page, post.get("cover"), tr(post["title"], page.lang), sizes, priority)
 
 
-def affidaty_card(page, a):
+def affidaty_card(page, a, sizes):
     lang = page.lang
-    image = cover(page, "affidaty/" + tr(a["cover"], lang), tr(a["title"], lang))
+    image = cover(page, "affidaty/" + tr(a["cover"], lang), tr(a["title"], lang), sizes)
     return card(tr(a["url"], lang), tr(a["title"], lang), tr(a["excerpt"], lang), f'{tr(a["date"], lang)} · Affidaty',
                 f'<div class="card-cover banner">{image}</div>', external=True)
 
@@ -374,15 +413,15 @@ def render_home(page):
     projects = [p for p in C.PROJECTS["items"] if p.get("home")]
     project_cards = "".join(
         card(page.link("projects/") + f'#{p["slug"]}', tr(p["name"], lang), tr(p["summary"], lang), p["year"],
-             f'<div class="card-cover">{cover(page, p["cover"], tr(p["name"], lang))}</div>')
-        for p in projects)
+             f'<div class="card-cover">{cover(page, p["cover"], tr(p["name"], lang), "grid", "high" if i == 0 else "lazy")}</div>')
+        for i, p in enumerate(projects))
 
     writing = []
     for post in C.WRITING["posts"]:
         writing.append(card(page.link(f'writing/{post["slug"]}/'), tr(post["title"], lang), tr(post["excerpt"], lang),
-                            fmt_day(post["date"], lang), f'<div class="card-cover banner">{post_cover(page, post)}</div>'))
+                            fmt_day(post["date"], lang), f'<div class="card-cover banner">{post_cover(page, post, "grid")}</div>'))
     for a in C.WRITING["affidaty"][: max(0, 4 - len(writing))]:
-        writing.append(affidaty_card(page, a))
+        writing.append(affidaty_card(page, a, "grid"))
 
     updates = "".join(update_card(page, u) for u in C.UPDATES[:4])
     tools = {t["key"]: t for t in C.TOOLS["items"]}
@@ -391,7 +430,8 @@ def render_home(page):
         for k in H["home_tools"])
 
     return f"""<section class="hero">
-<h1 class="greeting" data-greeting>{esc(tr(C.UI["greeting_fallback"], lang))}</h1>
+<h1 class="greeting">{esc(tr(C.UI["greeting_fallback"], lang))}</h1>
+<script>{greeting_script(lang)}</script>
 <p class="intro">{esc(tr(H["intro"], lang))}</p>
 <p class="intro-more"><a href="{page.link('about/')}">{esc(tr(H["intro_link"], lang))} →</a></p>
 </section>
@@ -432,7 +472,7 @@ def render_about(page):
         for p in C.PRINCIPLES)
 
     return f"""<header class="page-head about-head">
-<img class="portrait" src="{page.asset('img/anthony.jpg')}" alt="Anthony Gozzini" width="96" height="96">
+{picture(page, "anthony.jpg", "Anthony Gozzini", "96px", "eager", ' class="portrait" width="96" height="96"')}
 <h1>{esc(tr(A["title"], lang))}</h1>
 </header>
 <div class="bio-toggle"><span class="bio-label">{esc(tr(A["bio_label"], lang))}</span>
@@ -458,7 +498,7 @@ def render_projects(page):
     lang = page.lang
     P = C.PROJECTS
     items = []
-    for p in P["items"]:
+    for i, p in enumerate(P["items"]):
         name = tr(p["name"], lang)
         links = []
         for link in p["links"]:
@@ -467,7 +507,7 @@ def render_projects(page):
             links.append(f'<a href="{href}"{ext_attrs(href)}>{esc(tr(link["label"], lang))}{glyph}</a>')
         links_html = f'<div class="project-links">{"".join(links)}</div>' if links else ""
         items.append(f"""<article class="project" id="{p['slug']}">
-<div class="project-cover">{cover(page, p['cover'], name)}</div>
+<div class="project-cover">{cover(page, p['cover'], name, "project", "high" if i == 0 else "lazy")}</div>
 <div class="project-body">
 <div class="project-head"><h2>{esc(name)}</h2><span class="project-year">{esc(p['year'])}</span></div>
 <p class="project-summary">{esc(tr(p['summary'], lang))}</p>
@@ -483,14 +523,14 @@ def render_writing(page):
     lang = page.lang
     W = C.WRITING
     mine = []
-    for p in W["posts"]:
+    for i, p in enumerate(W["posts"]):
         href = page.link(f'writing/{p["slug"]}/')
         meta = f'{fmt_day(p["date"], lang)} · {p["minutes"]} {tr(C.UI["min_read"], lang)}'
-        mine.append(f'<a class="card card-feature" href="{href}"><div class="card-cover">{post_cover(page, p)}</div>'
+        mine.append(f'<a class="card card-feature" href="{href}"><div class="card-cover">{post_cover(page, p, "feature", "high" if i == 0 else "lazy")}</div>'
                     f'<div class="card-feature-body"><p class="card-meta">{esc(meta)}</p>'
                     f'<h3 class="card-title">{esc(tr(p["title"], lang))}</h3><p class="card-text">{esc(tr(p["excerpt"], lang))}</p>'
                     f'<span class="card-cta">{esc(tr(C.UI["read"], lang))}{icon("right")}</span></div></a>')
-    affidaty = "".join(affidaty_card(page, a) for a in W["affidaty"])
+    affidaty = "".join(affidaty_card(page, a, "grid3") for a in W["affidaty"])
     return f"""<header class="page-head"><h1>{esc(tr(W["title"], lang))}</h1><p class="lead">{esc(tr(W["intro"], lang))}</p></header>
 <section class="block block-first"><h2 class="block-title">{esc(tr(W["mine_label"], lang))}</h2><div class="features">{"".join(mine)}</div></section>
 <section class="block"><h2 class="block-title">{esc(tr(W["affidaty_label"], lang))}</h2><div class="grid grid-3">{affidaty}</div></section>"""
@@ -503,11 +543,11 @@ def render_post(page, post):
 <span class="pill">{post["minutes"]} {esc(tr(C.UI["min_read"], lang))}</span>
 <h1 class="post-title">{esc(tr(post["title"], lang))}</h1>
 <p class="post-excerpt">{esc(tr(post["excerpt"], lang))}</p>
-<div class="post-meta"><img src="{page.asset('img/anthony.jpg')}" alt="" width="40" height="40">
+<div class="post-meta">{picture(page, "anthony.jpg", "", "40px", "eager", ' width="40" height="40"')}
 <div><p class="post-author">{esc(tr(C.UI["by"], lang))} Anthony Gozzini</p>
 <p class="post-date">{esc(tr(C.UI["published"], lang))} <time datetime="{post["date"]}">{fmt_day(post["date"], lang)}</time></p></div></div>
 </header>
-<div class="post-cover">{post_cover(page, post)}</div>
+<div class="post-cover">{post_cover(page, post, "post", "high")}</div>
 <article class="prose">{tr(post["body"], lang).replace("{play}", page.raw("play/sgamers/"))}</article>"""
 
 
@@ -579,6 +619,10 @@ PLAY_STYLE = (".ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14
               ".ag-back:hover{background:#121417}"
               "#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}"
               "#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}"
+              ".ag-play{position:absolute;left:0;top:0;z-index:2;width:100%;aspect-ratio:16/10;padding:0;border:0;background:#231F20;cursor:pointer}"
+              ".ag-play img{width:100%;height:100%;display:block;object-fit:cover}"
+              ".ag-play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:12px;background:#121417;color:#fff;font:600 18px/1 system-ui,sans-serif;white-space:nowrap}"
+              ".ag-play:hover span,.ag-play:focus-visible span{background:#08629A}"
               ".ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 system-ui,sans-serif;color:#2B3038}"
               ".ag-about h1{margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:600;color:#121417}"
               ".ag-about p{margin:0 0 14px}.ag-lead{font-size:18px;color:#121417}.ag-about a{color:#121417}")
@@ -593,8 +637,8 @@ def play_blocks(page):
     name = tr(project["name"], "en")
     others = [l for l in project["links"] if not l.get("raw")]
     links = " · ".join(f'<a href="{page.link(l["href"])}"{ext_attrs(l["href"])}>{esc(tr(l["label"], "en"))}</a>' for l in others)
-    about = (f'<section class="ag-about"><h1>{esc(name)}</h1><p class="ag-lead">{esc(tr(project["summary"], "en"))}</p>'
-             f'<p>{esc(tr(project["text"], "en"))}</p><p class="ag-links">{links}</p></section>')
+    about = (f'<main class="ag-about"><h1>{esc(name)}</h1><p class="ag-lead">{esc(tr(project["summary"], "en"))}</p>'
+             f'<p>{esc(tr(project["text"], "en"))}</p><p class="ag-links">{links}</p></main>')
     article = next((l["href"] for l in others if l.get("internal")), None)
     game = {"@type": "Game", "@id": url + "#game", "additionalType": "https://www.wikidata.org/wiki/Q7889", "name": name, "url": url,
             "description": tr(project["summary"], "en"), "image": base + "assets/img/" + project["cover"], "inLanguage": "en",
@@ -605,7 +649,9 @@ def play_blocks(page):
     meta = {"both_langs": False, "image": project["cover"], "image_alt": name,
             "jsonld": graph(page, P["title"], P["description"], "WebPage", [game], main=game["@id"])}
     top = f'<a class="ag-back" href="{page.link("projects/#" + project["slug"])}">← Anthony Gozzini</a><style>{PLAY_STYLE}</style>'
-    return {"head": "\n" + head_tags(page, P["title"], P["description"], meta), "top": top, "about": about}
+    facade = (f'<button type="button" id="ag-play" class="ag-play">{picture(page, project["cover"], "", SIZES["play"], "high")}'
+              f'<span>▶ {esc(P["play_label"])}</span></button>')
+    return {"head": "\n" + head_tags(page, P["title"], P["description"], meta), "top": top, "facade": facade, "about": about}
 
 
 def fill_play(page, blocks):
@@ -858,7 +904,7 @@ def main():
     blocks = play_blocks(page)
     # The game itself is part of the page's content, so a new build also moves its date.
     builds = "".join(hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted((ROOT / page.full / "Build").iterdir()))
-    date = modified(page, blocks["about"] + builds)
+    date = modified(page, blocks["facade"] + blocks["about"] + builds)
     filled = fill_play(page, blocks)
     if filled:
         written.append(filled)

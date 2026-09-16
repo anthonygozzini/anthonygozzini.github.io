@@ -21,15 +21,6 @@
     store.set('ag-theme', theme === 'auto' ? null : theme);
   }
 
-  var greeting = document.querySelector('[data-greeting]');
-  if (greeting) {
-    var hour = new Date().getHours();
-    var it = root.lang === 'it';
-    greeting.textContent = hour >= 5 && hour < 12 ? (it ? 'Buongiorno' : 'Good morning')
-      : hour >= 12 && hour < 18 ? (it ? 'Buon pomeriggio' : 'Good afternoon')
-      : (it ? 'Buonasera' : 'Good evening');
-  }
-
   document.addEventListener('click', function (event) {
     var target = event.target;
 
