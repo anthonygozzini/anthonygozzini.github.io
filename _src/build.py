@@ -701,15 +701,15 @@ def render_404(page):
 <div class="cta">{buttons}</div>"""
 
 
-PLAY_STYLE = (".ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}"
+PLAY_STYLE = (".ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 'Geist',system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}"
               ".ag-back:hover{background:#121417}"
               "#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}"
               "#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}"
               ".ag-play{position:absolute;left:0;top:0;z-index:2;width:100%;aspect-ratio:16/10;padding:0;border:0;background:#231F20;cursor:pointer}"
               ".ag-play img{width:100%;height:100%;display:block;object-fit:cover}"
-              ".ag-play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:12px;background:#121417;color:#fff;font:600 18px/1 system-ui,sans-serif;white-space:nowrap}"
+              ".ag-play span{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:14px 22px;border-radius:12px;background:#121417;color:#fff;font:600 18px/1 'Geist',system-ui,sans-serif;white-space:nowrap}"
               ".ag-play:hover span,.ag-play:focus-visible span{background:#08629A}"
-              ".ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 system-ui,sans-serif;color:#2B3038}"
+              ".ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 'Geist',system-ui,sans-serif;color:#2B3038}"
               ".ag-about h1{margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:600;color:#121417}"
               ".ag-about p{margin:0 0 14px}.ag-lead{font-size:18px;color:#121417}.ag-about a{color:#121417}")
 
@@ -740,8 +740,14 @@ def play_blocks(page):
     # Unity's template stylesheet goes inline like site.css, so nothing blocks the first paint.
     unity_css = (ROOT / page.full / "TemplateData" / "style.css").read_text(encoding="utf-8")
     unity_css = re.sub(r"url\('([^']+)'\)", lambda m: f"url('{static_url(page, page.full + 'TemplateData/' + m.group(1))}')", unity_css)
+    # The same embedded Geist as the rest of the site: its first layout measured 16 ms against 17-31 ms with system fonts,
+    # which kept tripping PageSpeed's 30 ms "forced reflow" line.
+    unity_css = unity_css.replace("font-family: arial", 'font-family: "Geist", arial')
+    font_face = ('@font-face { font-family: "Geist"; font-style: normal; font-weight: 400 600; font-display: block; '
+                 f'src: url({font_data_uri("geist-sans.woff2")}) format("woff2"); }}\n')
     head = ('\n<link rel="preconnect" href="https://cdn.jsdelivr.net">\n' + head_tags(page, P["title"], P["description"], meta)
-            + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{unity_css}</style>\n')
+            + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{font_face}{unity_css}</style>\n'
+            + "<script>try{document.fonts.load('1em Geist')}catch(e){}</script>\n")
     return {"head": head, "top": top, "facade": facade, "about": about}
 
 
