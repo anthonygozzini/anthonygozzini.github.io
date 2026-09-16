@@ -1,5 +1,7 @@
 /* Geist and Geist Mono by Vercel, SIL Open Font License 1.1 (fonts/OFL.txt). _src/fonts.py cuts them down and
    build.py hands them to the page with new FontFace() from the head script (see font_script). */
+/* Read by screen readers and agents, not shown. */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 :root {
   --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;

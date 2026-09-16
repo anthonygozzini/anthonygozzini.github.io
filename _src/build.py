@@ -415,7 +415,7 @@ def font_blocks(families=None):
     loader = ("<script>try{document.querySelectorAll('script[data-font]').forEach(function(e){var s=e.textContent,b;"
               "if(Uint8Array.fromBase64)b=Uint8Array.fromBase64(s);"
               "else{s=atob(s);b=new Uint8Array(s.length);for(var i=0;i<s.length;i++)b[i]=s.charCodeAt(i)}"
-              "document.fonts.add(new FontFace(e.dataset.font,b,{weight:e.dataset.weight,display:'block'}))})}catch(e){}</script>\n")
+              "var f=new FontFace(e.dataset.font,b);f.weight=e.dataset.weight;document.fonts.add(f)})}catch(e){}</script>\n")
     return blocks + loader
 
 
@@ -538,7 +538,8 @@ def greeting_script(lang):
 
 
 def section_head(title, href=None, label=None):
-    more = f'<a class="view-all" href="{href}">{esc(label)}</a>' if href else ""
+    # The hidden words make each "View all" link's name say where it goes (identical-links-same-purpose).
+    more = f'<a class="view-all" href="{href}">{esc(label)}<span class="sr-only"> {esc(title)}</span></a>' if href else ""
     return f'<div class="block-head"><h2>{esc(title)}</h2>{more}</div>'
 
 
@@ -670,7 +671,7 @@ def render_projects(page):
         for link in p["links"]:
             href = page.raw(link["href"]) if link.get("raw") else page.link(link["href"])
             glyph = icon("right") if link.get("internal") or link.get("raw") else icon("arrow")
-            links.append(f'<a href="{href}"{ext_attrs(href)}>{esc(tr(link["label"], lang))}{glyph}</a>')
+            links.append(f'<a href="{href}"{ext_attrs(href)}>{esc(tr(link["label"], lang))}<span class="sr-only">: {esc(name)}</span>{glyph}</a>')
         links_html = f'<div class="project-links">{"".join(links)}</div>' if links else ""
         items.append(f"""<article class="project" id="{p['slug']}">
 <div class="project-cover">{cover(page, p['cover'], name, "project", "high" if i == 0 else "lazy")}</div>

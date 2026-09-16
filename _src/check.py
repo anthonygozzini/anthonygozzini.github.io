@@ -146,7 +146,7 @@ def font_problems(pages):
     problems = []
     for page in pages:
         text = page.read_text(encoding="utf-8")
-        if "document.fonts.add(new FontFace(" not in text:
+        if "new FontFace(" not in text:
             continue
         text = re.sub(r"<(script|style)\b.*?</\1>", " ", text, flags=re.S)
         shown = set(html.unescape(re.sub(r"<[^>]+>", " ", text)))
