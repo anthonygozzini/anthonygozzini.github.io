@@ -335,16 +335,11 @@ def head_tags(page, title, description, meta):
                    '<meta name="twitter:card" content="summary_large_image">\n')
 
 
-def font_preloads(page):
-    """Font preloads go first in <head>. Chrome holds the first paint for preloaded fonts (RenderBlockingFonts) and, when a
-    preload link arrives after the first chunk of HTML, keeps holding it until its 1.5 s cap: measured 1.3-1.5 s first
-    paints on GitHub Pages with the preloads after the JSON-LD, 0.2 s with them in the first bytes."""
-    return "".join(f'<link rel="preload" href="{page.asset("fonts/" + name)}" as="font" type="font/woff2" crossorigin>\n'
-                   for name in ("geist-latin.woff2", "geist-mono-latin.woff2"))
-
-
 def inline_style(page):
-    """site.css inside the page: one request fewer before the first paint, and GitHub Pages caches files for 10 minutes anyway."""
+    """site.css inside the page: one request fewer before the first paint, and GitHub Pages caches files for 10 minutes anyway.
+
+    The fonts are deliberately not preloaded: Chrome holds the first paint for preloaded fonts (RenderBlockingFonts), and on
+    GitHub Pages that hold ran to its 1.5 s cap on most pages even after the fonts had arrived (traced 2026-09-16)."""
     return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", lambda m: f"url({page.asset(m.group(1))})", STYLE)
 
 
@@ -354,7 +349,7 @@ def document(page, key, title, description, body, width, meta):
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
-{font_preloads(page)}<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <style>{inline_style(page)}</style>
