@@ -1,1 +1,1 @@
-widths=(200, 320, 480, 640, 800, 960) webp=70 avif=(60, 55, 50, 45, 40, 35, 30) speed=4 phone=14000@800 fallback=best
+widths=(200, 320, 480, 640, 800, 960) webp=70 avif=(60, 55, 50, 45, 40, 35, 30) speed=4 phone=14000@800 px/byte=6+3500 fallback=best
