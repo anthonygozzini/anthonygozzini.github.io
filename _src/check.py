@@ -44,7 +44,8 @@ class Collector(HTMLParser):
             if key in a and a[key] and not (tag == "use" or a[key].startswith("#i-")):
                 self.refs.append(a[key])
         if a.get("srcset"):
-            self.refs += [candidate.split()[0] for candidate in a["srcset"].split(",")]
+            # Candidates are separated by a comma and a space: data: URLs carry a bare comma of their own.
+            self.refs += [candidate.split()[0] for candidate in re.split(r",\s+", a["srcset"])]
 
     def handle_data(self, data):
         if self._in_ld:
@@ -116,6 +117,27 @@ def llms_problems(locs):
 
 # Arrows and the play triangle are not in Geist at all, so the system font draws them whatever we embed.
 NOT_IN_GEIST = set("\u2190\u2192\u2197\u25b6")
+
+
+CDN = re.compile(r"^https://cdn\.jsdelivr\.net/gh/anthonygozzini/anthonygozzini\.github\.io@([0-9a-f]{40})/(.+)$")
+
+
+def cdn_problems(urls):
+    """Every jsDelivr link must name a commit that has the file, byte for byte what is in the working tree."""
+    pinned = [(m.group(1), m.group(2)) for m in map(CDN.match, sorted(urls)) if m]
+    if not pinned:
+        return 0, []
+    def git(*args, stdin=None):
+        return subprocess.run(["git", "-C", str(ROOT), *args], input=stdin, capture_output=True, text=True).stdout.splitlines()
+    committed = git("rev-parse", *[f"{sha}:{path}" for sha, path in pinned])
+    current = git("hash-object", *[str(ROOT / path) for _, path in pinned])
+    problems = []
+    for (sha, path), old, new in zip(pinned, committed + [""] * len(pinned), current + [""] * len(pinned)):
+        if not (ROOT / path).exists():
+            problems.append(f"CDN {sha[:7]}/{path}: il file non esiste più")
+        elif old != new:
+            problems.append(f"CDN {sha[:7]}/{path}: diverso dal file attuale (ricostruisci dopo il commit)")
+    return len(pinned), problems
 
 
 def font_problems(pages):
@@ -226,6 +248,11 @@ def main():
     for p in seo[1]:
         print("  ", p)
     problems += seo[1]
+    cdn_count, cdn = cdn_problems(external)
+    print(f"link al CDN controllati: {cdn_count}, problemi: {len(cdn)}")
+    for p in cdn:
+        print("  ", p)
+    problems += cdn
     fonts = font_problems(cache)
     print(f"pagine con font incorporati controllate: {len(cache)}, problemi: {len(fonts)}")
     for p in fonts:
@@ -236,7 +263,7 @@ def main():
     if "--external" in sys.argv:
         for url in sorted(external):
             # Canonical and hreflang URLs point at the deployed site, which only exists after a push.
-            if "fonts.g" in url or url.startswith("https://anthonygozzini.github.io/"):
+            if "fonts.g" in url or url.startswith("https://anthonygozzini.github.io/") or CDN.match(url):
                 continue
             out = subprocess.run(["curl", "-s", "-o", "/dev/null", "-L", "-m", "25", "-A", "Mozilla/5.0", "-w", "%{http_code}", url],
                                  capture_output=True, text=True)

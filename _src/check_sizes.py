@@ -72,7 +72,7 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
 PSI_PHONE = (412, 823, 1.75, "Mozilla/5.0 (Linux; Android 11; moto g power (2022)) AppleWebKit/537.36 (KHTML, like Gecko) "
              "Chrome/130.0 Mobile Safari/537.36")
 PSI_THRESHOLD = {True: 12288, False: 4096}
-LOADED = """[...document.images].filter((i) => i.complete && i.currentSrc && !i.currentSrc.endsWith('.svg')).map((i) => ({
+LOADED = """[...document.images].filter((i) => i.complete && i.currentSrc && !i.currentSrc.endsWith('.svg') && !i.currentSrc.startsWith('data:')).map((i) => ({
   src: new URL(i.currentSrc).pathname, w: i.getBoundingClientRect().width, h: i.getBoundingClientRect().height,
   nw: i.naturalWidth, nh: i.naturalHeight, responsive: !!(i.closest('picture') || i.srcset)}))"""
 
@@ -137,7 +137,8 @@ def check_pagespeed_phone(browser, base):
             named = re.search(r"-(\d+)\.(?:avif|webp)$", r["src"])
             file_w = int(named.group(1)) if named else r["nw"]
             file_h = round(file_w * r["nh"] / r["nw"])
-            size = (ROOT / urllib.parse.unquote(r["src"]).lstrip("/")).stat().st_size
+            local = re.sub(r"^/gh/[^/]+/[^@]+@[0-9a-f]{40}/", "", urllib.parse.unquote(r["src"])).lstrip("/")
+            size = (ROOT / local).stat().st_size
             waste = size * (1 - r["w"] * r["h"] / (file_w * file_h))
             if waste > PSI_THRESHOLD[r["responsive"]]:
                 problems.append(f"/{path} {r['src'].rsplit('/', 1)[-1]}: {size} byte, {file_w}px mostrata a {r['w']:.0f}px, "

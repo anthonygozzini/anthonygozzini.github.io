@@ -11,6 +11,7 @@ import hashlib
 import html
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -52,6 +53,37 @@ def fmt_day(date, lang):
     return f"{int(d)} {MONTHS[lang][int(m) - 1]} {y}"
 
 
+# GitHub Pages sends every file with a 10-minute cache and no way to change it. jsDelivr serves the same repository
+# files, pinned to a commit, with a one-year immutable cache, so committed static files are linked from there.
+CDN = "https://cdn.jsdelivr.net/gh/" + C.SITE["repo"] + "@"
+not_on_cdn = set()
+
+
+@functools.cache
+def git_versions():
+    """The last commit of every file in the history, and the files whose working copy differs from it."""
+    def git(*args):
+        return subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True, check=True).stdout
+    last, commit = {}, None
+    for line in git("log", "--format=%x00%H", "--name-only").splitlines():
+        if line.startswith("\0"):
+            commit = line[1:]
+        elif line and line not in last:
+            last[line] = commit
+    dirty = {line[3:].split(" -> ")[-1] for line in git("status", "--porcelain", "--untracked-files=all").splitlines()}
+    return last, dirty
+
+
+def static_url(page, rel):
+    """rel is relative to the repository root. Files not committed yet (and preview builds) stay on GitHub Pages."""
+    if not PREVIEW:
+        last, dirty = git_versions()
+        if rel in last and rel not in dirty:
+            return f"{CDN}{last[rel]}/{rel}"
+        not_on_cdn.add(rel)
+    return page.prefix + rel
+
+
 class Page:
     def __init__(self, lang, path):
         self.lang = lang
@@ -74,7 +106,7 @@ class Page:
         return url + (f"#{frag}" if frag else "")
 
     def asset(self, rel):
-        return f"{self.prefix}assets/{rel}"
+        return static_url(self, "assets/" + rel)
 
     def raw(self, path):
         """Link to a folder that exists once for both languages, such as play/sgamers/."""
@@ -142,9 +174,10 @@ SIZES = {
 STYLE = (ROOT / "assets" / "site.css").read_text(encoding="utf-8")
 
 
-def picture(page, file, alt, sizes, priority="lazy", extra=""):
+def picture(page, file, alt, sizes, priority="lazy", extra="", inline_width=None):
     """A JPEG with AVIF and WebP copies from images.py, best format first.
-    priority: "lazy" below the fold, "high" for the image that is the page's LCP."""
+    priority: "lazy" below the fold, "high" for the image that is the page's LCP; the LCP image's AVIF up to
+    inline_width travels inside the HTML (see INLINE_WIDTH)."""
     if not (file and (ROOT / "assets" / "img" / file).exists()):
         warnings.append(f"immagine mancante: assets/img/{file}")
         return ""
@@ -158,13 +191,30 @@ def picture(page, file, alt, sizes, priority="lazy", extra=""):
         if not sized:
             warnings.append(f"copie {ext} mancanti per assets/img/{file}: esegui python3 _src/images.py")
             continue
-        srcset = ", ".join(f'{page.asset("img/sized/" + name)} {w}w' for w, name in sized)
+        candidates = [(w, page.asset("img/sized/" + name)) for w, name in sized]
+        if ext == "avif" and inline_width:
+            candidates = inline_candidates(sized, inline_width, candidates)
+        srcset = ", ".join(f"{url} {w}w" for w, url in candidates)
         sources.append(f'<source type="image/{ext}" srcset="{srcset}" sizes="{sizes}">')
     return f'<picture>{"".join(sources)}{img}</picture>' if sources else img
 
 
+# The page's main image travels inside the HTML: from the CDN it needs a second connection before the LCP (measured
+# +0.7 s on PageSpeed's phone, +0.5 s on its desktop), and from GitHub Pages it lands in the 10-minute cache report.
+# One copy covers both of PageSpeed's screens (412 px at 1.75x, 1350 px at 1x): the smallest width at least as large
+# as the slot needs on either. Larger copies stay on the CDN for high-density screens.
+INLINE_WIDTH = {"grid": 640, "feature": 640, "project": 800, "post": 800, "play": 960}
+
+
+def inline_candidates(sized, width, candidates):
+    name = dict(sized).get(width) or max(sized)[1]
+    width = next(w for w, n in sized if n == name)
+    data = base64.b64encode((ROOT / "assets" / "img" / "sized" / name).read_bytes()).decode("ascii")
+    return [(width, f"data:image/avif;base64,{data}")] + [(w, url) for w, url in candidates if w > width]
+
+
 def cover(page, file, alt, sizes, priority="lazy"):
-    return picture(page, file, alt, SIZES[sizes], priority)
+    return picture(page, file, alt, SIZES[sizes], priority, inline_width=INLINE_WIDTH[sizes] if priority == "high" else None)
 
 
 def logo(page, key, name, cls="tile"):
@@ -250,7 +300,9 @@ def tabbar(page, key):
 def content_digest(body):
     """Fingerprint of what a reader gets: the visible text plus each image and its alt text, not the markup around them."""
     body = re.sub(r"<(script|style)\b.*?</\1>", " ", body, flags=re.S)
-    images = [(re.search(r'\ssrc="([^"]*)"', attrs).group(1), (re.search(r'\salt="([^"]*)"', attrs) or [None, ""])[1])
+    # Only the file path counts: the same image moving between GitHub Pages and the CDN is not new content.
+    images = [(re.sub(r"^.*?(?=(?:assets|play)/)", "", re.search(r'\ssrc="([^"]*)"', attrs).group(1)),
+               (re.search(r'\salt="([^"]*)"', attrs) or [None, ""])[1])
               for attrs in re.findall(r"<img\b([^>]*)>", body)]
     text = " ".join(html.unescape(re.sub(r"<[^>]+>", " ", body)).split())
     return hashlib.sha256((text + repr(images)).encode("utf-8")).hexdigest()[:16]
@@ -370,6 +422,7 @@ def document(page, key, title, description, body, width, meta):
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
@@ -682,12 +735,13 @@ def play_blocks(page):
     meta = {"both_langs": False, "image": project["cover"], "image_alt": name,
             "jsonld": graph(page, P["title"], P["description"], "WebPage", [game], main=game["@id"])}
     top = f'<a class="ag-back" href="{page.link("projects/#" + project["slug"])}">← Anthony Gozzini</a><style>{PLAY_STYLE}</style>'
-    facade = (f'<button type="button" id="ag-play" class="ag-play">{picture(page, project["cover"], "", SIZES["play"], "high")}'
+    facade = (f'<button type="button" id="ag-play" class="ag-play">{cover(page, project["cover"], "", "play", "high")}'
               f'<span>▶ {esc(P["play_label"])}</span></button>')
     # Unity's template stylesheet goes inline like site.css, so nothing blocks the first paint.
     unity_css = (ROOT / page.full / "TemplateData" / "style.css").read_text(encoding="utf-8")
-    unity_css = re.sub(r"url\('([^']+)'\)", r"url('TemplateData/\1')", unity_css)
-    head = "\n" + head_tags(page, P["title"], P["description"], meta) + f"<style>{unity_css}</style>\n"
+    unity_css = re.sub(r"url\('([^']+)'\)", lambda m: f"url('{static_url(page, page.full + 'TemplateData/' + m.group(1))}')", unity_css)
+    head = ('\n<link rel="preconnect" href="https://cdn.jsdelivr.net">\n' + head_tags(page, P["title"], P["description"], meta)
+            + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{unity_css}</style>\n')
     return {"head": head, "top": top, "facade": facade, "about": about}
 
 
@@ -966,6 +1020,8 @@ def main():
     expected = len(LANGS) * (1 + len(pages) + len(C.WRITING["posts"])) + 2
     print(f"pagine scritte: {len(written)} (attese {expected}){' · modalità anteprima' if PREVIEW else ''}")
     print(f"copie markdown scritte: {len(markdown)} (attese {len(urls)})")
+    if not_on_cdn:
+        print(f"file serviti da GitHub Pages perché non ancora committati: {len(not_on_cdn)} (committali e ricostruisci)")
     for w in sorted(set(warnings)):
         print("attenzione:", w)
     return 0 if len(written) == expected and len(markdown) == len(urls) else 1

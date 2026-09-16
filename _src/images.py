@@ -23,6 +23,9 @@ WEBP_QUALITY = 70
 # best one instead; check_sizes.py then checks what PageSpeed's phone really loads on each page.
 AVIF_PHONE_BYTES = 14_000
 AVIF_PHONE_WIDTH = 800
+# The same insight wants at most 1/6 byte per pixel and reports an image once it is 4,096 bytes over; 3,500 leaves room.
+AVIF_PIXELS_PER_BYTE = 6
+AVIF_SLACK_BYTES = 3_500
 AVIF_QUALITIES = (60, 55, 50, 45, 40, 35, 30)
 AVIF_SPEED = 4
 SETTINGS = OUT / ".settings"  # bump the text below to force a full rewrite
@@ -40,13 +43,16 @@ def targets(source):
 
 
 def encode_avif(image, width):
-    """The highest quality that fits the phone budget; above the phone widths the best listed quality."""
+    """The highest quality within both budgets. A copy that fits neither even at the lowest quality keeps the best one."""
+    budget = image.width * image.height // AVIF_PIXELS_PER_BYTE + AVIF_SLACK_BYTES
+    if width <= AVIF_PHONE_WIDTH:
+        budget = min(budget, AVIF_PHONE_BYTES)
     best = None
     for quality in AVIF_QUALITIES:
         out = io.BytesIO()
         image.save(out, "AVIF", quality=quality, speed=AVIF_SPEED)
         best = best or out.getvalue()
-        if width > AVIF_PHONE_WIDTH or len(out.getvalue()) <= AVIF_PHONE_BYTES:
+        if len(out.getvalue()) <= budget:
             return out.getvalue(), quality, True
     return best, AVIF_QUALITIES[0], False
 
@@ -54,7 +60,7 @@ def encode_avif(image, width):
 def main():
     OUT.mkdir(exist_ok=True)
     settings = (f"widths={WIDTHS} webp={WEBP_QUALITY} avif={AVIF_QUALITIES} speed={AVIF_SPEED} "
-                f"phone={AVIF_PHONE_BYTES}@{AVIF_PHONE_WIDTH} fallback=best\n")
+                f"phone={AVIF_PHONE_BYTES}@{AVIF_PHONE_WIDTH} px/byte={AVIF_PIXELS_PER_BYTE}+{AVIF_SLACK_BYTES} fallback=best\n")
     # New widths or qualities make every existing copy stale, whatever its date.
     fresh = SETTINGS.exists() and SETTINGS.read_text() == settings
     written = skipped = 0

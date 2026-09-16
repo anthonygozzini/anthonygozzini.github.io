@@ -12,6 +12,7 @@ SITE = {
     "cal": "https://cal.com/anthony-gozzini-amzx2u/30min",
     "linkedin": "https://www.linkedin.com/in/anthonygozzini",
     "github": "https://github.com/anthonygozzini",
+    "repo": "anthonygozzini/anthonygozzini.github.io",
     "telegram": "https://t.me/TonyGoz",
     "whatsapp": "https://wa.me/anthonygozzini",
     "cv": "assets/Anthony-Gozzini-CV.pdf",

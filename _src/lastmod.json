@@ -5,7 +5,7 @@
  },
  "about/": {
   "date": "2026-09-15",
-  "hash": "9ea20c9275329e2f"
+  "hash": "912fb88744bc48fd"
  },
  "contact/": {
   "date": "2026-09-15",
@@ -13,11 +13,11 @@
  },
  "it/": {
   "date": "2026-09-15",
-  "hash": "0b4fb84d6641fdfc"
+  "hash": "47fa8dd8a594fad3"
  },
  "it/about/": {
   "date": "2026-09-15",
-  "hash": "8d438391f6c61e44"
+  "hash": "08521a96641899f3"
  },
  "it/contact/": {
   "date": "2026-09-15",
@@ -25,38 +25,38 @@
  },
  "it/projects/": {
   "date": "2026-09-15",
-  "hash": "98325cc1f00bfcdf"
+  "hash": "db63d7a69732c89b"
  },
  "it/tools/": {
   "date": "2026-09-16",
-  "hash": "de3b5233c8da0e19"
+  "hash": "67216c00280f02da"
  },
  "it/writing/": {
   "date": "2026-09-15",
-  "hash": "e6342d29228465e2"
+  "hash": "c2aad13fcead6941"
  },
  "it/writing/rebuilding-sgamers/": {
   "date": "2026-09-15",
-  "hash": "ce74ba4004a661ca"
+  "hash": "ede2ec74f10a53e7"
  },
  "play/sgamers/": {
   "date": "2026-09-16",
-  "hash": "514eab5fae5f7755"
+  "hash": "917488ea6c7a46ce"
  },
  "projects/": {
   "date": "2026-09-15",
-  "hash": "3691caca71609000"
+  "hash": "b3f4a118bd8bb57a"
  },
  "tools/": {
   "date": "2026-09-16",
-  "hash": "2378c5db6a623bf3"
+  "hash": "d2d0f8b199a5353f"
  },
  "writing/": {
   "date": "2026-09-15",
-  "hash": "c395b02f1dbc1874"
+  "hash": "1ed9702fac718f52"
  },
  "writing/rebuilding-sgamers/": {
   "date": "2026-09-15",
-  "hash": "e9aa118b26ba0ed9"
+  "hash": "ac3ecb0ed30a62b6"
  }
 }
