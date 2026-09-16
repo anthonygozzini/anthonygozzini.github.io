@@ -1,0 +1,4 @@
+# GitHub Pages builds this site with Jekyll. The index.md files are markdown copies of the pages for AI agents
+# (llmstxt.org): without this, Jekyll's optional-front-matter plugin would turn them into HTML.
+optional_front_matter:
+  enabled: false

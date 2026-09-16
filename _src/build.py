@@ -4,8 +4,11 @@
 Usage: python3 _src/build.py [--preview]
   --preview  write links as .../index.html, so pages also work when opened straight from disk.
 """
+import datetime
 import hashlib
 import html
+import json
+import re
 import sys
 from pathlib import Path
 
@@ -15,6 +18,9 @@ import content as C  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 PREVIEW = "--preview" in sys.argv
 LANGS = ("en", "it")
+LOCALES = {"en": "en_US", "it": "it_IT"}
+STAMPS_FILE = Path(__file__).resolve().parent / "lastmod.json"
+stamps = json.loads(STAMPS_FILE.read_text(encoding="utf-8")) if STAMPS_FILE.exists() else {}
 MONTHS = {
     "en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     "it": ["gen", "feb", "mar", "apr", "mag", "giu", "lug", "ago", "set", "ott", "nov", "dic"],
@@ -205,25 +211,99 @@ def tabbar(page, key):
     return f'<nav class="tabbar" aria-label="{esc(tr(C.UI["pages"], page.lang))}">{"".join(items)}</nav>'
 
 
-def document(page, key, title, description, body, width):
+def modified(page, body):
+    """Date the page's main content last changed: kept while the rendered body is identical, today once it differs."""
+    digest = hashlib.sha256(body.encode("utf-8")).hexdigest()[:16]
+    entry = stamps.get(page.full)
+    # Preview bodies carry index.html links, so their hash never matches: keep the published date.
+    if entry and (entry["hash"] == digest or PREVIEW):
+        return entry["date"]
+    today = datetime.date.today().isoformat()
+    if not PREVIEW:
+        stamps[page.full] = {"hash": digest, "date": today}
+    return today
+
+
+def graph(page, title, description, page_type, extra=(), main=None):
+    base = C.SITE["url"] + "/"
+    url = base + page.full
+    me = {"@id": base + "#person"}
+    nodes = [
+        {"@type": "Person", "@id": me["@id"], "name": C.SITE["name"], "url": base, "image": base + "assets/img/anthony.jpg",
+         "jobTitle": C.SITE["job_title"], "description": tr(C.SITE["description"], page.lang),
+         "sameAs": [C.SITE["linkedin"], C.SITE["github"]], "knowsAbout": C.SITE["knows_about"],
+         "knowsLanguage": list(LANGS), "homeLocation": {"@type": "Country", "name": C.SITE["country"]}},
+        {"@type": "WebSite", "@id": base + "#website", "url": base, "name": C.SITE["name"], "inLanguage": list(LANGS), "publisher": me},
+        {"@type": page_type, "@id": url + "#webpage", "url": url, "name": title, "description": description,
+         "inLanguage": page.lang, "isPartOf": {"@id": base + "#website"},
+         ("mainEntity" if page_type == "ProfilePage" else "about"): me},
+        *extra,
+    ]
+    if main:
+        nodes[2]["mainEntity"] = {"@id": main}
+    text = json.dumps({"@context": "https://schema.org", "@graph": nodes}, ensure_ascii=False, separators=(",", ":"))
+    return '<script type="application/ld+json">' + text.replace("</", "<\\/") + "</script>\n"
+
+
+def post_graph(page, post, description, date_modified):
+    base = C.SITE["url"] + "/"
+    url = base + page.full
+    title = tr(post["title"], page.lang)
+    return [
+        {"@type": "BlogPosting", "@id": url + "#article", "headline": title, "description": description,
+         "datePublished": post["date"], "dateModified": date_modified, "inLanguage": page.lang,
+         "image": base + "assets/img/" + post["cover"], "mainEntityOfPage": {"@id": url + "#webpage"},
+         "author": {"@type": "Person", "@id": base + "#person", "name": C.SITE["name"], "url": base},
+         "publisher": {"@id": base + "#person"}, "isPartOf": {"@id": base + "#website"}},
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": tr(C.WRITING["title"], page.lang), "item": base + Page(page.lang, "writing/").full},
+            {"@type": "ListItem", "position": 2, "name": title, "item": url}]},
+    ]
+
+
+def head_tags(page, title, description, meta):
+    """Title, description, canonical, language alternates, markdown copy, JSON-LD and social tags."""
     lang = page.lang
     base = C.SITE["url"] + "/"
-    hreflangs = "".join(
-        f'<link rel="alternate" hreflang="{code}" href="{base}{("it/" if code == "it" else "") + page.path}">' for code in LANGS)
+    both = meta.get("both_langs", True)
+    tags = f'<title>{esc(title)}</title>\n<meta name="description" content="{esc(description)}">\n'
+    if C.SITE["google_verification"] and page.full == "" and not meta.get("noindex"):
+        tags += f'<meta name="google-site-verification" content="{esc(C.SITE["google_verification"])}">\n'
+    if meta.get("noindex"):
+        tags += '<meta name="robots" content="noindex">\n'
+    else:
+        url = base + page.full
+        tags += f'<link rel="canonical" href="{url}">\n'
+        if both:
+            tags += "".join(
+                f'<link rel="alternate" hreflang="{code}" href="{base}{("it/" if code == "it" else "") + page.path}">' for code in LANGS)
+            tags += f'<link rel="alternate" hreflang="x-default" href="{base}{page.path}">\n'
+        tags += (f'<link rel="alternate" type="text/markdown" href="{url}index.md">\n'
+                 f'<link rel="describedby" href="{base}llms.txt">\n'
+                 f'<meta property="og:url" content="{url}">\n')
+        if meta.get("published"):
+            tags += f'<meta property="article:published_time" content="{meta["published"]}">\n'
+        tags += meta.get("jsonld", "")
+    tags += (f'<meta property="og:type" content="{meta.get("type", "website")}">\n'
+             f'<meta property="og:site_name" content="{esc(C.SITE["name"])}">\n'
+             f'<meta property="og:locale" content="{LOCALES[lang]}">\n')
+    if both:
+        tags += "".join(f'<meta property="og:locale:alternate" content="{LOCALES[c]}">\n' for c in LANGS if c != lang)
+    return tags + (f'<meta property="og:title" content="{esc(title)}">\n'
+                   f'<meta property="og:description" content="{esc(description)}">\n'
+                   f'<meta property="og:image" content="{base}assets/img/{meta.get("image", "og.jpg")}">\n'
+                   f'<meta property="og:image:alt" content="{esc(meta.get("image_alt", tr(C.HOME["title"], lang)))}">\n'
+                   '<meta name="twitter:card" content="summary_large_image">\n')
+
+
+def document(page, key, title, description, body, width, meta):
+    lang = page.lang
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{esc(title)}</title>
-<meta name="description" content="{esc(description)}">
-<link rel="canonical" href="{base}{page.full}">
-{hreflangs}<link rel="alternate" hreflang="x-default" href="{base}{page.path}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{esc(title)}">
-<meta property="og:description" content="{esc(description)}">
-<meta property="og:image" content="{base}assets/img/og.jpg">
-<meta name="theme-color" content="#E9EDF2">
+{head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -485,43 +565,327 @@ def render_contact(page):
 <section class="section"><h2>{esc(tr(K["help"], lang))}</h2><div class="offers">{offers}</div></section>"""
 
 
-def write(page, key, title, description, body, width):
-    out = ROOT / page.full / "index.html"
+def render_404(page):
+    N = C.NOT_FOUND
+    buttons = "".join(
+        f'<a class="btn{" btn-primary" if code == page.lang else ""}" href="{page.link("", code)}" hreflang="{code}" lang="{code}">{icon("home")}<span>{esc(tr(N["home"], code))}</span></a>'
+        for code in LANGS)
+    notes = "".join(f'<p class="lead" lang="{code}">{esc(tr(N["text"], code))}</p>' for code in LANGS)
+    return f"""<header class="page-head"><h1>{esc(tr(N["title"], page.lang))}</h1>{notes}</header>
+<div class="cta">{buttons}</div>"""
+
+
+PLAY_STYLE = (".ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}"
+              ".ag-back:hover{background:#121417}"
+              "#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}"
+              "#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}"
+              ".ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 system-ui,sans-serif;color:#2B3038}"
+              ".ag-about h1{margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:600;color:#121417}"
+              ".ag-about p{margin:0 0 14px}.ag-lead{font-size:18px;color:#121417}.ag-about a{color:#121417}")
+
+
+def play_blocks(page):
+    """The parts of play/sgamers/index.html that the build owns; the Unity loader around them is left as exported."""
+    P = C.PLAY
+    project = next(p for p in C.PROJECTS["items"] if p["slug"] == P["project"])
+    base = C.SITE["url"] + "/"
+    url = base + page.full
+    name = tr(project["name"], "en")
+    others = [l for l in project["links"] if not l.get("raw")]
+    links = " · ".join(f'<a href="{page.link(l["href"])}"{ext_attrs(l["href"])}>{esc(tr(l["label"], "en"))}</a>' for l in others)
+    about = (f'<section class="ag-about"><h1>{esc(name)}</h1><p class="ag-lead">{esc(tr(project["summary"], "en"))}</p>'
+             f'<p>{esc(tr(project["text"], "en"))}</p><p class="ag-links">{links}</p></section>')
+    article = next((l["href"] for l in others if l.get("internal")), None)
+    game = {"@type": "Game", "@id": url + "#game", "additionalType": "https://www.wikidata.org/wiki/Q7889", "name": name, "url": url,
+            "description": tr(project["summary"], "en"), "image": base + "assets/img/" + project["cover"], "inLanguage": "en",
+            "dateCreated": P["created"], "datePublished": P["published"],
+            "author": {"@type": "Person", "@id": base + "#person", "name": C.SITE["name"], "url": base}}
+    if article:
+        game["subjectOf"] = {"@id": base + article + "#article"}
+    meta = {"both_langs": False, "image": project["cover"], "image_alt": name,
+            "jsonld": graph(page, P["title"], P["description"], "WebPage", [game], main=game["@id"])}
+    top = f'<a class="ag-back" href="{page.link("projects/#" + project["slug"])}">← Anthony Gozzini</a><style>{PLAY_STYLE}</style>'
+    return {"head": "\n" + head_tags(page, P["title"], P["description"], meta), "top": top, "about": about}
+
+
+def fill_play(page, blocks):
+    path = ROOT / page.full / "index.html"
+    text = path.read_text(encoding="utf-8")
+    for name, block in blocks.items():
+        pattern = re.compile(rf"<!-- ag:{name} -->.*?<!-- /ag:{name} -->", re.S)
+        if not pattern.search(text):
+            warnings.append(f"{page.full}index.html: manca il segnaposto <!-- ag:{name} -->")
+            return None
+        text = pattern.sub(lambda m: f"<!-- ag:{name} -->{block}<!-- /ag:{name} -->", text, count=1)
+    text = re.sub(r'<html lang="[^"]*">', '<html lang="en">', text, count=1)
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
+def site_url(path="", lang="en", md=False):
+    return C.SITE["url"] + "/" + ("it/" if lang == "it" else "") + path + ("index.md" if md else "")
+
+
+def md_href(href, lang):
+    """Where a content link points in the markdown copies: other pages' markdown, files and outside URLs as they are."""
+    if href.startswith(("http://", "https://")):
+        return href
+    if href == "cal":
+        return C.SITE["cal"]
+    if href == "cv":
+        return site_url(C.SITE["cv"])
+    return site_url(href.partition("#")[0], lang, md=True)
+
+
+def plain(label):
+    return label.rstrip(" →↗↓")
+
+
+def md_join(parts):
+    return "\n\n".join(p for p in parts if p) + "\n"
+
+
+def md_list(lines):
+    return "\n".join(lines)
+
+
+def md_update(u, lang):
+    title = tr(u["title"], lang)
+    if u.get("href"):
+        title = f'[{title}]({md_href(u["href"], lang)})'
+    return f'- {fmt_month(u["date"], lang)}: {title}. {tr(u["text"], lang)}'
+
+
+def md_post_line(post, lang):
+    return f'- [{tr(post["title"], lang)}]({site_url("writing/" + post["slug"] + "/", lang, True)}) ({fmt_day(post["date"], lang)}): {tr(post["excerpt"], lang)}'
+
+
+def md_affidaty_line(a, lang):
+    return f'- [{tr(a["title"], lang)}]({tr(a["url"], lang)}) ({tr(a["date"], lang)}, Affidaty): {tr(a["excerpt"], lang)}'
+
+
+SECTIONS = {"about": C.ABOUT, "projects": C.PROJECTS, "writing": C.WRITING, "tools": C.TOOLS, "contact": C.CONTACT}
+
+
+def md_home(lang):
+    H = C.HOME
+    tools = {t["key"]: t for t in C.TOOLS["items"]}
+    affidaty = C.WRITING["affidaty"][: max(0, 4 - len(C.WRITING["posts"]))]
+    return md_join([
+        f'# {tr(H["title"], lang)}', f'> {tr(C.SITE["description"], lang)}', tr(H["intro"], lang),
+        md_list(f'- {tr(t["text"], lang)}: [{plain(tr(t["link"], lang))}]({md_href(t["href"], lang)})' for t in H["tips"] if t.get("href")),
+        f'## {tr(H["projects"], lang)}',
+        md_list(f'- [{tr(p["name"], lang)}]({site_url("projects/", lang, True)}) ({p["year"]}): {tr(p["summary"], lang)}' for p in C.PROJECTS["items"]),
+        f'## {tr(H["writing"], lang)}',
+        md_list([md_post_line(p, lang) for p in C.WRITING["posts"]] + [md_affidaty_line(a, lang) for a in affidaty]),
+        f'## {tr(H["updates"], lang)}', md_list(md_update(u, lang) for u in C.UPDATES[:4]),
+        f'## {tr(H["tools"], lang)}', md_list(f'- [{tools[k]["name"]}]({tools[k]["url"]}): {tr(tools[k]["use"], lang)}' for k in H["home_tools"]),
+        f'## {tr(C.MD["pages"], lang)}',
+        md_list(f'- [{tr(n["label"], lang)}]({site_url(n["path"], lang, True)}): {tr(SECTIONS[n["key"]]["description"], lang)}' for n in C.NAV if n["key"] in SECTIONS),
+    ])
+
+
+def md_timeline(items, lang):
+    return md_list(f'- {tr(i["when"], lang)}: {tr(i["role"], lang)}, {tr(i["org"], lang)}. {tr(i["text"], lang)}' for i in items)
+
+
+def md_about(lang):
+    A = C.ABOUT
+    principles = [f'### {tr(p["title"], lang)}\n\n{tr(p["text"], lang)}' for p in C.PRINCIPLES]
+    return md_join([
+        f'# {tr(A["title"], lang)} — Anthony Gozzini', f'> {tr(A["description"], lang)}',
+        f'## {tr(C.MD["short_bio"], lang)}', *tr(A["bio_default"], lang),
+        f'## {tr(C.MD["long_bio"], lang)}', *tr(A["bio_long"], lang),
+        f'## {tr(A["updates"], lang)}', md_list(md_update(u, lang) for u in C.UPDATES[: A["updates_count"]]),
+        f'## {tr(A["career"], lang)}', f'{tr(A["career_intro"], lang)} [{plain(tr(A["career_link"], lang))}]({C.SITE["linkedin"]})',
+        md_timeline(C.CAREER, lang),
+        f'### {tr(A["education"], lang)}', md_timeline(C.EDUCATION, lang),
+        f'## {tr(A["how"], lang)}', *principles,
+    ])
+
+
+def md_project_link(link, lang):
+    if link.get("raw"):
+        return f'[{tr(link["label"], lang)}]({site_url(link["href"], md=True)})'
+    return f'[{tr(link["label"], lang)}]({md_href(link["href"], lang)})'
+
+
+def md_projects(lang):
+    P = C.PROJECTS
+    parts = [f'# {tr(P["title"], lang)} — Anthony Gozzini', f'> {tr(P["description"], lang)}', tr(P["intro"], lang)]
+    for p in P["items"]:
+        parts += [f'## {tr(p["name"], lang)} ({p["year"]})', tr(p["summary"], lang), tr(p["text"], lang),
+                  f'{tr(C.MD["tags"], lang)}: {", ".join(tr(p["tags"], lang))}']
+        if p["links"]:
+            parts.append(f'{tr(C.MD["links"], lang)}: ' + ", ".join(md_project_link(l, lang) for l in p["links"]))
+    return md_join(parts)
+
+
+def md_writing(lang):
+    W = C.WRITING
+    return md_join([
+        f'# {tr(W["title"], lang)} — Anthony Gozzini', f'> {tr(W["description"], lang)}', tr(W["intro"], lang),
+        f'## {tr(W["mine_label"], lang)}', md_list(md_post_line(p, lang) for p in W["posts"]),
+        f'## {tr(W["affidaty_label"], lang)}', md_list(md_affidaty_line(a, lang) for a in W["affidaty"]),
+    ])
+
+
+def md_tools(lang):
+    T = C.TOOLS
+    parts = [f'# {tr(T["title"], lang)} — Anthony Gozzini', f'> {tr(T["description"], lang)}', tr(T["intro"], lang)]
+    for key, label in T["categories"].items():
+        parts += [f"## {tr(label, lang)}", md_list(f'- [{t["name"]}]({t["url"]}): {tr(t["use"], lang)}' for t in T["items"] if t["cat"] == key)]
+    return md_join(parts)
+
+
+def md_contact(lang):
+    K = C.CONTACT
+    S = C.SITE
+    offers = [f'### {tr(o["title"], lang)}\n\n{tr(o["text"], lang)}\n\n{tr(C.MD["proof"], lang)}: {tr(o["proof"], lang)}' for o in K["offers"]]
+    return md_join([
+        f'# {tr(K["title"], lang)} — Anthony Gozzini', f'> {tr(K["description"], lang)}', tr(K["intro"], lang),
+        md_list([f'- [{tr(K["cta_call"], lang)}]({S["cal"]})', f'- Email: {S["email"]}',
+                 f'- [WhatsApp]({S["whatsapp"]})', f'- [Telegram]({S["telegram"]})',
+                 f'- [LinkedIn]({S["linkedin"]})', f'- [GitHub]({S["github"]})',
+                 f'- [{tr(K["cv"], lang)}]({site_url(S["cv"])}): {tr(K["cv_text"], lang)}']),
+        f'## {tr(K["help"], lang)}', *offers,
+    ])
+
+
+def prose_md(text):
+    text = text.replace("{play}", site_url(C.PLAY["path"]))
+    text = re.sub(r'<a href="([^"]*)">(.*?)</a>', r"[\2](\1)", text)
+    text = re.sub(r"<h2>(.*?)</h2>", r"## \1", text)
+    text = re.sub(r"</?p>", "", text)
+    if re.search(r"</?[a-z][^>]*>", text):
+        warnings.append("markdown: tag HTML rimasto nel testo di un articolo")
+    return "\n\n".join(line.strip() for line in html.unescape(text).splitlines() if line.strip())
+
+
+def md_post(lang, post):
+    meta = (f'{tr(C.UI["by"], lang)} Anthony Gozzini · {tr(C.UI["published"], lang)} {fmt_day(post["date"], lang)}'
+            f' · {post["minutes"]} {tr(C.UI["min_read"], lang)}')
+    return md_join([f'# {tr(post["title"], lang)}', meta, f'> {tr(post["excerpt"], lang)}', prose_md(tr(post["body"], lang))])
+
+
+def md_play():
+    P = C.PLAY
+    project = next(p for p in C.PROJECTS["items"] if p["slug"] == P["project"])
+    links = [f'- [{tr(C.MD["html"], "en")}: play in your browser]({site_url(P["path"])})']
+    links += [f'- {md_project_link(l, "en")}' for l in project["links"] if not l.get("raw")]
+    return md_join([f'# {P["title"].rsplit(" — ", 1)[0]}', f'> {P["description"]}',
+                    tr(project["summary"], "en"), tr(project["text"], "en"), md_list(links)])
+
+
+def llms_txt():
+    en = "en"
+    S = C.SITE
+    projects = []
+    for p in C.PROJECTS["items"]:
+        code = next((l["href"] for l in p["links"] if l["href"].startswith("https://github.com/")), None)
+        projects.append(f'- [{tr(p["name"], en)}]({code or site_url("projects/", en, True)}): {tr(p["summary"], en)}')
+    projects.append(f'- [{C.PLAY["title"].rsplit(" — ", 1)[0]}]({site_url(C.PLAY["path"], md=True)}): {C.PLAY["description"]}')
+    italian = [f'- [Home]({site_url("", "it", True)}): {tr(S["description"], "it")}']
+    italian += [f'- [{tr(n["label"], "it")}]({site_url(n["path"], "it", True)}): {tr(SECTIONS[n["key"]]["description"], "it")}' for n in C.NAV if n["key"] in SECTIONS]
+    italian += [md_post_line(p, "it") for p in C.WRITING["posts"]]
+    return md_join([
+        f'# {S["name"]}', f'> {tr(S["description"], en)}',
+        *tr(C.ABOUT["bio_default"], en),
+        f'{tr(C.CONTACT["intro"], en)} Email: {S["email"]}. Book a call: {S["cal"]}',
+        "The site is in English at the root and in Italian under /it/. Every page has a markdown copy: add index.md to its URL.",
+        f'## {tr(C.MD["pages"], en)}',
+        md_list([f'- [Home]({site_url(md=True)}): {tr(S["description"], en)}']
+                + [f'- [{tr(n["label"], en)}]({site_url(n["path"], en, True)}): {tr(SECTIONS[n["key"]]["description"], en)}' for n in C.NAV if n["key"] in SECTIONS]),
+        f'## {tr(C.MD["articles"], en)}', md_list(md_post_line(p, en) for p in C.WRITING["posts"]),
+        f'## {tr(C.PROJECTS["title"], en)}', md_list(projects),
+        f'## {C.MD["optional"]}',
+        md_list([f'- [CV]({site_url(S["cv"])}): {tr(C.CONTACT["cv_text"], en)}',
+                 f'- [LinkedIn]({S["linkedin"]}): full career history',
+                 f'- [GitHub]({S["github"]}): code and releases']
+                + [line.replace("- [", f'- [{C.MD["italian"]}: ', 1) for line in italian]
+                + [md_affidaty_line(a, en) for a in C.WRITING["affidaty"]]),
+    ])
+
+
+def write(page, key, title, description, body, width, meta, out=None):
+    out = out or ROOT / page.full / "index.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(document(page, key, title, description, body, width), encoding="utf-8")
+    out.write_text(document(page, key, title, description, body, width, meta), encoding="utf-8")
     return out
 
 
 def main():
     written = []
     pages = [
-        ("about", "about/", render_about, C.ABOUT["title"]),
-        ("projects", "projects/", render_projects, C.PROJECTS["title"]),
-        ("writing", "writing/", render_writing, C.WRITING["title"]),
-        ("tools", "tools/", render_tools, C.TOOLS["title"]),
-        ("contact", "contact/", render_contact, C.CONTACT["title"]),
+        ("about", "about/", render_about, C.ABOUT, "ProfilePage"),
+        ("projects", "projects/", render_projects, C.PROJECTS, "CollectionPage"),
+        ("writing", "writing/", render_writing, C.WRITING, "CollectionPage"),
+        ("tools", "tools/", render_tools, C.TOOLS, "WebPage"),
+        ("contact", "contact/", render_contact, C.CONTACT, "ContactPage"),
     ]
+    markdown_pages = {"about": md_about, "projects": md_projects, "writing": md_writing, "tools": md_tools, "contact": md_contact}
     urls = []
+    markdown = []
+
+    def add_markdown(page, text):
+        out = ROOT / page.full / "index.md"
+        out.write_text(text, encoding="utf-8")
+        markdown.append(out)
+
+    def emit(page, key, title, description, body, width, page_type, md, meta=None, extra=lambda date: ()):
+        date = modified(page, body)
+        meta = dict(meta or {}, jsonld=graph(page, title, description, page_type, extra(date)))
+        written.append(write(page, key, title, description, body, width, meta))
+        add_markdown(page, md)
+        urls.append((page.full, date))
+
     for lang in LANGS:
         page = Page(lang, "")
-        written.append(write(page, "home", tr(C.HOME["title"], lang), tr(C.SITE["description"], lang), render_home(page), "wide"))
-        urls.append(page.full)
-        for key, path, render, title in pages:
+        emit(page, "home", tr(C.HOME["title"], lang), tr(C.SITE["description"], lang), render_home(page), "wide", "WebPage", md_home(lang))
+        for key, path, render, section, page_type in pages:
             page = Page(lang, path)
             width = "wide" if key == "writing" else "narrow"
-            written.append(write(page, key, f"{tr(title, lang)} — Anthony Gozzini", tr(C.SITE["description"], lang), render(page), width))
-            urls.append(page.full)
+            emit(page, key, f'{tr(section["title"], lang)} — Anthony Gozzini', tr(section["description"], lang), render(page), width, page_type,
+                 markdown_pages[key](lang))
         for post in C.WRITING["posts"]:
             page = Page(lang, f'writing/{post["slug"]}/')
-            written.append(write(page, "writing", f'{tr(post["title"], lang)} — Anthony Gozzini', tr(post["excerpt"], lang), render_post(page, post), "post"))
-            urls.append(page.full)
-    sitemap = "".join(f"<url><loc>{C.SITE['url']}/{u}</loc></url>" for u in urls)
+            description = tr(post["description"], lang)
+            meta = {"type": "article", "published": post["date"], "image": post["cover"], "image_alt": tr(post["title"], lang)}
+            emit(page, "writing", f'{tr(post["title"], lang)} — Anthony Gozzini', description, render_post(page, post), "post", "WebPage",
+                 md_post(lang, post), meta, lambda date, page=page, post=post, description=description: post_graph(page, post, description, date))
+
+    page = Page("en", C.PLAY["path"])
+    blocks = play_blocks(page)
+    # The game itself is part of the page's content, so a new build also moves its date.
+    builds = "".join(hashlib.sha256(f.read_bytes()).hexdigest() for f in sorted((ROOT / page.full / "Build").iterdir()))
+    date = modified(page, blocks["about"] + builds)
+    filled = fill_play(page, blocks)
+    if filled:
+        written.append(filled)
+    add_markdown(page, md_play())
+    urls.append((page.full, date))
+
+    # GitHub Pages serves this file for any missing path at any depth, so its links must be root-absolute.
+    page = Page("en", "")
+    page.prefix = "/"
+    written.append(write(page, "", f'{tr(C.NOT_FOUND["title"], "en")} — Anthony Gozzini', tr(C.SITE["description"], "en"),
+                         render_404(page), "narrow", {"noindex": True}, ROOT / "404.html"))
+
+    sitemap = "".join(f"<url><loc>{C.SITE['url']}/{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap}</urlset>\n', encoding="utf-8")
-    expected = len(LANGS) * (1 + len(pages) + len(C.WRITING["posts"]))
+    # Search engines index the HTML pages; the markdown copies are for AI agents, so keep them out of search results.
+    (ROOT / "robots.txt").write_text("User-agent: Googlebot\nUser-agent: Bingbot\nDisallow: /*.md$\n\n"
+                                     f"User-agent: *\nAllow: /\n\nSitemap: {C.SITE['url']}/sitemap.xml\n", encoding="utf-8")
+    (ROOT / "llms.txt").write_text(llms_txt(), encoding="utf-8")
+    if not PREVIEW:
+        kept = {u: stamps[u] for u, _ in urls}
+        STAMPS_FILE.write_text(json.dumps(kept, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    expected = len(LANGS) * (1 + len(pages) + len(C.WRITING["posts"])) + 2
     print(f"pagine scritte: {len(written)} (attese {expected}){' · modalità anteprima' if PREVIEW else ''}")
+    print(f"copie markdown scritte: {len(markdown)} (attese {len(urls)})")
     for w in sorted(set(warnings)):
         print("attenzione:", w)
-    return 0 if len(written) == expected else 1
+    return 0 if len(written) == expected and len(markdown) == len(urls) else 1
 
 
 if __name__ == "__main__":

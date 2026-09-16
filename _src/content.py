@@ -17,8 +17,13 @@ SITE = {
     "cv": "assets/Anthony-Gozzini-CV.pdf",
     "description": L(
         "CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.",
-        "CRM e lifecycle marketing. Otto anni nella community di Trust Wallet, da volontario al team Marketing & Communications. Gli strumenti che mi servono li costruisco io.",
+        "CRM e lifecycle marketing. Otto anni nella community di Trust Wallet, da volontario al team Marketing & Communications. Costruisco i miei strumenti.",
     ),
+    "job_title": "CRM & Lifecycle Marketer",
+    "knows_about": ["CRM", "Lifecycle marketing", "Community management", "Localization", "Telegram bots", "Web3"],
+    "country": "Italy",
+    # Google Search Console, "HTML tag" method: the content value only. Printed on the English home page.
+    "google_verification": "",
 }
 
 UI = {
@@ -171,6 +176,10 @@ UPDATES = [
 
 ABOUT = {
     "title": L("About", "Chi sono"),
+    "description": L(
+        "Thirteen years in customer engagement and data, the last nine in Web3: from support desks in Kraków to running CRM and lifecycle at Trust Wallet.",
+        "Tredici anni tra clienti e dati, gli ultimi nove nel Web3: dall'assistenza clienti a Cracovia alla gestione di CRM e lifecycle in Trust Wallet.",
+    ),
     "bio_default": L(
         [
             "I'm Anthony Gozzini, a CRM and lifecycle marketer with thirteen years in customer engagement and data, the last nine in Web3. From April 2025 to August 2026 I ran CRM and lifecycle at Trust Wallet, one of the world's most-used self-custodial crypto wallets, after seven years as a volunteer ambassador in its community.",
@@ -264,6 +273,10 @@ PRINCIPLES = [
 
 PROJECTS = {
     "title": L("Projects", "Progetti"),
+    "description": L(
+        "What I build outside my job, published with the code: GuardBot, channel-miner, Telegram bots for crypto communities and Sgamers, my first Unity game.",
+        "Quello che costruisco fuori dal lavoro, pubblicato con il codice: GuardBot, channel-miner, bot Telegram per community crypto e Sgamers, il mio primo gioco.",
+    ),
     "intro": L(
         "Things I've built outside my job. Some started as work for paying clients, some are my own; all of them are published with their code.",
         "Cose che ho costruito fuori dal lavoro. Alcune sono nate per clienti paganti, altre sono mie; tutte sono pubblicate con il loro codice.",
@@ -325,6 +338,10 @@ PROJECTS = {
 
 WRITING = {
     "title": L("Writing", "Articoli"),
+    "description": L(
+        "What I build and how I check it, plus the weekly crypto market column I wrote for Affidaty in early 2024, in English and Italian.",
+        "Quello che costruisco e come lo verifico, più la rubrica settimanale sul mercato crypto che ho scritto per Affidaty a inizio 2024.",
+    ),
     "intro": L(
         "In early 2024 I wrote a weekly crypto market column for Affidaty, in Italian and English. Now I write about what I build and how I check it.",
         "All'inizio del 2024 ho scritto una rubrica settimanale sul mercato crypto per Affidaty, in italiano e in inglese. Ora scrivo di quello che costruisco e di come lo verifico.",
@@ -334,6 +351,8 @@ WRITING = {
          "title": L("How I rebuilt my first game from its only surviving build", "Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta"),
          "excerpt": L("The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.",
                       "La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati."),
+         "description": L("Only the compiled build of my 2018 Unity game survived. How an AI agent and I rebuilt the project from it, and the two bugs that almost stopped us.",
+                          "Del mio gioco Unity del 2018 restava solo la build. Come io e un agente AI ne abbiamo ricostruito il progetto, e i due errori che ci hanno quasi fermati."),
          "body": L(
              """<p>In 2018 I made my first game in Unity, following Brackeys' beginner tutorials: a short 3D runner with a main menu, one level and a credits screen. Years later the project folder was gone. The only thing left was the compiled Windows game.</p>
 <p>This September I decided to get it back, as a real project I could open, change and publish. I did it with an AI coding agent. The agent did the digging; my job was to decide what to try and to check every result before believing it.</p>
@@ -411,6 +430,10 @@ WRITING = {
 
 TOOLS = {
     "title": L("Tools", "Strumenti"),
+    "description": L(
+        "The tools I use for CRM, data, communities and building, from Amplitude and Databricks to Telegram and Claude, and what I use each one for.",
+        "Gli strumenti che uso per CRM, dati, community e sviluppo, da Amplitude e Databricks a Telegram e Claude, e per cosa uso ognuno.",
+    ),
     "intro": L(
         "The tools I use across CRM, data, communities and building, and what I actually use each one for.",
         "Gli strumenti che uso tra CRM, dati, community e sviluppo, e per cosa uso davvero ognuno.",
@@ -462,8 +485,42 @@ TOOLS = {
     ],
 }
 
+# The browser build of Sgamers: one English page around the Unity player, shared by both languages.
+PLAY = {
+    "path": "play/sgamers/",
+    "project": "sgamers",
+    "title": "Sgamers: play my first Unity game in your browser — Anthony Gozzini",
+    "description": "Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.",
+    "created": "2018-11",
+    "published": "2026-09-15",
+}
+
+# Labels used only in the markdown copies of the pages (index.md) and in llms.txt.
+MD = {
+    "pages": L("Pages", "Pagine"),
+    "articles": L("Articles", "Articoli"),
+    "tags": L("Tags", "Tag"),
+    "links": L("Links", "Link"),
+    "proof": L("Proof", "Esempio"),
+    "short_bio": L("Bio", "Bio"),
+    "long_bio": L("Long bio", "Bio lunga"),
+    "html": L("Web page", "Pagina web"),
+    "italian": "Italian versions",
+    "optional": "Optional",
+}
+
+NOT_FOUND = {
+    "title": L("Page not found", "Pagina non trovata"),
+    "text": L("This page doesn't exist or has moved.", "Questa pagina non esiste o è stata spostata."),
+    "home": L("Back to the home page", "Torna alla home"),
+}
+
 CONTACT = {
     "title": L("Contact", "Contattami"),
+    "description": L(
+        "Looking for my next role in CRM, lifecycle or community marketing, remote from Italy. Book a 30-minute call or reach me by email, Telegram or LinkedIn.",
+        "Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto dall'Italia. Prenota una call di 30 minuti o scrivimi: email, Telegram, LinkedIn.",
+    ),
     "intro": L(
         "I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote from Italy, in English or Italian. The quickest way to talk is a 30-minute call.",
         "Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto dall'Italia, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.",

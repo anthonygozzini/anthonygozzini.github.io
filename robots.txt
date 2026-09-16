@@ -1,0 +1,8 @@
+User-agent: Googlebot
+User-agent: Bingbot
+Disallow: /*.md$
+
+User-agent: *
+Allow: /
+
+Sitemap: https://anthonygozzini.github.io/sitemap.xml

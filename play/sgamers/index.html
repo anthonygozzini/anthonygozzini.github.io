@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Sgamers — Anthony Gozzini</title>
+    <!-- ag:head -->
+<title>Sgamers: play my first Unity game in your browser — Anthony Gozzini</title>
+<meta name="description" content="Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.">
+<link rel="canonical" href="https://anthonygozzini.github.io/play/sgamers/">
+<link rel="alternate" type="text/markdown" href="https://anthonygozzini.github.io/play/sgamers/index.md">
+<link rel="describedby" href="https://anthonygozzini.github.io/llms.txt">
+<meta property="og:url" content="https://anthonygozzini.github.io/play/sgamers/">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://anthonygozzini.github.io/#person","name":"Anthony Gozzini","url":"https://anthonygozzini.github.io/","image":"https://anthonygozzini.github.io/assets/img/anthony.jpg","jobTitle":"CRM & Lifecycle Marketer","description":"CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.","sameAs":["https://www.linkedin.com/in/anthonygozzini","https://github.com/anthonygozzini"],"knowsAbout":["CRM","Lifecycle marketing","Community management","Localization","Telegram bots","Web3"],"knowsLanguage":["en","it"],"homeLocation":{"@type":"Country","name":"Italy"}},{"@type":"WebSite","@id":"https://anthonygozzini.github.io/#website","url":"https://anthonygozzini.github.io/","name":"Anthony Gozzini","inLanguage":["en","it"],"publisher":{"@id":"https://anthonygozzini.github.io/#person"}},{"@type":"WebPage","@id":"https://anthonygozzini.github.io/play/sgamers/#webpage","url":"https://anthonygozzini.github.io/play/sgamers/","name":"Sgamers: play my first Unity game in your browser — Anthony Gozzini","description":"Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.","inLanguage":"en","isPartOf":{"@id":"https://anthonygozzini.github.io/#website"},"about":{"@id":"https://anthonygozzini.github.io/#person"},"mainEntity":{"@id":"https://anthonygozzini.github.io/play/sgamers/#game"}},{"@type":"Game","@id":"https://anthonygozzini.github.io/play/sgamers/#game","additionalType":"https://www.wikidata.org/wiki/Q7889","name":"Sgamers","url":"https://anthonygozzini.github.io/play/sgamers/","description":"My first game, made in Unity in 2018 and rebuilt in 2026.","image":"https://anthonygozzini.github.io/assets/img/cover-sgamers.jpg","inLanguage":"en","dateCreated":"2018-11","datePublished":"2026-09-15","author":{"@type":"Person","@id":"https://anthonygozzini.github.io/#person","name":"Anthony Gozzini","url":"https://anthonygozzini.github.io/"},"subjectOf":{"@id":"https://anthonygozzini.github.io/writing/rebuilding-sgamers/#article"}}]}</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Anthony Gozzini">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Sgamers: play my first Unity game in your browser — Anthony Gozzini">
+<meta property="og:description" content="Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.">
+<meta property="og:image" content="https://anthonygozzini.github.io/assets/img/cover-sgamers.jpg">
+<meta property="og:image:alt" content="Sgamers">
+<meta name="twitter:card" content="summary_large_image">
+<!-- /ag:head -->
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
-  <body><a class="ag-back" href="../../projects/#sgamers">← Anthony Gozzini</a><style>.ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}.ag-back:hover{background:#121417}</style>
+  <body><!-- ag:top --><a class="ag-back" href="../../projects/#sgamers">← Anthony Gozzini</a><style>.ag-back{position:fixed;top:14px;left:16px;z-index:10;font:500 14px/1 system-ui,sans-serif;color:#fff;background:rgba(18,20,23,.72);padding:9px 13px;border-radius:9px;text-decoration:none}.ag-back:hover{background:#121417}#unity-container.unity-desktop{position:relative;left:auto;top:auto;transform:none;width:960px;margin:64px auto 0}#unity-container.unity-mobile{position:relative;width:100%;height:auto;aspect-ratio:16/10}#unity-footer{height:38px}.ag-about{max-width:960px;margin:28px auto 56px;padding:0 16px;box-sizing:border-box;font:16px/1.65 system-ui,sans-serif;color:#2B3038}.ag-about h1{margin:0 0 6px;font-size:28px;line-height:1.2;font-weight:600;color:#121417}.ag-about p{margin:0 0 14px}.ag-lead{font-size:18px;color:#121417}.ag-about a{color:#121417}</style><!-- /ag:top -->
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -23,6 +39,7 @@
         <div id="unity-build-title">Sgamers</div>
       </div>
     </div>
+    <!-- ag:about --><section class="ag-about"><h1>Sgamers</h1><p class="ag-lead">My first game, made in Unity in 2018 and rebuilt in 2026.</p><p>A short 3D game with a main menu, one level and a credits screen, made while learning Unity with Brackeys&#x27; tutorials. The project folder was lost and only the compiled game survived, so in 2026 I rebuilt the project from that build, upgraded it to Unity 6 and brought it back to life in the browser. You can play it right here with a keyboard: arrow keys or A and D to move, Space to jump. The original Windows build is attached to the release.</p><p class="ag-links"><a href="https://github.com/anthonygozzini/sgamers" target="_blank" rel="noopener">Code</a> · <a href="https://github.com/anthonygozzini/sgamers/releases/tag/v1.0.0" target="_blank" rel="noopener">Windows build</a> · <a href="../../writing/rebuilding-sgamers/">How I rebuilt it</a></p></section><!-- /ag:about -->
     <script>
       var canvas = document.querySelector("#unity-canvas");
 

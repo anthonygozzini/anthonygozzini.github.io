@@ -1,0 +1,57 @@
+# Anthony Gozzini
+
+> CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.
+
+I'm Anthony Gozzini, a CRM and lifecycle marketer with thirteen years in customer engagement and data, the last nine in Web3. From April 2025 to August 2026 I ran CRM and lifecycle at Trust Wallet, one of the world's most-used self-custodial crypto wallets, after seven years as a volunteer ambassador in its community.
+
+I work where data, communities and automation meet: segments and journeys in Amplitude, campaigns in ten languages, Telegram communities at scale, and tools I build myself when nothing on the shelf fits. I live in Italy, work remotely in English and Italian, and I'm looking for my next role.
+
+I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote from Italy, in English or Italian. The quickest way to talk is a 30-minute call. Email: anthony.gozzini@gmail.com. Book a call: https://cal.com/anthony-gozzini-amzx2u/30min
+
+The site is in English at the root and in Italian under /it/. Every page has a markdown copy: add index.md to its URL.
+
+## Pages
+
+- [Home](https://anthonygozzini.github.io/index.md): CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.
+- [About](https://anthonygozzini.github.io/about/index.md): Thirteen years in customer engagement and data, the last nine in Web3: from support desks in Kraków to running CRM and lifecycle at Trust Wallet.
+- [Projects](https://anthonygozzini.github.io/projects/index.md): What I build outside my job, published with the code: GuardBot, channel-miner, Telegram bots for crypto communities and Sgamers, my first Unity game.
+- [Writing](https://anthonygozzini.github.io/writing/index.md): What I build and how I check it, plus the weekly crypto market column I wrote for Affidaty in early 2024, in English and Italian.
+- [Tools](https://anthonygozzini.github.io/tools/index.md): The tools I use for CRM, data, communities and building, from Amplitude and Databricks to Telegram and Claude, and what I use each one for.
+- [Contact](https://anthonygozzini.github.io/contact/index.md): Looking for my next role in CRM, lifecycle or community marketing, remote from Italy. Book a 30-minute call or reach me by email, Telegram or LinkedIn.
+
+## Articles
+
+- [How I rebuilt my first game from its only surviving build](https://anthonygozzini.github.io/writing/rebuilding-sgamers/index.md) (15 Sep 2026): The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.
+
+## Projects
+
+- [GuardBot](https://github.com/anthonygozzini/guardbot): Pre-trade safety for EVM, Solana and TRON, from simulated trades instead of a vendor API.
+- [channel-miner](https://github.com/anthonygozzini/channel-miner): Read a YouTube channel instead of watching it.
+- [Telegram Gatekeeper Bot](https://github.com/anthonygozzini/telegram-gatekeeper-bot): Screens people before they join a private Telegram group.
+- [Sgamers](https://github.com/anthonygozzini/sgamers): My first game, made in Unity in 2018 and rebuilt in 2026.
+- [Telegram Referral System](https://github.com/anthonygozzini/Telegram-Referral-System): Referral links, points and a leaderboard for a Telegram community.
+- [Telegram Channel Message Copier](https://github.com/anthonygozzini/Telegram-Channel-Message-Copier-Bot): Mirrors posts from one Telegram channel to others.
+- [The Legend of Dragoon in Italian](https://anthonygozzini.github.io/projects/index.md): An Italian language mod for the fan-made PC version of a 1999 PlayStation RPG.
+- [Sgamers: play my first Unity game in your browser](https://anthonygozzini.github.io/play/sgamers/index.md): Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.
+
+## Optional
+
+- [CV](https://anthonygozzini.github.io/assets/Anthony-Gozzini-CV.pdf): One page, PDF
+- [LinkedIn](https://www.linkedin.com/in/anthonygozzini): full career history
+- [GitHub](https://github.com/anthonygozzini): code and releases
+- [Italian versions: Home](https://anthonygozzini.github.io/it/index.md): CRM e lifecycle marketing. Otto anni nella community di Trust Wallet, da volontario al team Marketing & Communications. Costruisco i miei strumenti.
+- [Italian versions: Chi sono](https://anthonygozzini.github.io/it/about/index.md): Tredici anni tra clienti e dati, gli ultimi nove nel Web3: dall'assistenza clienti a Cracovia alla gestione di CRM e lifecycle in Trust Wallet.
+- [Italian versions: Progetti](https://anthonygozzini.github.io/it/projects/index.md): Quello che costruisco fuori dal lavoro, pubblicato con il codice: GuardBot, channel-miner, bot Telegram per community crypto e Sgamers, il mio primo gioco.
+- [Italian versions: Articoli](https://anthonygozzini.github.io/it/writing/index.md): Quello che costruisco e come lo verifico, più la rubrica settimanale sul mercato crypto che ho scritto per Affidaty a inizio 2024.
+- [Italian versions: Strumenti](https://anthonygozzini.github.io/it/tools/index.md): Gli strumenti che uso per CRM, dati, community e sviluppo, da Amplitude e Databricks a Telegram e Claude, e per cosa uso ognuno.
+- [Italian versions: Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto dall'Italia. Prenota una call di 30 minuti o scrivimi: email, Telegram, LinkedIn.
+- [Italian versions: Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md) (15 set 2026): La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati.
+- [Blockchain and Crypto News: March 13 – 20, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-13-20mar-24-eng/) (18 Mar 2024, Affidaty): New EU sanctions and crypto laws, and the other stories that moved the market that week.
+- [Blockchain and Crypto World News: February 24 – March 1, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-24feb-1mar-24-2/) (4 Mar 2024, Affidaty): A historic surge for Bitcoin in February, and what else shaped the crypto market.
+- [Blockchain and Crypto World News: February 17-23, 2024](https://affidaty.io/blog/en/2024/02/blockchain-and-crypto-world-news-february-17-23-2024/) (23 Feb 2024, Affidaty): Humanity Protocol by Animoca and Polygon, a step forward for Web3 adoption, and the week's other news.
+- [Blockchain and Crypto World News: February 10-16, 2024](https://affidaty.io/blog/en/2024/02/news-blockchain-crypto-10-16-feb-24/) (16 Feb 2024, Affidaty): Bitcoin breaks $50,000 for the first time since December 2021.
+- [Blockchain and Crypto World News: February 3-9, 2024](https://affidaty.io/blog/en/2024/02/blockchain-crypto-3-9-february/) (9 Feb 2024, Affidaty): Bitcoin's market movements and trends, and the week's main stories.
+- [Blockchain and Crypto World News: January 22-26, 2024](https://affidaty.io/blog/en/2024/01/blockchain-crypto-news-january-22-26-2024/) (26 Jan 2024, Affidaty): Uncertainty over an Ether ETF, falling funding for Web3 startups and crypto price trends.
+- [Crypto and blockchain news: January 15-19, 2024](https://affidaty.io/blog/en/2024/01/blockchain-crypto-news-january-15-19-2024/) (19 Jan 2024, Affidaty): Bitcoin drops after the ETF approval, and the rest of the week in crypto.
+- [Bitcoin ETFs: A New Era in Financial Markets and Challenges for Traditional Investors](https://affidaty.io/blog/en/2024/01/bitcoin-etfs-financial-markets/) (12 Jan 2024, Affidaty): What the approval of spot Bitcoin ETFs means for financial markets and for traditional investors.
+- [The Cryptocurrency Landscape in 2023: a Year of Turning Points and Challenges](https://affidaty.io/blog/en/2024/01/cryptocurrency-2023-ethereum/) (5 Jan 2024, Affidaty): A year of growth and transition: the key events that marked crypto in 2023.
