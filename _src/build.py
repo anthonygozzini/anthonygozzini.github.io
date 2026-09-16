@@ -124,15 +124,20 @@ def sprite():
     return f'<svg width="0" height="0" style="position:absolute" aria-hidden="true">{symbols}</svg>'
 
 
-# The width each kind of image is drawn at, from the layout in site.css, so the browser picks the smallest WebP that covers it.
+# The width each kind of image is drawn at, measured in Chrome from the layout in site.css (sidebar from 881px, content
+# capped at 1100px from 1516px), so the browser picks the smallest WebP that covers it. check_sizes.py re-measures them.
 SIZES = {
-    "grid": "(max-width: 600px) calc(100vw - 40px), (max-width: 1180px) 45vw, 264px",
-    "grid3": "(max-width: 880px) 45vw, 350px",
-    "feature": "(max-width: 1100px) calc(100vw - 40px), 560px",
-    "project": "(max-width: 880px) calc(100vw - 36px), 660px",
-    "post": "(max-width: 880px) calc(100vw - 36px), 760px",
+    "grid": "(max-width: 600px) calc(100vw - 62px), (max-width: 880px) calc(50vw - 51px), "
+            "(max-width: 1180px) calc(50vw - 221px), (max-width: 1516px) calc(25vw - 139px), 240px",
+    "grid3": "(max-width: 880px) calc(50vw - 51px), (max-width: 1180px) calc(33.3vw - 160px), "
+             "(max-width: 1516px) calc(33.3vw - 171px), 332px",
+    "feature": "(max-width: 880px) calc(100vw - 66px), (max-width: 1100px) calc(100vw - 405px), "
+               "(max-width: 1180px) calc(53.5vw - 233px), (max-width: 1516px) calc(53.5vw - 248px), 560px",
+    "project": "(max-width: 696px) calc(100vw - 38px), (max-width: 880px) 658px, (max-width: 1035px) calc(100vw - 377px), 658px",
+    "post": "(max-width: 796px) calc(100vw - 36px), (max-width: 880px) 760px, (max-width: 1135px) calc(100vw - 375px), 760px",
     "play": "(max-width: 960px) 100vw, 960px",
 }
+STYLE = (ROOT / "assets" / "site.css").read_text(encoding="utf-8")
 
 
 def picture(page, file, alt, sizes, priority="lazy", extra=""):
@@ -330,6 +335,11 @@ def head_tags(page, title, description, meta):
                    '<meta name="twitter:card" content="summary_large_image">\n')
 
 
+def inline_style(page):
+    """site.css inside the page: one request fewer before the first paint, and GitHub Pages caches files for 10 minutes anyway."""
+    return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", lambda m: f"url({page.asset(m.group(1))})", STYLE)
+
+
 def document(page, key, title, description, body, width, meta):
     lang = page.lang
     return f"""<!doctype html>
@@ -340,7 +350,8 @@ def document(page, key, title, description, body, width, meta):
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <link rel="preload" href="{page.asset('fonts/geist-latin.woff2')}" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="{page.asset('site.css')}">
+<link rel="preload" href="{page.asset('fonts/geist-mono-latin.woff2')}" as="font" type="font/woff2" crossorigin>
+<style>{inline_style(page)}</style>
 <script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}</script>
 </head>
 <body>
@@ -472,7 +483,7 @@ def render_about(page):
         for p in C.PRINCIPLES)
 
     return f"""<header class="page-head about-head">
-{picture(page, "anthony.jpg", "Anthony Gozzini", "96px", "eager", ' class="portrait" width="96" height="96"')}
+{picture(page, "anthony.jpg", "Anthony Gozzini", "72px", "eager", ' class="portrait" width="96" height="96"')}
 <h1>{esc(tr(A["title"], lang))}</h1>
 </header>
 <div class="bio-toggle"><span class="bio-label">{esc(tr(A["bio_label"], lang))}</span>
@@ -651,7 +662,11 @@ def play_blocks(page):
     top = f'<a class="ag-back" href="{page.link("projects/#" + project["slug"])}">← Anthony Gozzini</a><style>{PLAY_STYLE}</style>'
     facade = (f'<button type="button" id="ag-play" class="ag-play">{picture(page, project["cover"], "", SIZES["play"], "high")}'
               f'<span>▶ {esc(P["play_label"])}</span></button>')
-    return {"head": "\n" + head_tags(page, P["title"], P["description"], meta), "top": top, "facade": facade, "about": about}
+    # Unity's template stylesheet goes inline like site.css, so nothing blocks the first paint.
+    unity_css = (ROOT / page.full / "TemplateData" / "style.css").read_text(encoding="utf-8")
+    unity_css = re.sub(r"url\('([^']+)'\)", r"url('TemplateData/\1')", unity_css)
+    head = "\n" + head_tags(page, P["title"], P["description"], meta) + f"<style>{unity_css}</style>\n"
+    return {"head": head, "top": top, "facade": facade, "about": about}
 
 
 def fill_play(page, blocks):

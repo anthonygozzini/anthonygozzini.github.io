@@ -36,6 +36,7 @@ class Collector(HTMLParser):
         if tag == "link" and a.get("rel") == "alternate" and a.get("type") == "text/markdown":
             self.markdown.append(a.get("href"))
         self._in_ld = tag == "script" and a.get("type") == "application/ld+json"
+        self._in_style = tag == "style"
         if "id" in a:
             self.ids.add(a["id"])
         for key in ("href", "src"):
@@ -47,9 +48,11 @@ class Collector(HTMLParser):
     def handle_data(self, data):
         if self._in_ld:
             self.jsonld.append(data)
+        if getattr(self, "_in_style", False):
+            self.refs += re.findall(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", data)
 
     def handle_endtag(self, tag):
-        self._in_ld = False
+        self._in_ld = self._in_style = False
 
 
 def pages():

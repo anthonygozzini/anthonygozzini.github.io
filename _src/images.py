@@ -12,7 +12,10 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 IMG = ROOT / "assets" / "img"
 OUT = IMG / "sized"
-WIDTHS = (200, 480, 800)
+WIDTHS = (200, 320, 480, 640, 800, 960)
+# 70 is where Lighthouse stops reporting "increase the compression"; at that level the covers' small text stays sharp.
+QUALITY = 70
+SETTINGS = OUT / ".settings"
 # og.jpg is only read by social networks, which want the full JPEG.
 SKIP = {"og.jpg"}
 
@@ -28,6 +31,9 @@ def targets(source):
 
 def main():
     OUT.mkdir(exist_ok=True)
+    settings = f"widths={WIDTHS} quality={QUALITY}\n"
+    # New widths or quality make every existing copy stale, whatever its date.
+    fresh = SETTINGS.exists() and SETTINGS.read_text() == settings
     written = skipped = 0
     expected = set()
     for source in sorted(IMG.rglob("*.jpg")):
@@ -38,16 +44,17 @@ def main():
         for width in targets(source):
             out = OUT / sized_name(rel, width)
             expected.add(out)
-            if out.exists() and out.stat().st_mtime >= source.stat().st_mtime:
+            if fresh and out.exists() and out.stat().st_mtime >= source.stat().st_mtime:
                 skipped += 1
                 continue
             image = image or Image.open(source).convert("RGB")
             height = round(image.height * width / image.width)
-            image.resize((width, height), Image.LANCZOS).save(out, "WEBP", quality=80, method=6)
+            image.resize((width, height), Image.LANCZOS).save(out, "WEBP", quality=QUALITY, method=6)
             written += 1
     stale = [p for p in OUT.glob("*.webp") if p not in expected]
     for p in stale:
         p.unlink()
+    SETTINGS.write_text(settings)
     print(f"immagini webp: {written} scritte, {skipped} già aggiornate, {len(stale)} rimosse, {len(expected)} attese")
     return 0 if written + skipped == len(expected) else 1
 
