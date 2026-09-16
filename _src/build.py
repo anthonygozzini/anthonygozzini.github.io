@@ -284,7 +284,7 @@ def sidebar(page, key):
 
 def mobile_top(page):
     label = esc(tr(C.UI["theme"], page.lang))
-    return (f'<header class="mtop"><a class="brand" href="{page.link("")}" aria-label="Anthony Gozzini"><span class="brand-mark" aria-hidden="true">AG</span><span class="brand-name">Anthony Gozzini</span></a>'
+    return (f'<header class="mtop"><a class="brand" href="{page.link("")}"><span class="brand-mark" aria-hidden="true">AG</span><span class="brand-name">Anthony Gozzini</span></a>'
             f'<div class="mtop-actions">{lang_switch(page)}<button type="button" class="icon-btn" data-theme-cycle aria-label="{label}">'
             f'{icon("sun", "i i-light")}{icon("moon", "i i-dark")}{icon("monitor", "i i-auto")}</button></div></header>')
 
@@ -396,24 +396,26 @@ def head_tags(page, title, description, meta):
 FONTS = Path(__file__).resolve().parent / "fonts"
 
 
+FACES = (("Geist", "400 600", "geist-sans.woff2"), ("Geist Mono", "500", "geist-mono.woff2"))
+
+
 @functools.cache
-def font_data_uri(name):
-    return "data:font/woff2;base64," + base64.b64encode((FONTS / name).read_bytes()).decode("ascii")
-
-
-def inline_style(page):
-    """site.css inside the page, with the fonts from _src/fonts.py embedded as data URIs.
+def font_script(families=None):
+    """JS that hands the fonts from _src/fonts.py to the page, for the <head>.
 
     Linked or preloaded fonts each broke a PageSpeed result on GitHub Pages (traced 2026-09-16): preloaded, Chrome held the
     first paint up to its 1.5 s RenderBlockingFonts cap; linked, the late swap shifted the update cards (CLS 0.317).
-    Even embedded, a font decodes after the first layout, so the head script starts both with document.fonts.load():
-    Chrome then waits the few ms for them and lays the page out once, in Geist."""
-    def resolve(match):
-        url = match.group(1)
-        if url.startswith("fonts/") and url.endswith(".woff2"):
-            return f"url({font_data_uri(url.removeprefix('fonts/'))})"
-        return f"url({page.asset(url)})"
-    return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", resolve, STYLE)
+    Embedded in CSS they counted as 14 KB of unused CSS. Built from bytes, a FontFace is ready before the first layout."""
+    faces = ",".join(f'["{family}","{weight}","{base64.b64encode((FONTS / name).read_bytes()).decode("ascii")}"]'
+                     for family, weight, name in FACES if families is None or family in families)
+    return ("try{[" + faces + "].forEach(function(f){var s=atob(f[2]),b=new Uint8Array(s.length);"
+            "for(var i=0;i<s.length;i++)b[i]=s.charCodeAt(i);"
+            "document.fonts.add(new FontFace(f[0],b,{weight:f[1],display:'block'}))})}catch(e){}")
+
+
+def inline_style(page):
+    """site.css inside the page: one request fewer before the first paint, and GitHub Pages caches files for 10 minutes anyway."""
+    return re.sub(r"""url\(\s*['"]?(?!data:)([^'")]+)['"]?\s*\)""", lambda m: f"url({page.asset(m.group(1))})", STYLE)
 
 
 def document(page, key, title, description, body, width, meta):
@@ -427,7 +429,7 @@ def document(page, key, title, description, body, width, meta):
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <style>{inline_style(page)}</style>
-<script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}try{{document.fonts.load('1em Geist');document.fonts.load('1em "Geist Mono"')}}catch(e){{}}</script>
+<script>try{{var t=localStorage.getItem('ag-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}}catch(e){{}}{font_script()}</script>
 </head>
 <body>
 <a class="skip" href="#main">{esc(tr(C.UI["skip"], lang))}</a>
@@ -744,14 +746,12 @@ def play_blocks(page):
     # The same embedded Geist as the rest of the site: its first layout measured 16 ms against 17-31 ms with system fonts,
     # which kept tripping PageSpeed's 30 ms "forced reflow" line.
     unity_css = unity_css.replace("font-family: arial", 'font-family: "Geist", arial')
-    font_face = ('@font-face { font-family: "Geist"; font-style: normal; font-weight: 400 600; font-display: block; '
-                 f'src: url({font_data_uri("geist-sans.woff2")}) format("woff2"); }}\n')
     # Unity only adds a viewport tag from script on phones; until then the phone lays out 980 px wide and starts fetching
     # the 1200 px cover from the CDN, which cost 0.7 s of simulated LCP on PageSpeed's phone.
     head = ('\n<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<link rel="preconnect" href="https://cdn.jsdelivr.net">\n' + head_tags(page, P["title"], P["description"], meta)
-            + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{font_face}{unity_css}</style>\n'
-            + "<script>try{document.fonts.load('1em Geist')}catch(e){}</script>\n")
+            + f'<link rel="icon" href="{static_url(page, page.full + "TemplateData/favicon.ico")}">\n<style>{unity_css}</style>\n'
+            + f"<script>{font_script(('Geist',))}</script>\n")
     return {"head": head, "top": top, "facade": facade, "about": about}
 
 

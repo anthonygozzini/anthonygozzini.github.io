@@ -115,10 +115,6 @@ def llms_problems(locs):
     return problems + markdown_problems("llms.txt", text)
 
 
-# Arrows and the play triangle are not in Geist at all, so the system font draws them whatever we embed.
-NOT_IN_GEIST = set("\u2190\u2192\u2197\u25b6")
-
-
 CDN = re.compile(r"^https://cdn\.jsdelivr\.net/gh/anthonygozzini/anthonygozzini\.github\.io@([0-9a-f]{40})/(.+)$")
 
 
@@ -150,11 +146,11 @@ def font_problems(pages):
     problems = []
     for page in pages:
         text = page.read_text(encoding="utf-8")
-        if "data:font/woff2" not in text:
+        if "document.fonts.add(new FontFace(" not in text:
             continue
         text = re.sub(r"<(script|style)\b.*?</\1>", " ", text, flags=re.S)
         shown = set(html.unescape(re.sub(r"<[^>]+>", " ", text)))
-        missing = sorted(c for c in shown - sans - NOT_IN_GEIST if not c.isspace())
+        missing = sorted(c for c in shown - sans if not c.isspace())
         if missing:
             problems.append(f"{page.relative_to(ROOT)}: caratteri fuori dal font incorporato {''.join(missing)} (aggiungili in _src/fonts.py)")
     return problems
