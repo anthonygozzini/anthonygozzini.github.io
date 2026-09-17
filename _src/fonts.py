@@ -48,6 +48,12 @@ def cut(source, weights, text):
 
 ROOT = FONTS.parent.parent
 FAVICON = ROOT / "assets" / "favicon.svg"
+# Google Search shows raster favicons only (BMP, GIF, ICO, PNG, JPEG...), never the SVG: the same mark as a PNG for the
+# pages' <link>, and as favicon.ico at the root for crawlers that look there.
+FAVICON_PNG = ROOT / "assets" / "favicon-192.png"
+FAVICON_ICO = ROOT / "favicon.ico"
+RASTER_SIZE = 192
+ICO_SIZES = [(16, 16), (32, 32), (48, 48)]
 # The "AG" mark: 24 px Geist semibold, centred on x = 32 with its baseline at y = 41, in a 64 px dark tile.
 MARK = {"text": "AG", "size": 24, "weight": 600, "center": 32, "baseline": 41}
 
@@ -92,15 +98,41 @@ def write_favicon():
     kerns = [pair_kerning(font, a, b) for a, b in zip(names, names[1:])] + [0]
     width = sum(advances) + sum(kerns)
     x = MARK["center"] / scale - width / 2
-    paths = []
-    for name, advance, kern in zip(names, advances, kerns):
-        pen = SVGPathPen(glyphs, ntos=lambda v: f"{v:.2f}".rstrip("0").rstrip("."))
-        glyphs[name].draw(TransformPen(pen, (scale, 0, 0, -scale, x * scale, MARK["baseline"])))
-        paths.append(pen.getCommands())
+    placed = []
+    for advance, kern in zip(advances, kerns):
+        placed.append(x)
         x += advance + kern
+    paths = []
+    for name, left in zip(names, placed):
+        pen = SVGPathPen(glyphs, ntos=lambda v: f"{v:.2f}".rstrip("0").rstrip("."))
+        glyphs[name].draw(TransformPen(pen, (scale, 0, 0, -scale, left * scale, MARK["baseline"])))
+        paths.append(pen.getCommands())
     FAVICON.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#121417"/>'
                        f'<path fill="#ffffff" d="{" ".join(paths)}"/></svg>\n', encoding="utf-8")
+    mark = raster_mark(glyphs, list(zip(names, placed)), scale, RASTER_SIZE)
+    mark.save(FAVICON_PNG, optimize=True)
+    mark.save(FAVICON_ICO, sizes=ICO_SIZES)
     return width * scale, sum(kerns) * scale
+
+
+def raster_mark(glyphs, placed, scale, size):
+    """The SVG favicon drawn at size x size: the rounded tile (supersampled for smooth corners) with the letters on top."""
+    from fontTools.pens.freetypePen import FreeTypePen
+    from fontTools.pens.transformPen import TransformPen
+    from PIL import Image, ImageDraw
+    k = size / 64
+    pen = FreeTypePen(glyphs)
+    for name, left in placed:
+        # The pen's y axis points up, so the baseline sits (64 - baseline) units above the bottom edge.
+        glyphs[name].draw(TransformPen(pen, (scale * k, 0, 0, scale * k, left * scale * k, (64 - MARK["baseline"]) * k)))
+    letters = pen.image(width=size, height=size)
+    big = Image.new("L", (size * 8, size * 8), 0)
+    ImageDraw.Draw(big).rounded_rectangle([0, 0, size * 8 - 1, size * 8 - 1], radius=14 * k * 8, fill=255)
+    tile = big.resize((size, size), Image.LANCZOS)
+    out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    out.paste(Image.new("RGBA", (size, size), (0x12, 0x14, 0x17, 255)), (0, 0), tile)
+    out.paste(Image.new("RGBA", (size, size), (255, 255, 255, 255)), (0, 0), letters.getchannel("A") if letters.mode == "RGBA" else letters)
+    return out
 
 
 def main():
@@ -112,7 +144,8 @@ def main():
         missing = sorted(set(text) - set(covered))
         print(f"{output}: {len(data)} byte, {len(covered)} caratteri" + (f", assenti nel font: {''.join(missing)}" if missing else ""))
     width, kern = write_favicon()
-    print(f"favicon.svg: lettere in tracciati, larghezza {width:.2f} px, crenatura {kern:.3f} px")
+    print(f"favicon.svg: lettere in tracciati, larghezza {width:.2f} px, crenatura {kern:.3f} px; "
+          f"{FAVICON_PNG.name} {FAVICON_PNG.stat().st_size} byte, {FAVICON_ICO.name} {FAVICON_ICO.stat().st_size} byte")
     (FONTS / "coverage.txt").write_text("".join(f"{name}\t{chars}\n" for name, chars in coverage.items()), encoding="utf-8")
     return 0
 
