@@ -4,9 +4,11 @@
 
 I'm Anthony Gozzini, a CRM and lifecycle marketer with thirteen years in customer engagement and data, the last nine in Web3. From April 2025 to August 2026 I ran CRM and lifecycle at Trust Wallet, one of the world's most-used self-custodial crypto wallets, after seven years as a volunteer ambassador in its community.
 
-I work where data, communities and automation meet: segments and journeys in Amplitude, campaigns in ten languages, Telegram communities at scale, and tools I build myself when nothing on the shelf fits. I live in Italy, work remotely in English and Italian, and I'm looking for my next role.
+I work where data, communities and automation meet: segments and journeys in Amplitude, campaigns in ten languages, Telegram communities at scale, and tools I build myself when nothing on the shelf fits. I live between Novara, Varese and Milan, work remotely in English and Italian, and I'm looking for my next role.
 
-I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote from Italy, in English or Italian. The quickest way to talk is a 30-minute call. Email: anthony.gozzini@gmail.com. Book a call: https://cal.com/anthony-gozzini-amzx2u/30min
+I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan, in English or Italian. The quickest way to talk is a 30-minute call. Email: anthony.gozzini@gmail.com. Book a call: https://cal.com/anthony-gozzini-amzx2u/30min
+
+Where I work: Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.
 
 The site is in English at the root and in Italian under /it/. Every page has a markdown copy: add index.md to its URL.
 
@@ -14,10 +16,19 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 
 - [Home](https://anthonygozzini.github.io/index.md): CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.
 - [About](https://anthonygozzini.github.io/about/index.md): Thirteen years in customer engagement and data, the last nine in Web3: from support desks in Kraków to running CRM and lifecycle at Trust Wallet.
+- [Services](https://anthonygozzini.github.io/services/index.md): CRM and lifecycle marketing, community management, Telegram bots and AI automation. Remote worldwide, in person around Varese, Novara and Milan.
 - [Projects](https://anthonygozzini.github.io/projects/index.md): What I build outside my job, published with the code: GuardBot, channel-miner, Telegram bots for crypto communities and Sgamers, my first Unity game.
 - [Writing](https://anthonygozzini.github.io/writing/index.md): What I build and how I check it, plus the weekly crypto market column I wrote for Affidaty in early 2024, in English and Italian.
 - [Tools](https://anthonygozzini.github.io/tools/index.md): The tools I use for CRM, data, communities and building, from Amplitude and Databricks to Telegram and Claude, and what I use each one for.
-- [Contact](https://anthonygozzini.github.io/contact/index.md): Looking for my next role in CRM, lifecycle or community marketing, remote from Italy. Book a 30-minute call or reach me by email, Telegram or LinkedIn.
+- [Contact](https://anthonygozzini.github.io/contact/index.md): Looking for my next role in CRM, lifecycle or community marketing, remote or around Varese and Milan. Book a call or write to me by email or Telegram.
+
+## Services
+
+- [CRM & lifecycle marketing](https://anthonygozzini.github.io/services/crm-lifecycle/index.md): From an empty CRM to a plan your team can run: segments, triggers, messages and KPIs.
+- [Community management](https://anthonygozzini.github.io/services/community/index.md): Telegram and Discord communities that stay useful as they grow, with moderation, ambassadors and anti-scam automation.
+- [Custom Telegram bots](https://anthonygozzini.github.io/services/telegram-bots/index.md): Bots that screen new members, run referral programs or mirror channels, tested and released with versions.
+- [AI automation for marketing](https://anthonygozzini.github.io/services/ai-automation/index.md): Pipelines that take the volume out of localization, reporting and content, checked before anything ships.
+- [Multilingual campaigns](https://anthonygozzini.github.io/services/multilingual-campaigns/index.md): Localization workflows and campaign setup across languages, with targeting and QA before launch.
 
 ## Articles
 
@@ -41,10 +52,16 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 - [GitHub](https://github.com/anthonygozzini): code and releases
 - [Italian versions: Home](https://anthonygozzini.github.io/it/index.md): CRM e lifecycle marketing. Otto anni nella community di Trust Wallet, da volontario al team Marketing & Communications. Costruisco i miei strumenti.
 - [Italian versions: Chi sono](https://anthonygozzini.github.io/it/about/index.md): Tredici anni tra clienti e dati, gli ultimi nove nel Web3: dall'assistenza clienti a Cracovia alla gestione di CRM e lifecycle in Trust Wallet.
+- [Italian versions: Servizi](https://anthonygozzini.github.io/it/services/index.md): CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara e Milano.
 - [Italian versions: Progetti](https://anthonygozzini.github.io/it/projects/index.md): Quello che costruisco fuori dal lavoro, pubblicato con il codice: GuardBot, channel-miner, bot Telegram per community crypto e Sgamers, il mio primo gioco.
 - [Italian versions: Articoli](https://anthonygozzini.github.io/it/writing/index.md): Quello che costruisco e come lo verifico, più la rubrica settimanale sul mercato crypto che ho scritto per Affidaty a inizio 2024.
 - [Italian versions: Strumenti](https://anthonygozzini.github.io/it/tools/index.md): Gli strumenti che uso per CRM, dati, community e sviluppo, da Amplitude e Databricks a Telegram e Claude, e per cosa uso ognuno.
-- [Italian versions: Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto dall'Italia. Prenota una call di 30 minuti o scrivimi: email, Telegram, LinkedIn.
+- [Italian versions: Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara e Milano. Prenota una call o scrivimi: email, Telegram.
+- [Italian versions: CRM e lifecycle marketing](https://anthonygozzini.github.io/it/services/crm-lifecycle/index.md): Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi e KPI.
+- [Italian versions: Gestione community](https://anthonygozzini.github.io/it/services/community/index.md): Community Telegram e Discord che restano utili mentre crescono, con moderazione, ambassador e automazioni anti-truffa.
+- [Italian versions: Bot Telegram su misura](https://anthonygozzini.github.io/it/services/telegram-bots/index.md): Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate.
+- [Italian versions: Automazioni AI per il marketing](https://anthonygozzini.github.io/it/services/ai-automation/index.md): Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, controllate prima che esca qualsiasi cosa.
+- [Italian versions: Campagne multilingua](https://anthonygozzini.github.io/it/services/multilingual-campaigns/index.md): Flussi di localizzazione e campagne in più lingue, con targeting e controlli prima del lancio.
 - [Italian versions: Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md) (15 set 2026): La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati.
 - [Blockchain and Crypto News: March 13 – 20, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-13-20mar-24-eng/) (18 Mar 2024, Affidaty): New EU sanctions and crypto laws, and the other stories that moved the market that week.
 - [Blockchain and Crypto World News: February 24 – March 1, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-24feb-1mar-24-2/) (4 Mar 2024, Affidaty): A historic surge for Bitcoin in February, and what else shaped the crypto market.

@@ -22,7 +22,8 @@ SITE = {
     ),
     "job_title": "CRM & Lifecycle Marketer",
     "knows_about": ["CRM", "Lifecycle marketing", "Community management", "Localization", "Telegram bots", "Web3"],
-    "country": "Italy",
+    # Public location: the region only. The town stays private.
+    "region": "Piemonte",
     # Google Search Console, "HTML tag" method: the content value only. Printed on the English home page.
     "google_verification": "",
 }
@@ -55,9 +56,11 @@ UI = {
 NAV = [
     {"key": "home", "path": "", "icon": "home", "label": L("Home", "Home")},
     {"key": "about", "path": "about/", "icon": "user", "label": L("About", "Chi sono")},
+    {"key": "services", "path": "services/", "icon": "briefcase", "label": L("Services", "Servizi")},
     {"key": "projects", "path": "projects/", "icon": "code", "label": L("Projects", "Progetti")},
     {"key": "writing", "path": "writing/", "icon": "pen", "label": L("Writing", "Articoli"), "group": "resources"},
-    {"key": "tools", "path": "tools/", "icon": "box", "label": L("Tools", "Strumenti"), "group": "resources"},
+    # Six tabs fit a 360 px phone; Tools stays reachable from the home page and the sidebar.
+    {"key": "tools", "path": "tools/", "icon": "box", "label": L("Tools", "Strumenti"), "group": "resources", "tabbar": False},
     {"key": "contact", "path": "contact/", "icon": "chat", "label": L("Contact", "Contattami"), "group": "connect"},
 ]
 
@@ -70,8 +73,8 @@ HOME = {
     "intro_link": L("More about me", "Scopri chi sono"),
     "tips": [
         {"id": "keys", "desktop": True,
-         "text": L("Move around quickly with keyboard shortcuts 1 → 6. Try pressing 2, 3 and 4.",
-                   "Muoviti velocemente con le scorciatoie da tastiera 1 → 6. Prova a premere 2, 3 e 4.")},
+         "text": L("Move around quickly with keyboard shortcuts 1 → 7. Try pressing 2, 3 and 4.",
+                   "Muoviti velocemente con le scorciatoie da tastiera 1 → 7. Prova a premere 2, 3 e 4.")},
         {"id": "story", "href": "about/",
          "text": L("Grew up near Varese, six years in Kraków, in crypto since 2017", "Cresciuto in provincia di Varese, sei anni a Cracovia, nelle crypto dal 2017"),
          "link": L("Read my story →", "Leggi la mia storia →")},
@@ -185,11 +188,11 @@ ABOUT = {
     "bio_default": L(
         [
             "I'm Anthony Gozzini, a CRM and lifecycle marketer with thirteen years in customer engagement and data, the last nine in Web3. From April 2025 to August 2026 I ran CRM and lifecycle at Trust Wallet, one of the world's most-used self-custodial crypto wallets, after seven years as a volunteer ambassador in its community.",
-            "I work where data, communities and automation meet: segments and journeys in Amplitude, campaigns in ten languages, Telegram communities at scale, and tools I build myself when nothing on the shelf fits. I live in Italy, work remotely in English and Italian, and I'm looking for my next role.",
+            "I work where data, communities and automation meet: segments and journeys in Amplitude, campaigns in ten languages, Telegram communities at scale, and tools I build myself when nothing on the shelf fits. I live between Novara, Varese and Milan, work remotely in English and Italian, and I'm looking for my next role.",
         ],
         [
             "Sono Anthony Gozzini e mi occupo di CRM e lifecycle marketing: tredici anni tra rapporto con i clienti e dati, gli ultimi nove nel Web3. Da aprile 2025 ad agosto 2026 ho gestito CRM e lifecycle in Trust Wallet, uno dei wallet crypto self-custodial più usati al mondo, dopo sette anni da ambassador volontario nella sua community.",
-            "Lavoro dove si incontrano dati, community e automazione: segmenti e percorsi in Amplitude, campagne in dieci lingue, community Telegram su larga scala e strumenti che costruisco da solo quando non trovo quello giusto. Vivo in Italia, lavoro da remoto in italiano e in inglese, e cerco il mio prossimo ruolo.",
+            "Lavoro dove si incontrano dati, community e automazione: segmenti e percorsi in Amplitude, campagne in dieci lingue, community Telegram su larga scala e strumenti che costruisco da solo quando non trovo quello giusto. Vivo tra Novara, Varese e Milano, lavoro da remoto in italiano e in inglese, e cerco il mio prossimo ruolo.",
         ],
     ),
     "bio_long": L(
@@ -201,7 +204,7 @@ ABOUT = {
             "Trust Wallet stayed the constant. Over seven years as a volunteer I coordinated a squad of thirty ambassadors around the world and built anti-scam bots for the regional groups. In early 2025 I took Harvard's CS50, to fill the gaps the tutorials had left, and in April the team hired me into Marketing & Communications.",
             "For the next year and a half I ran CRM and lifecycle for a wallet with millions of users. I wrote the strategy across three pillars, new-user activation, cross-sell and retention, each with its own segments, triggers, messages and KPIs. I mapped where people dropped out of onboarding and turned those gaps into segments to target. I ran localization for announcements in ten languages and app push in eight, configured homepage banners for launches such as Cash App Pay and Banxa, wrote the playbook for high-severity incidents and looked after a Telegram network of more than fifteen regional communities.",
             "Across all of it I work with AI agents every day, for localization, analysis and code. They're fast, and they're often wrong in convincing ways, so I follow one rule: nothing they produce is trusted until it has been checked. This site was built the same way.",
-            "My contract ended in August 2026. I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote from Italy. In the meantime I'm publishing the tools I've built, bringing Sgamers back to life and adding Italian to The Legend of Dragoon on PC.",
+            "My contract ended in August 2026. I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan. In the meantime I'm publishing the tools I've built, bringing Sgamers back to life and adding Italian to The Legend of Dragoon on PC.",
             "Outside work I'm with my partner, often playing video games together, Genshin Impact above all. The rest goes into DIY: my latest project was a whole piece of furniture for the living room, and I enjoy doing the electrical and plumbing work around the house myself.",
             "Support desks taught me to listen, communities taught me to moderate, bots taught me to build. I'm still doing all three.",
         ],
@@ -213,7 +216,7 @@ ABOUT = {
             "Trust Wallet è rimasta la costante. In sette anni da volontario ho coordinato una squadra di trenta ambassador in giro per il mondo e costruito bot anti-truffa per i gruppi regionali. All'inizio del 2025 ho seguito CS50 di Harvard, per colmare i vuoti lasciati dai tutorial, e ad aprile il team mi ha assunto in Marketing & Communications.",
             "Per il successivo anno e mezzo ho gestito CRM e lifecycle di un wallet con milioni di utenti. Ho scritto la strategia su tre pilastri, attivazione dei nuovi utenti, cross-sell e retention, ognuno con i suoi segmenti, trigger, messaggi e KPI. Ho mappato dove le persone abbandonavano l'onboarding e ho trasformato quei buchi in segmenti da raggiungere. Ho gestito la localizzazione degli annunci in dieci lingue e delle notifiche push in otto, configurato i banner della home per lanci come Cash App Pay e Banxa, scritto il playbook per gli incidenti più gravi e seguito una rete Telegram di oltre quindici community regionali.",
             "In tutto questo lavoro ogni giorno con agenti AI, per localizzazione, analisi e codice. Sono veloci e spesso sbagliano in modo convincente, quindi seguo una regola sola: niente di quello che producono è affidabile finché non è stato verificato. Anche questo sito è stato costruito così.",
-            "Il mio contratto è finito ad agosto 2026. Cerco il prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto dall'Italia. Nel frattempo pubblico gli strumenti che ho costruito, riporto in vita Sgamers e aggiungo l'italiano a The Legend of Dragoon su PC.",
+            "Il mio contratto è finito ad agosto 2026. Cerco il prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara e Milano. Nel frattempo pubblico gli strumenti che ho costruito, riporto in vita Sgamers e aggiungo l'italiano a The Legend of Dragoon su PC.",
             "Fuori dal lavoro sto con la mia compagna, spesso a giocare insieme ai videogiochi, soprattutto a Genshin Impact. Il resto del tempo va nel fai-da-te: l'ultimo progetto è stato un mobile intero per la sala, e mi diverte occuparmi da solo della parte elettrica e idraulica di casa.",
             "L'assistenza mi ha insegnato ad ascoltare, le community a moderare, i bot a costruire. Faccio ancora tutte e tre le cose.",
         ],
@@ -518,15 +521,190 @@ NOT_FOUND = {
     "home": L("Back to the home page", "Torna alla home"),
 }
 
+AREA = L("Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.",
+         "Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese e Novara e a Milano.")
+
+SERVICES = {
+    "title": L("Services", "Servizi"),
+    "description": L(
+        "CRM and lifecycle marketing, community management, Telegram bots and AI automation. Remote worldwide, in person around Varese, Novara and Milan.",
+        "CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara e Milano.",
+    ),
+    "intro": L(
+        "What I do for companies and communities, and the work that shows it. I work remotely with teams anywhere, in English or Italian, and in person across the provinces of Varese and Novara and in Milan.",
+        "Cosa faccio per aziende e community, e il lavoro che lo dimostra. Lavoro da remoto con team di tutto il mondo, in italiano o in inglese, e in presenza nelle province di Varese e Novara e a Milano.",
+    ),
+    "area_title": L("Where I work", "Dove lavoro"),
+    "area": AREA,
+    "what": L("What I do", "Cosa faccio"),
+    "proof": L("Where I have done it", "Dove l'ho già fatto"),
+    "all": L("All services", "Tutti i servizi"),
+    "others": L("Other services", "Altri servizi"),
+    # For the structured data: the areas served in person, with their Wikidata entries, and the remote work.
+    "areas_served": [
+        {"name": L("Province of Varese", "Provincia di Varese"), "wikidata": "Q16299"},
+        {"name": L("Province of Novara", "Provincia di Novara"), "wikidata": "Q16216"},
+        {"name": L("Metropolitan City of Milan", "Città metropolitana di Milano"), "wikidata": "Q18288155"},
+    ],
+    "remote": L("Worldwide, remotely", "In tutto il mondo, da remoto"),
+    "items": [
+        {"slug": "crm-lifecycle", "icon": "briefcase",
+         "name": L("CRM & lifecycle marketing", "CRM e lifecycle marketing"),
+         "title": L("CRM & lifecycle marketing consultant", "Consulente CRM e lifecycle marketing a Varese"),
+         "description": L(
+             "CRM and lifecycle programs from segments to KPIs: activation, cross-sell and retention, as I built them for Trust Wallet. Remote or around Milan.",
+             "Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara e Milano."),
+         "summary": L("From an empty CRM to a plan your team can run: segments, triggers, messages and KPIs.",
+                      "Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi e KPI."),
+         "what": L([
+             "A lifecycle strategy on three pillars, new-user activation, cross-sell and retention, each with its own segments, triggers, messages and KPIs.",
+             "Funnel analysis that finds where people drop out, turned into segments you can reach, in Amplitude and Databricks SQL.",
+             "A deployment calendar that stops campaigns from colliding, and templates the next person can reuse.",
+             "Clean, well-structured customer data in Salesforce or HubSpot.",
+         ], [
+             "Una strategia lifecycle su tre pilastri, attivazione dei nuovi utenti, cross-sell e retention, ognuno con i suoi segmenti, trigger, messaggi e KPI.",
+             "Analisi dei funnel per capire dove le persone si perdono, trasformata in segmenti da raggiungere, con Amplitude e Databricks SQL.",
+             "Un calendario delle campagne che evita sovrapposizioni, e modelli che la prossima persona può riusare.",
+             "Dati cliente puliti e ben strutturati in Salesforce o HubSpot.",
+         ]),
+         "proof": [
+             {"text": L("Trust Wallet, 2025–2026: I ran CRM and lifecycle for a self-custodial wallet with millions of users.",
+                        "Trust Wallet, 2025–2026: ho gestito CRM e lifecycle di un wallet self-custodial con milioni di utenti."),
+              "href": "about/#career"},
+             {"text": L("Motorola Solutions: cleaner Salesforce data lifted lead conversion by 14% and data accuracy by 28%.",
+                        "Motorola Solutions: dati Salesforce più puliti hanno alzato la conversione dei lead del 14% e l'accuratezza dei dati del 28%."),
+              "href": "about/#career"},
+         ]},
+        {"slug": "community", "icon": "users",
+         "name": L("Community management", "Gestione community"),
+         "title": L("Telegram & Discord community manager", "Community manager Telegram e Discord a Varese"),
+         "description": L(
+             "Telegram and Discord communities that stay useful as they grow: moderation, ambassadors, anti-scam automation. Seven years at Trust Wallet.",
+             "Community Telegram e Discord che restano utili mentre crescono: moderazione, ambassador, automazioni anti-truffa. Sette anni in Trust Wallet."),
+         "summary": L("Telegram and Discord communities that stay useful as they grow, with moderation, ambassadors and anti-scam automation.",
+                      "Community Telegram e Discord che restano utili mentre crescono, con moderazione, ambassador e automazioni anti-truffa."),
+         "what": L([
+             "Moderation rules, an admin team and a playbook for when things go wrong.",
+             "Ambassador programs: recruiting, coordinating and keeping volunteers motivated.",
+             "Anti-scam automation and screening for private groups.",
+             "Quest campaigns on Zealy and QuestN that bring members back.",
+         ], [
+             "Regole di moderazione, un team di admin e un playbook per quando le cose vanno storte.",
+             "Programmi ambassador: selezione, coordinamento e volontari che restano motivati.",
+             "Automazioni anti-truffa e filtri per i gruppi privati.",
+             "Campagne a quest su Zealy e QuestN che fanno tornare i membri.",
+         ]),
+         "proof": [
+             {"text": L("Seven years as an admin of Trust Wallet's global Telegram community, coordinating thirty volunteer ambassadors.",
+                        "Sette anni da admin della community Telegram globale di Trust Wallet, coordinando trenta ambassador volontari."),
+              "href": "about/#career"},
+             {"text": L("A network of more than fifteen regional Telegram communities for Trust Wallet.",
+                        "Una rete di oltre quindici community Telegram regionali per Trust Wallet."),
+              "href": "about/#career"},
+             {"text": L("Quest campaigns that lifted participation by 40% for The OGz Club.",
+                        "Campagne a quest che hanno alzato la partecipazione del 40% per The OGz Club."),
+              "href": "tools/"},
+         ]},
+        {"slug": "telegram-bots", "icon": "bot",
+         "name": L("Custom Telegram bots", "Bot Telegram su misura"),
+         "title": L("Custom Telegram bot developer", "Sviluppo di bot Telegram su misura a Varese"),
+         "description": L(
+             "Telegram bots that screen new members, run referral programs or mirror channels, with tests and versioned releases. Built for paying clients.",
+             "Bot Telegram che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate. Nati per clienti paganti."),
+         "summary": L("Bots that screen new members, run referral programs or mirror channels, tested and released with versions.",
+                      "Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate."),
+         "what": L([
+             "Screening questionnaires and fake-account checks before anyone joins a private group.",
+             "Referral programs with personal links, points and a leaderboard.",
+             "Channel mirroring and scheduled posts across several channels.",
+             "Tests, versioned releases and one config file you can edit without touching the code.",
+         ], [
+             "Questionari di ingresso e controlli sugli account falsi prima che qualcuno entri in un gruppo privato.",
+             "Programmi referral con link personali, punti e classifica.",
+             "Copia dei post tra canali e invii programmati su più canali.",
+             "Test, release versionate e un solo file di configurazione da modificare senza toccare il codice.",
+         ]),
+         "proof": [
+             {"text": L("Telegram Gatekeeper Bot: screening for private groups, 40 tests, version 3.0.0.",
+                        "Telegram Gatekeeper Bot: filtro per i gruppi privati, 40 test, versione 3.0.0."),
+              "href": "projects/#gatekeeper"},
+             {"text": L("Telegram Referral System: built for a crypto creator's community.",
+                        "Telegram Referral System: costruito per la community di un creator crypto."),
+              "href": "projects/#referral"},
+             {"text": L("Telegram Channel Message Copier: ran for a client posting to six channels.",
+                        "Telegram Channel Message Copier: ha lavorato per un cliente che pubblicava su sei canali."),
+              "href": "projects/#copier"},
+         ]},
+        {"slug": "ai-automation", "icon": "code",
+         "name": L("AI automation for marketing", "Automazioni AI per il marketing"),
+         "title": L("AI automation for marketing teams", "Automazioni con AI per il marketing a Varese"),
+         "description": L(
+             "AI pipelines that take the volume out of localization, reporting and content, with the verification step that makes their output safe to use.",
+             "Pipeline di AI che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, con la verifica che rende il risultato sicuro da usare."),
+         "summary": L("Pipelines that take the volume out of localization, reporting and content, checked before anything ships.",
+                      "Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, controllate prima che esca qualsiasi cosa."),
+         "what": L([
+             "Localization pipelines that keep technical terms intact and respect each channel's character limits.",
+             "Analysis and reporting pipelines with a verification step, so numbers are checked before anyone sees them.",
+             "Tools that turn long sources, such as a whole YouTube channel, into searchable text.",
+             "Agent workflows for code and content, where nothing ships until it has been checked.",
+         ], [
+             "Pipeline di localizzazione che non stravolgono i termini tecnici e rispettano i limiti di caratteri di ogni canale.",
+             "Pipeline di analisi e report con un passaggio di verifica, così i numeri sono controllati prima che qualcuno li veda.",
+             "Strumenti che trasformano fonti lunghe, come un intero canale YouTube, in testo da cercare.",
+             "Flussi con agenti AI per codice e contenuti, dove niente esce finché non è stato controllato.",
+         ]),
+         "proof": [
+             {"text": L("channel-miner turned 377 hours of video, across 179 episodes, into 237 MB of searchable text.",
+                        "channel-miner ha trasformato 377 ore di video, in 179 puntate, in 237 MB di testo da cercare."),
+              "href": "projects/#channel-miner"},
+             {"text": L("GuardBot includes an MCP server, so AI agents can use it as a tool.",
+                        "GuardBot include un server MCP, così anche gli agenti AI possono usarlo come strumento."),
+              "href": "projects/#guardbot"},
+             {"text": L("How an AI agent and I rebuilt a game from its only surviving build, checking every step.",
+                        "Come io e un agente AI abbiamo ricostruito un gioco dall'unica build rimasta, controllando ogni passaggio."),
+              "href": "writing/rebuilding-sgamers/"},
+         ]},
+        {"slug": "multilingual-campaigns", "icon": "send",
+         "name": L("Multilingual campaigns", "Campagne multilingua"),
+         "title": L("Multilingual campaign operations", "Campagne e localizzazione multilingua a Varese"),
+         "description": L(
+             "Localization workflows, push notifications and in-app banners across languages, with targeting and QA before launch. Ten languages at Trust Wallet.",
+             "Localizzazione, notifiche push e banner in app in più lingue, con targeting e controlli prima del lancio. Dieci lingue in Trust Wallet."),
+         "summary": L("Localization workflows and campaign setup across languages, with targeting and QA before launch.",
+                      "Flussi di localizzazione e campagne in più lingue, con targeting e controlli prima del lancio."),
+         "what": L([
+             "Localization workflows with a review step, up to ten languages.",
+             "Push notifications and in-app banners configured with targeting.",
+             "QA before launch and a launch calendar the whole team can follow.",
+             "Copy written directly in English and Italian.",
+         ], [
+             "Flussi di localizzazione con un passaggio di revisione, fino a dieci lingue.",
+             "Notifiche push e banner in app configurati con targeting.",
+             "Controlli prima del lancio e un calendario che tutto il team può seguire.",
+             "Testi scritti direttamente in italiano e in inglese.",
+         ]),
+         "proof": [
+             {"text": L("Trust Wallet: announcements in 10 languages and push in 8, for launches such as Cash App Pay and Banxa.",
+                        "Trust Wallet: annunci in 10 lingue e push in 8, per lanci come Cash App Pay e Banxa."),
+              "href": "about/#career"},
+             {"text": L("A weekly crypto market column in English and Italian for Affidaty, in 2024.",
+                        "Una rubrica settimanale sul mercato crypto in italiano e in inglese per Affidaty, nel 2024."),
+              "href": "writing/"},
+         ]},
+    ],
+}
+
+
 CONTACT = {
     "title": L("Contact", "Contattami"),
     "description": L(
-        "Looking for my next role in CRM, lifecycle or community marketing, remote from Italy. Book a 30-minute call or reach me by email, Telegram or LinkedIn.",
-        "Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto dall'Italia. Prenota una call di 30 minuti o scrivimi: email, Telegram, LinkedIn.",
+        "Looking for my next role in CRM, lifecycle or community marketing, remote or around Varese and Milan. Book a call or write to me by email or Telegram.",
+        "Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara e Milano. Prenota una call o scrivimi: email, Telegram.",
     ),
     "intro": L(
-        "I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote from Italy, in English or Italian. The quickest way to talk is a 30-minute call.",
-        "Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto dall'Italia, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.",
+        "I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan, in English or Italian. The quickest way to talk is a 30-minute call.",
+        "Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara e Milano, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.",
     ),
     "cta_call": L("Book a 30-minute call", "Prenota una call di 30 minuti"),
     "cta_email": L("Send an email", "Scrivimi una email"),
@@ -535,19 +713,19 @@ CONTACT = {
     "cv_text": L("One page, PDF", "Una pagina, PDF"),
     "help": L("What I can help with", "In cosa posso aiutarti"),
     "offers": [
-        {"title": L("CRM & lifecycle programs", "Programmi CRM e lifecycle"),
+        {"service": "crm-lifecycle", "title": L("CRM & lifecycle programs", "Programmi CRM e lifecycle"),
          "text": L("From an empty CRM to a plan the team can run: segment definitions, trigger → surface → message → KPI tables for activation, cross-sell and retention, and a deployment calendar that stops campaigns from colliding.",
                    "Da un CRM vuoto a un piano che il team può seguire: definizione dei segmenti, tabelle trigger → canale → messaggio → KPI per attivazione, cross-sell e retention, e un calendario delle campagne che evita sovrapposizioni."),
          "proof": L("I wrote this strategy for Trust Wallet in 2025.", "Ho scritto questa strategia per Trust Wallet nel 2025.")},
-        {"title": L("Multilingual campaign operations", "Campagne in più lingue"),
+        {"service": "multilingual-campaigns", "title": L("Multilingual campaign operations", "Campagne in più lingue"),
          "text": L("Localization workflows that keep crypto terms intact and respect every surface's character limits, plus banner and push configuration with targeting and QA before launch.",
                    "Flussi di localizzazione che non stravolgono i termini crypto e rispettano i limiti di caratteri di ogni canale, più configurazione di banner e notifiche push con targeting e controlli prima del lancio."),
          "proof": L("Announcements in 10 languages and push in 8, for launches such as Cash App Pay and Banxa.", "Annunci in 10 lingue e push in 8, per lanci come Cash App Pay e Banxa.")},
-        {"title": L("Crypto community operations", "Gestione di community crypto"),
+        {"service": "community", "title": L("Crypto community operations", "Gestione di community crypto"),
          "text": L("Telegram and Discord communities that stay useful as they grow: moderation, ambassador programs, anti-scam automation, screening for private groups and a playbook for when things go wrong.",
                    "Community Telegram e Discord che restano utili mentre crescono: moderazione, programmi ambassador, automazioni anti-truffa, filtri per i gruppi privati e un playbook per quando le cose vanno storte."),
          "proof": L("Seven years as an admin of Trust Wallet's global Telegram community.", "Sette anni da admin della community Telegram globale di Trust Wallet.")},
-        {"title": L("AI in marketing operations", "AI nelle operazioni di marketing"),
+        {"service": "ai-automation", "title": L("AI in marketing operations", "AI nelle operazioni di marketing"),
          "text": L("Pipelines that take the volume out of localization, reporting and content, with the verification step that makes their output safe to use.",
                    "Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, con il passaggio di verifica che rende il risultato sicuro da usare."),
          "proof": L("The tools on my Projects page were built this way.", "Gli strumenti della pagina Progetti sono costruiti così.")},

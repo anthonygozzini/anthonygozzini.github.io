@@ -189,6 +189,15 @@ picture { display: contents; }
 .principle p, .offer p { font-size: 13.5px; color: var(--muted); }
 .offer .offer-proof { display: flex; align-items: flex-start; gap: 7px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--line); font-size: 13px; color: var(--text); }
 .offer-proof .i { width: 15px; height: 15px; margin-top: 2px; color: var(--accent); }
+.offer h3 a { text-decoration: none; }
+.offer h3 a:hover { color: var(--accent); }
+.service-list { margin-top: 30px; border-top: 1px solid var(--line); }
+.section .service-list { margin-top: 0; }
+.checks { display: flex; flex-direction: column; gap: 12px; }
+.checks li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.6; color: var(--text); }
+.checks .i { margin-top: 4px; color: var(--accent); }
+.checks a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 3px; }
+.checks a:hover { color: var(--ink); text-decoration-color: currentColor; }
 
 .projects { display: flex; flex-direction: column; gap: 22px; margin-top: 32px; }
 .project { overflow: hidden; background: var(--card); border: 1px solid var(--line); border-radius: 12px; scroll-margin-top: 24px; }
@@ -290,7 +299,7 @@ picture { display: contents; }
   .foot { margin-top: 56px; }
 }
 @media (max-width: 600px) {
-  .grid-4, .grid-2, .principles, .offers { grid-template-columns: minmax(0, 1fr); }
+  .grid-4, .grid-2, .grid-services, .principles, .offers { grid-template-columns: minmax(0, 1fr); }
   .t-row, .stack-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
   .update { grid-template-columns: 30px minmax(0, 1fr); }
   .update-date { grid-column: 2; padding-top: 4px; }

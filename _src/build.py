@@ -141,6 +141,7 @@ ICONS = {
     "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
     "download": '<path d="M12 4v12M7 11l5 5 5-5M5 20h14"/>',
     "check": '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    "pin": '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
     "copy": '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/>',
     "send": '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
     "whatsapp": '<path d="M3.5 20.5 5 16a8.5 8.5 0 1 1 3 3z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 1a3.8 3.8 0 0 1-2-2l1-1-1-2z"/>',
@@ -292,6 +293,8 @@ def mobile_top(page):
 def tabbar(page, key):
     items = []
     for n in C.NAV:
+        if n.get("tabbar") is False:
+            continue
         current = ' aria-current="page"' if n["key"] == key else ""
         items.append(f'<a class="tab-item" href="{page.link(n["path"])}"{current}>{icon(n["icon"])}<span>{esc(tr(n["label"], page.lang))}</span></a>')
     return f'<nav class="tabbar" aria-label="{esc(tr(C.UI["pages"], page.lang))}">{"".join(items)}</nav>'
@@ -329,7 +332,8 @@ def graph(page, title, description, page_type, extra=(), main=None):
         {"@type": "Person", "@id": me["@id"], "name": C.SITE["name"], "url": base, "image": base + "assets/img/anthony.jpg",
          "jobTitle": C.SITE["job_title"], "description": tr(C.SITE["description"], page.lang),
          "sameAs": [C.SITE["linkedin"], C.SITE["github"]], "knowsAbout": C.SITE["knows_about"],
-         "knowsLanguage": list(LANGS), "homeLocation": {"@type": "Country", "name": C.SITE["country"]}},
+         "knowsLanguage": list(LANGS),
+         "homeLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressRegion": C.SITE["region"], "addressCountry": "IT"}}},
         {"@type": "WebSite", "@id": base + "#website", "url": base, "name": C.SITE["name"], "inLanguage": list(LANGS), "publisher": me},
         {"@type": page_type, "@id": url + "#webpage", "url": url, "name": title, "description": description,
          "inLanguage": page.lang, "isPartOf": {"@id": base + "#website"},
@@ -355,6 +359,33 @@ def post_graph(page, post, description, date_modified):
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": tr(C.WRITING["title"], page.lang), "item": base + Page(page.lang, "writing/").full},
             {"@type": "ListItem", "position": 2, "name": title, "item": url}]},
+    ]
+
+
+def area_served(lang):
+    S = C.SERVICES
+    return [{"@type": "AdministrativeArea", "name": tr(a["name"], lang), "sameAs": "https://www.wikidata.org/wiki/" + a["wikidata"]}
+            for a in S["areas_served"]] + [tr(S["remote"], lang)]
+
+
+def services_graph(page):
+    base = C.SITE["url"] + "/"
+    return [{"@type": "ItemList", "@id": base + page.full + "#services", "itemListElement": [
+        {"@type": "ListItem", "position": i, "name": tr(s["name"], page.lang), "url": base + Page(page.lang, f'services/{s["slug"]}/').full}
+        for i, s in enumerate(C.SERVICES["items"], 1)]}]
+
+
+def service_graph(page, s, description):
+    base = C.SITE["url"] + "/"
+    url = base + page.full
+    lang = page.lang
+    return [
+        {"@type": "Service", "@id": url + "#service", "name": tr(s["name"], lang), "serviceType": tr(s["name"], lang),
+         "description": description, "url": url, "provider": {"@id": base + "#person"},
+         "areaServed": area_served(lang), "availableLanguage": list(LANGS)},
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": tr(C.SERVICES["title"], lang), "item": base + Page(lang, "services/").full},
+            {"@type": "ListItem", "position": 2, "name": tr(s["name"], lang), "item": url}]},
     ]
 
 
@@ -564,6 +595,20 @@ def affidaty_card(page, a, sizes):
                 f'<div class="card-cover banner">{image}</div>', external=True)
 
 
+def service_card(page, s):
+    return card(page.link(f'services/{s["slug"]}/'), tr(s["name"], page.lang), tr(s["summary"], page.lang), "",
+                f'<span class="tile tile-icon">{icon(s["icon"])}</span>')
+
+
+def cta(page):
+    K = C.CONTACT
+    S = C.SITE
+    return f"""<div class="cta">
+<a class="btn btn-primary" href="{S['cal']}" target="_blank" rel="noopener">{icon("calendar")}<span>{esc(tr(K["cta_call"], page.lang))}</span></a>
+<a class="btn" href="mailto:{S['email']}">{icon("mail")}<span>{esc(tr(K["cta_email"], page.lang))}</span></a>
+</div>"""
+
+
 def render_home(page):
     lang = page.lang
     H = C.HOME
@@ -590,6 +635,10 @@ def render_home(page):
     for a in C.WRITING["affidaty"][: max(0, 4 - len(writing))]:
         writing.append(affidaty_card(page, a, "grid"))
 
+    S = C.SERVICES
+    service_cards = "".join(service_card(page, s) for s in S["items"]) + card(
+        page.link("services/#area"), tr(S["area_title"], lang), tr(S["area"], lang), "", f'<span class="tile tile-icon">{icon("pin")}</span>')
+
     updates = "".join(update_card(page, u) for u in C.UPDATES[:4])
     tools = {t["key"]: t for t in C.TOOLS["items"]}
     tool_cards = "".join(
@@ -604,6 +653,7 @@ def render_home(page):
 </section>
 <section class="tips" aria-label="Tips">{"".join(tips)}</section>
 <section class="block">{section_head(tr(H["projects"], lang), page.link("projects/"), tr(C.UI["view_all"], lang))}<div class="grid grid-4">{project_cards}</div></section>
+<section class="block">{section_head(tr(C.CONTACT["help"], lang), page.link("services/"), tr(C.UI["view_all"], lang))}<div class="grid grid-3 grid-services">{service_cards}</div></section>
 <section class="block">{section_head(tr(H["writing"], lang), page.link("writing/"), tr(C.UI["view_all"], lang))}<div class="grid grid-4">{"".join(writing)}</div></section>
 <section class="block">{section_head(tr(H["updates"], lang), page.link("about/#updates"), tr(C.UI["view_all"], lang))}<div class="grid grid-4">{updates}</div></section>
 <section class="block">{section_head(tr(H["tools"], lang), page.link("tools/"), tr(C.UI["view_all"], lang))}<div class="grid grid-4">{tool_cards}</div></section>"""
@@ -760,16 +810,45 @@ def render_contact(page):
                     f'<span class="channel-top"><span class="tile tile-icon">{icon(ic)}</span>{corner}</span>'
                     f'<span class="channel-label">{esc(label)}</span><span class="channel-value">{esc(value).replace("@", "@<wbr>") if copy else esc(value)}</span></a>{button}</div>')
     offers = "".join(
-        f'<div class="offer"><h3>{esc(tr(o["title"], lang))}</h3><p>{esc(tr(o["text"], lang))}</p>'
+        f'<div class="offer"><h3><a href="{page.link("services/" + o["service"] + "/")}">{esc(tr(o["title"], lang))}</a></h3><p>{esc(tr(o["text"], lang))}</p>'
         f'<p class="offer-proof">{icon("check")}<span>{esc(tr(o["proof"], lang))}</span></p></div>'
         for o in K["offers"])
     return f"""<header class="page-head"><h1>{esc(tr(K["title"], lang))}</h1><p class="lead">{esc(tr(K["intro"], lang))}</p></header>
-<div class="cta">
-<a class="btn btn-primary" href="{S['cal']}" target="_blank" rel="noopener">{icon("calendar")}<span>{esc(tr(K["cta_call"], lang))}</span></a>
-<a class="btn" href="mailto:{S['email']}">{icon("mail")}<span>{esc(tr(K["cta_email"], lang))}</span></a>
-</div>
+{cta(page)}
 <section class="section"><h2>{esc(tr(K["channels"], lang))}</h2><div class="channels">{"".join(rows)}</div></section>
-<section class="section"><h2>{esc(tr(K["help"], lang))}</h2><div class="offers">{offers}</div></section>"""
+<section class="section"><h2>{esc(tr(K["help"], lang))}</h2><div class="offers">{offers}</div>
+<p class="section-more"><a href="{page.link("services/")}">{esc(tr(C.SERVICES["all"], lang))} →</a></p></section>"""
+
+
+def service_row(page, s):
+    lang = page.lang
+    return (f'<a class="tool-row" href="{page.link("services/" + s["slug"] + "/")}"><span class="tile tile-lg tile-icon">{icon(s["icon"])}</span>'
+            f'<div class="tool-main"><p class="tool-name">{esc(tr(s["name"], lang))}<span class="tool-arrow">{icon("right")}</span></p>'
+            f'<p class="tool-use">{esc(tr(s["summary"], lang))}</p></div></a>')
+
+
+def render_services(page):
+    lang = page.lang
+    S = C.SERVICES
+    return f"""<header class="page-head"><h1>{esc(tr(S["title"], lang))}</h1><p class="lead">{esc(tr(S["intro"], lang))}</p></header>
+{cta(page)}
+<div class="service-list">{"".join(service_row(page, s) for s in S["items"])}</div>
+<section class="section" id="area"><h2>{esc(tr(S["area_title"], lang))}</h2><p class="section-lead">{esc(tr(S["area"], lang))}</p></section>"""
+
+
+def render_service(page, s):
+    lang = page.lang
+    S = C.SERVICES
+    what = "".join(f'<li>{icon("check")}<span>{esc(w)}</span></li>' for w in tr(s["what"], lang))
+    proof = "".join(f'<li>{icon("check")}<span><a href="{page.link(p["href"])}">{esc(tr(p["text"], lang))}</a></span></li>' for p in s["proof"])
+    others = "".join(service_row(page, o) for o in S["items"] if o is not s)
+    return f"""<nav class="crumbs" aria-label="Breadcrumb"><a href="{page.link('services/')}">{esc(tr(S["title"], lang))}</a><span aria-hidden="true">›</span><span class="crumb-current">{esc(tr(s["name"], lang))}</span></nav>
+<header class="page-head"><h1>{esc(tr(s["title"], lang))}</h1><p class="lead">{esc(tr(s["summary"], lang))}</p></header>
+{cta(page)}
+<section class="section"><h2>{esc(tr(S["what"], lang))}</h2><ul class="checks">{what}</ul></section>
+<section class="section"><h2>{esc(tr(S["proof"], lang))}</h2><ul class="checks">{proof}</ul></section>
+<section class="section"><h2>{esc(tr(S["area_title"], lang))}</h2><p class="section-lead">{esc(tr(S["area"], lang))}</p></section>
+<section class="section"><h2>{esc(tr(S["others"], lang))}</h2><div class="service-list">{others}</div></section>"""
 
 
 def render_404(page):
@@ -890,7 +969,11 @@ def md_affidaty_line(a, lang):
     return f'- [{tr(a["title"], lang)}]({tr(a["url"], lang)}) ({tr(a["date"], lang)}, Affidaty): {tr(a["excerpt"], lang)}'
 
 
-SECTIONS = {"about": C.ABOUT, "projects": C.PROJECTS, "writing": C.WRITING, "tools": C.TOOLS, "contact": C.CONTACT}
+SECTIONS = {"about": C.ABOUT, "services": C.SERVICES, "projects": C.PROJECTS, "writing": C.WRITING, "tools": C.TOOLS, "contact": C.CONTACT}
+
+
+def md_service_line(s, lang):
+    return f'- [{tr(s["name"], lang)}]({site_url("services/" + s["slug"] + "/", lang, True)}): {tr(s["summary"], lang)}'
 
 
 def md_home(lang):
@@ -902,6 +985,8 @@ def md_home(lang):
         md_list(f'- {tr(t["text"], lang)}: [{plain(tr(t["link"], lang))}]({md_href(t["href"], lang)})' for t in H["tips"] if t.get("href")),
         f'## {tr(H["projects"], lang)}',
         md_list(f'- [{tr(p["name"], lang)}]({site_url("projects/", lang, True)}) ({p["year"]}): {tr(p["summary"], lang)}' for p in C.PROJECTS["items"]),
+        f'## {tr(C.CONTACT["help"], lang)}', md_list(md_service_line(s, lang) for s in C.SERVICES["items"]),
+        f'{tr(C.SERVICES["area_title"], lang)}: {tr(C.SERVICES["area"], lang)}',
         f'## {tr(H["writing"], lang)}',
         md_list([md_post_line(p, lang) for p in C.WRITING["posts"]] + [md_affidaty_line(a, lang) for a in affidaty]),
         f'## {tr(H["updates"], lang)}', md_list(md_update(u, lang) for u in C.UPDATES[:4]),
@@ -964,10 +1049,34 @@ def md_tools(lang):
     return md_join(parts)
 
 
+def md_services(lang):
+    S = C.SERVICES
+    return md_join([
+        f'# {tr(S["title"], lang)} — Anthony Gozzini', f'> {tr(S["description"], lang)}', tr(S["intro"], lang),
+        md_list(md_service_line(s, lang) for s in S["items"]),
+        f'## {tr(S["area_title"], lang)}', tr(S["area"], lang),
+        f'[{tr(C.CONTACT["cta_call"], lang)}]({C.SITE["cal"]}) · Email: {C.SITE["email"]}',
+    ])
+
+
+def md_service(lang, s):
+    S = C.SERVICES
+    return md_join([
+        f'# {tr(s["title"], lang)}', f'> {tr(s["description"], lang)}', tr(s["summary"], lang),
+        f'## {tr(S["what"], lang)}', md_list(f'- {w}' for w in tr(s["what"], lang)),
+        f'## {tr(S["proof"], lang)}', md_list(f'- [{tr(p["text"], lang)}]({md_href(p["href"], lang)})' for p in s["proof"]),
+        f'## {tr(S["area_title"], lang)}', tr(S["area"], lang),
+        f'[{tr(C.CONTACT["cta_call"], lang)}]({C.SITE["cal"]}) · Email: {C.SITE["email"]}',
+        f'## {tr(S["others"], lang)}', md_list(md_service_line(o, lang) for o in S["items"] if o is not s),
+    ])
+
+
 def md_contact(lang):
     K = C.CONTACT
     S = C.SITE
-    offers = [f'### {tr(o["title"], lang)}\n\n{tr(o["text"], lang)}\n\n{tr(C.MD["proof"], lang)}: {tr(o["proof"], lang)}' for o in K["offers"]]
+    names = {s["slug"]: tr(s["name"], lang) for s in C.SERVICES["items"]}
+    offers = [f'### {tr(o["title"], lang)}\n\n{tr(o["text"], lang)}\n\n{tr(C.MD["proof"], lang)}: {tr(o["proof"], lang)}'
+              f'\n\n[{names[o["service"]]}]({site_url("services/" + o["service"] + "/", lang, True)})' for o in K["offers"]]
     return md_join([
         f'# {tr(K["title"], lang)} — Anthony Gozzini', f'> {tr(K["description"], lang)}', tr(K["intro"], lang),
         md_list([f'- [{tr(K["cta_call"], lang)}]({S["cal"]})', f'- Email: {S["email"]}',
@@ -975,6 +1084,7 @@ def md_contact(lang):
                  f'- [LinkedIn]({S["linkedin"]})', f'- [GitHub]({S["github"]})',
                  f'- [{tr(K["cv"], lang)}]({site_url(S["cv"])}): {tr(K["cv_text"], lang)}']),
         f'## {tr(K["help"], lang)}', *offers,
+        f'[{tr(C.SERVICES["all"], lang)}]({site_url("services/", lang, True)})',
     ])
 
 
@@ -1013,15 +1123,18 @@ def llms_txt():
     projects.append(f'- [{C.PLAY["title"].rsplit(" — ", 1)[0]}]({site_url(C.PLAY["path"], md=True)}): {C.PLAY["description"]}')
     italian = [f'- [Home]({site_url("", "it", True)}): {tr(S["description"], "it")}']
     italian += [f'- [{tr(n["label"], "it")}]({site_url(n["path"], "it", True)}): {tr(SECTIONS[n["key"]]["description"], "it")}' for n in C.NAV if n["key"] in SECTIONS]
+    italian += [md_service_line(s, "it") for s in C.SERVICES["items"]]
     italian += [md_post_line(p, "it") for p in C.WRITING["posts"]]
     return md_join([
         f'# {S["name"]}', f'> {tr(S["description"], en)}',
         *tr(C.ABOUT["bio_default"], en),
         f'{tr(C.CONTACT["intro"], en)} Email: {S["email"]}. Book a call: {S["cal"]}',
+        f'{tr(C.SERVICES["area_title"], en)}: {tr(C.SERVICES["area"], en)}',
         "The site is in English at the root and in Italian under /it/. Every page has a markdown copy: add index.md to its URL.",
         f'## {tr(C.MD["pages"], en)}',
         md_list([f'- [Home]({site_url(md=True)}): {tr(S["description"], en)}']
                 + [f'- [{tr(n["label"], en)}]({site_url(n["path"], en, True)}): {tr(SECTIONS[n["key"]]["description"], en)}' for n in C.NAV if n["key"] in SECTIONS]),
+        f'## {tr(C.SERVICES["title"], en)}', md_list(md_service_line(s, en) for s in C.SERVICES["items"]),
         f'## {tr(C.MD["articles"], en)}', md_list(md_post_line(p, en) for p in C.WRITING["posts"]),
         f'## {tr(C.PROJECTS["title"], en)}', md_list(projects),
         f'## {C.MD["optional"]}',
@@ -1044,12 +1157,13 @@ def main():
     written = []
     pages = [
         ("about", "about/", render_about, C.ABOUT, "ProfilePage"),
+        ("services", "services/", render_services, C.SERVICES, "CollectionPage"),
         ("projects", "projects/", render_projects, C.PROJECTS, "CollectionPage"),
         ("writing", "writing/", render_writing, C.WRITING, "CollectionPage"),
         ("tools", "tools/", render_tools, C.TOOLS, "WebPage"),
         ("contact", "contact/", render_contact, C.CONTACT, "ContactPage"),
     ]
-    markdown_pages = {"about": md_about, "projects": md_projects, "writing": md_writing, "tools": md_tools, "contact": md_contact}
+    markdown_pages = {"about": md_about, "services": md_services, "projects": md_projects, "writing": md_writing, "tools": md_tools, "contact": md_contact}
     urls = []
     markdown = []
 
@@ -1058,9 +1172,9 @@ def main():
         out.write_text(text, encoding="utf-8")
         markdown.append(out)
 
-    def emit(page, key, title, description, body, width, page_type, md, meta=None, extra=lambda date: ()):
+    def emit(page, key, title, description, body, width, page_type, md, meta=None, extra=lambda date: (), main=None):
         date = modified(page, body)
-        meta = dict(meta or {}, jsonld=graph(page, title, description, page_type, extra(date)))
+        meta = dict(meta or {}, jsonld=graph(page, title, description, page_type, extra(date), main))
         written.append(write(page, key, title, description, body, width, meta))
         add_markdown(page, md)
         urls.append((page.full, date))
@@ -1071,8 +1185,16 @@ def main():
         for key, path, render, section, page_type in pages:
             page = Page(lang, path)
             width = "wide" if key == "writing" else "narrow"
+            listed = key == "services"
             emit(page, key, f'{tr(section["title"], lang)} — Anthony Gozzini', tr(section["description"], lang), render(page), width, page_type,
-                 markdown_pages[key](lang))
+                 markdown_pages[key](lang), extra=(lambda date, page=page: services_graph(page)) if listed else (lambda date: ()),
+                 main=C.SITE["url"] + "/" + page.full + "#services" if listed else None)
+        for s in C.SERVICES["items"]:
+            page = Page(lang, f'services/{s["slug"]}/')
+            description = tr(s["description"], lang)
+            emit(page, "services", f'{tr(s["title"], lang)} — Anthony Gozzini', description, render_service(page, s), "narrow", "WebPage",
+                 md_service(lang, s), extra=lambda date, page=page, s=s, description=description: service_graph(page, s, description),
+                 main=C.SITE["url"] + "/" + page.full + "#service")
         for post in C.WRITING["posts"]:
             page = Page(lang, f'writing/{post["slug"]}/')
             description = tr(post["description"], lang)
@@ -1106,7 +1228,7 @@ def main():
     if not PREVIEW:
         kept = {u: stamps[u] for u, _ in urls}
         STAMPS_FILE.write_text(json.dumps(kept, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    expected = len(LANGS) * (1 + len(pages) + len(C.WRITING["posts"])) + 2
+    expected = len(LANGS) * (1 + len(pages) + len(C.SERVICES["items"]) + len(C.WRITING["posts"])) + 2
     print(f"pagine scritte: {len(written)} (attese {expected}){' · modalità anteprima' if PREVIEW else ''}")
     print(f"copie markdown scritte: {len(markdown)} (attese {len(urls)})")
     if not_on_cdn:

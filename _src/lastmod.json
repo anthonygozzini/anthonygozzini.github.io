@@ -1,31 +1,55 @@
 {
  "": {
-  "date": "2026-09-16",
-  "hash": "1c4168f958398555"
+  "date": "2026-09-17",
+  "hash": "c72f5870d8a52a18"
  },
  "about/": {
-  "date": "2026-09-15",
-  "hash": "912fb88744bc48fd"
+  "date": "2026-09-17",
+  "hash": "55a7826b8a952cf3"
  },
  "contact/": {
-  "date": "2026-09-15",
-  "hash": "e9fc1a3ebaa416cb"
+  "date": "2026-09-17",
+  "hash": "5978e2e796bb886c"
  },
  "it/": {
-  "date": "2026-09-16",
-  "hash": "058cad88c91cf31a"
+  "date": "2026-09-17",
+  "hash": "15b72ffb4ea75661"
  },
  "it/about/": {
-  "date": "2026-09-15",
-  "hash": "08521a96641899f3"
+  "date": "2026-09-17",
+  "hash": "60f7ee41bee3f6cd"
  },
  "it/contact/": {
-  "date": "2026-09-15",
-  "hash": "e16b910636916385"
+  "date": "2026-09-17",
+  "hash": "1acd975d14431da6"
  },
  "it/projects/": {
   "date": "2026-09-16",
   "hash": "6f4dc051fd6dea23"
+ },
+ "it/services/": {
+  "date": "2026-09-17",
+  "hash": "2844e5ef2497f51b"
+ },
+ "it/services/ai-automation/": {
+  "date": "2026-09-17",
+  "hash": "28a7cd311009b12e"
+ },
+ "it/services/community/": {
+  "date": "2026-09-17",
+  "hash": "73d271baf95ad0f5"
+ },
+ "it/services/crm-lifecycle/": {
+  "date": "2026-09-17",
+  "hash": "4676831e82d259b7"
+ },
+ "it/services/multilingual-campaigns/": {
+  "date": "2026-09-17",
+  "hash": "6ef0f68f4027dcd0"
+ },
+ "it/services/telegram-bots/": {
+  "date": "2026-09-17",
+  "hash": "e4d7d28a5a307f7c"
  },
  "it/tools/": {
   "date": "2026-09-16",
@@ -46,6 +70,30 @@
  "projects/": {
   "date": "2026-09-16",
   "hash": "e9f487c167023983"
+ },
+ "services/": {
+  "date": "2026-09-17",
+  "hash": "a7f9ea5b1ba3c2dc"
+ },
+ "services/ai-automation/": {
+  "date": "2026-09-17",
+  "hash": "6e2401dcbe380b72"
+ },
+ "services/community/": {
+  "date": "2026-09-17",
+  "hash": "dd5bc3e0bb9861ee"
+ },
+ "services/crm-lifecycle/": {
+  "date": "2026-09-17",
+  "hash": "b965539dfe2506ee"
+ },
+ "services/multilingual-campaigns/": {
+  "date": "2026-09-17",
+  "hash": "df2c02664ad07766"
+ },
+ "services/telegram-bots/": {
+  "date": "2026-09-17",
+  "hash": "b602c328fc6038fd"
  },
  "tools/": {
   "date": "2026-09-16",

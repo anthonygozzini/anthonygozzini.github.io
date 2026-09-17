@@ -22,6 +22,16 @@ I'm Anthony Gozzini, a CRM & lifecycle marketer. I spent eight years inside Trus
 - [Telegram Channel Message Copier](https://anthonygozzini.github.io/projects/index.md) (2024): Mirrors posts from one Telegram channel to others.
 - [The Legend of Dragoon in Italian](https://anthonygozzini.github.io/projects/index.md) (2026): An Italian language mod for the fan-made PC version of a 1999 PlayStation RPG.
 
+## What I can help with
+
+- [CRM & lifecycle marketing](https://anthonygozzini.github.io/services/crm-lifecycle/index.md): From an empty CRM to a plan your team can run: segments, triggers, messages and KPIs.
+- [Community management](https://anthonygozzini.github.io/services/community/index.md): Telegram and Discord communities that stay useful as they grow, with moderation, ambassadors and anti-scam automation.
+- [Custom Telegram bots](https://anthonygozzini.github.io/services/telegram-bots/index.md): Bots that screen new members, run referral programs or mirror channels, tested and released with versions.
+- [AI automation for marketing](https://anthonygozzini.github.io/services/ai-automation/index.md): Pipelines that take the volume out of localization, reporting and content, checked before anything ships.
+- [Multilingual campaigns](https://anthonygozzini.github.io/services/multilingual-campaigns/index.md): Localization workflows and campaign setup across languages, with targeting and QA before launch.
+
+Where I work: Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.
+
 ## Recent writing
 
 - [How I rebuilt my first game from its only surviving build](https://anthonygozzini.github.io/writing/rebuilding-sgamers/index.md) (15 Sep 2026): The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.
@@ -46,7 +56,8 @@ I'm Anthony Gozzini, a CRM & lifecycle marketer. I spent eight years inside Trus
 ## Pages
 
 - [About](https://anthonygozzini.github.io/about/index.md): Thirteen years in customer engagement and data, the last nine in Web3: from support desks in Kraków to running CRM and lifecycle at Trust Wallet.
+- [Services](https://anthonygozzini.github.io/services/index.md): CRM and lifecycle marketing, community management, Telegram bots and AI automation. Remote worldwide, in person around Varese, Novara and Milan.
 - [Projects](https://anthonygozzini.github.io/projects/index.md): What I build outside my job, published with the code: GuardBot, channel-miner, Telegram bots for crypto communities and Sgamers, my first Unity game.
 - [Writing](https://anthonygozzini.github.io/writing/index.md): What I build and how I check it, plus the weekly crypto market column I wrote for Affidaty in early 2024, in English and Italian.
 - [Tools](https://anthonygozzini.github.io/tools/index.md): The tools I use for CRM, data, communities and building, from Amplitude and Databricks to Telegram and Claude, and what I use each one for.
-- [Contact](https://anthonygozzini.github.io/contact/index.md): Looking for my next role in CRM, lifecycle or community marketing, remote from Italy. Book a 30-minute call or reach me by email, Telegram or LinkedIn.
+- [Contact](https://anthonygozzini.github.io/contact/index.md): Looking for my next role in CRM, lifecycle or community marketing, remote or around Varese and Milan. Book a call or write to me by email or Telegram.

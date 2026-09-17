@@ -1,8 +1,8 @@
 # Contact — Anthony Gozzini
 
-> Looking for my next role in CRM, lifecycle or community marketing, remote from Italy. Book a 30-minute call or reach me by email, Telegram or LinkedIn.
+> Looking for my next role in CRM, lifecycle or community marketing, remote or around Varese and Milan. Book a call or write to me by email or Telegram.
 
-I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote from Italy, in English or Italian. The quickest way to talk is a 30-minute call.
+I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan, in English or Italian. The quickest way to talk is a 30-minute call.
 
 - [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min)
 - Email: anthony.gozzini@gmail.com
@@ -20,11 +20,15 @@ From an empty CRM to a plan the team can run: segment definitions, trigger → s
 
 Proof: I wrote this strategy for Trust Wallet in 2025.
 
+[CRM & lifecycle marketing](https://anthonygozzini.github.io/services/crm-lifecycle/index.md)
+
 ### Multilingual campaign operations
 
 Localization workflows that keep crypto terms intact and respect every surface's character limits, plus banner and push configuration with targeting and QA before launch.
 
 Proof: Announcements in 10 languages and push in 8, for launches such as Cash App Pay and Banxa.
+
+[Multilingual campaigns](https://anthonygozzini.github.io/services/multilingual-campaigns/index.md)
 
 ### Crypto community operations
 
@@ -32,8 +36,14 @@ Telegram and Discord communities that stay useful as they grow: moderation, amba
 
 Proof: Seven years as an admin of Trust Wallet's global Telegram community.
 
+[Community management](https://anthonygozzini.github.io/services/community/index.md)
+
 ### AI in marketing operations
 
 Pipelines that take the volume out of localization, reporting and content, with the verification step that makes their output safe to use.
 
 Proof: The tools on my Projects page were built this way.
+
+[AI automation for marketing](https://anthonygozzini.github.io/services/ai-automation/index.md)
+
+[All services](https://anthonygozzini.github.io/services/index.md)
