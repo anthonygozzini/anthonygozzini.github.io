@@ -12,6 +12,9 @@ SITE = {
     "cal": "https://cal.com/anthony-gozzini-amzx2u/30min",
     "linkedin": "https://www.linkedin.com/in/anthonygozzini",
     "github": "https://github.com/anthonygozzini",
+    # Google Business Profile: the review form, and the profile itself by its Maps id (the id inside the review link).
+    "google_review": "https://g.page/r/CTh1FZ7BnsCWEBM/review",
+    "google_profile": "https://maps.google.com/?cid=10862856855635719480",
     "repo": "anthonygozzini/anthonygozzini.github.io",
     "telegram": "https://t.me/TonyGoz",
     "whatsapp": "https://wa.me/message/3TTWEPNJGQSWL1",
@@ -712,6 +715,9 @@ CONTACT = {
     "cv": L("CV", "CV"),
     "cv_text": L("One page, PDF", "Una pagina, PDF"),
     "whatsapp_text": L("Chat with me", "Scrivimi in chat"),
+    "review_title": L("Worked with me?", "Hai lavorato con me?"),
+    "review_text": L("A short review on Google helps other people find me.", "Una breve recensione su Google aiuta altre persone a trovarmi."),
+    "review_cta": L("Leave me a Google review", "Lasciami una recensione su Google"),
     "help": L("What I can help with", "In cosa posso aiutarti"),
     "offers": [
         {"service": "crm-lifecycle", "title": L("CRM & lifecycle programs", "Programmi CRM e lifecycle"),

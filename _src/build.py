@@ -141,6 +141,7 @@ ICONS = {
     "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
     "download": '<path d="M12 4v12M7 11l5 5 5-5M5 20h14"/>',
     "check": '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    "star": '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/>',
     "pin": '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
     "copy": '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/>',
     "send": '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
@@ -331,7 +332,7 @@ def graph(page, title, description, page_type, extra=(), main=None):
     nodes = [
         {"@type": "Person", "@id": me["@id"], "name": C.SITE["name"], "url": base, "image": base + "assets/img/anthony.jpg",
          "jobTitle": C.SITE["job_title"], "description": tr(C.SITE["description"], page.lang),
-         "sameAs": [C.SITE["linkedin"], C.SITE["github"]], "knowsAbout": C.SITE["knows_about"],
+         "sameAs": [C.SITE["linkedin"], C.SITE["github"], C.SITE["google_profile"]], "knowsAbout": C.SITE["knows_about"],
          "knowsLanguage": list(LANGS),
          "homeLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "addressRegion": C.SITE["region"], "addressCountry": "IT"}}},
         {"@type": "WebSite", "@id": base + "#website", "url": base, "name": C.SITE["name"], "inLanguage": list(LANGS), "publisher": me},
@@ -817,7 +818,9 @@ def render_contact(page):
 {cta(page)}
 <section class="section"><h2>{esc(tr(K["channels"], lang))}</h2><div class="channels">{"".join(rows)}</div></section>
 <section class="section"><h2>{esc(tr(K["help"], lang))}</h2><div class="offers">{offers}</div>
-<p class="section-more"><a href="{page.link("services/")}">{esc(tr(C.SERVICES["all"], lang))} →</a></p></section>"""
+<p class="section-more"><a href="{page.link("services/")}">{esc(tr(C.SERVICES["all"], lang))} →</a></p></section>
+<section class="section"><h2>{esc(tr(K["review_title"], lang))}</h2><p class="section-lead">{esc(tr(K["review_text"], lang))}</p>
+<a class="btn" href="{S['google_review']}" target="_blank" rel="noopener">{icon("star")}<span>{esc(tr(K["review_cta"], lang))}</span></a></section>"""
 
 
 def service_row(page, s):
@@ -1082,7 +1085,8 @@ def md_contact(lang):
         md_list([f'- [{tr(K["cta_call"], lang)}]({S["cal"]})', f'- Email: {S["email"]}',
                  f'- [WhatsApp]({S["whatsapp"]})', f'- [Telegram]({S["telegram"]})',
                  f'- [LinkedIn]({S["linkedin"]})', f'- [GitHub]({S["github"]})',
-                 f'- [{tr(K["cv"], lang)}]({site_url(S["cv"])}): {tr(K["cv_text"], lang)}']),
+                 f'- [{tr(K["cv"], lang)}]({site_url(S["cv"])}): {tr(K["cv_text"], lang)}',
+                 f'- [{tr(K["review_cta"], lang)}]({S["google_review"]})']),
         f'## {tr(K["help"], lang)}', *offers,
         f'[{tr(C.SERVICES["all"], lang)}]({site_url("services/", lang, True)})',
     ])

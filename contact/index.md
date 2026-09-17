@@ -11,6 +11,7 @@ I'm looking for my next role in CRM, lifecycle or community marketing, full-time
 - [LinkedIn](https://www.linkedin.com/in/anthonygozzini)
 - [GitHub](https://github.com/anthonygozzini)
 - [CV](https://anthonygozzini.github.io/assets/Anthony-Gozzini-CV.pdf): One page, PDF
+- [Leave me a Google review](https://g.page/r/CTh1FZ7BnsCWEBM/review)
 
 ## What I can help with
 
