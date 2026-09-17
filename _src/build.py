@@ -536,6 +536,7 @@ def document_shell(page, key, title, description, body, width, meta):
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
+<link rel="icon" href="{page.asset('favicon-192.png')}" type="image/png" sizes="192x192">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <style>{CSS_SLOT}</style>
 {font_blocks()}{THEME_SCRIPT}
