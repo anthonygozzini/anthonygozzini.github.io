@@ -14,7 +14,7 @@ SITE = {
     "github": "https://github.com/anthonygozzini",
     "repo": "anthonygozzini/anthonygozzini.github.io",
     "telegram": "https://t.me/TonyGoz",
-    "whatsapp": "https://wa.me/anthonygozzini",
+    "whatsapp": "https://wa.me/message/3TTWEPNJGQSWL1",
     "cv": "assets/Anthony-Gozzini-CV.pdf",
     "description": L(
         "CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.",
@@ -711,6 +711,7 @@ CONTACT = {
     "channels": L("Other ways to reach me", "Altri modi per contattarmi"),
     "cv": L("CV", "CV"),
     "cv_text": L("One page, PDF", "Una pagina, PDF"),
+    "whatsapp_text": L("Chat with me", "Scrivimi in chat"),
     "help": L("What I can help with", "In cosa posso aiutarti"),
     "offers": [
         {"service": "crm-lifecycle", "title": L("CRM & lifecycle programs", "Programmi CRM e lifecycle"),

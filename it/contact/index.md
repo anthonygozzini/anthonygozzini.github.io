@@ -6,7 +6,7 @@ Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o
 
 - [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min)
 - Email: anthony.gozzini@gmail.com
-- [WhatsApp](https://wa.me/anthonygozzini)
+- [WhatsApp](https://wa.me/message/3TTWEPNJGQSWL1)
 - [Telegram](https://t.me/TonyGoz)
 - [LinkedIn](https://www.linkedin.com/in/anthonygozzini)
 - [GitHub](https://github.com/anthonygozzini)

@@ -793,7 +793,7 @@ def render_contact(page):
     S = C.SITE
     channels = [
         ("mail", "Email", S["email"], "mailto:" + S["email"], True),
-        ("whatsapp", "WhatsApp", "@" + S["whatsapp"].rsplit("/", 1)[-1], S["whatsapp"], False),
+        ("whatsapp", "WhatsApp", tr(K["whatsapp_text"], lang), S["whatsapp"], False),
         ("send", "Telegram", "@" + S["telegram"].rsplit("/", 1)[-1], S["telegram"], False),
         ("linkedin", "LinkedIn", "in/" + S["linkedin"].rstrip("/").rsplit("/", 1)[-1], S["linkedin"], False),
         ("github", "GitHub", S["github"].rsplit("/", 1)[-1], S["github"], False),
