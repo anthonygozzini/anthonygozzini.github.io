@@ -19,7 +19,7 @@ Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti,
 
 ## Dove lavoro
 
-Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese e Novara e a Milano.
+Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 

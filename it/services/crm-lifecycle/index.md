@@ -1,6 +1,6 @@
 # Consulente CRM e lifecycle marketing a Varese
 
-> Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara e Milano.
+> Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara, VCO e Milano.
 
 Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi e KPI.
 
@@ -18,7 +18,7 @@ Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi
 
 ## Dove lavoro
 
-Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese e Novara e a Milano.
+Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 

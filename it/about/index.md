@@ -24,7 +24,7 @@ Per il successivo anno e mezzo ho gestito CRM e lifecycle di un wallet con milio
 
 In tutto questo lavoro ogni giorno con agenti AI, per localizzazione, analisi e codice. Sono veloci e spesso sbagliano in modo convincente, quindi seguo una regola sola: niente di quello che producono è affidabile finché non è stato verificato. Anche questo sito è stato costruito così.
 
-Il mio contratto è finito ad agosto 2026. Cerco il prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara e Milano. Nel frattempo pubblico gli strumenti che ho costruito, riporto in vita Sgamers e aggiungo l'italiano a The Legend of Dragoon su PC.
+Il mio contratto è finito ad agosto 2026. Cerco il prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara, Verbano-Cusio-Ossola e Milano. Nel frattempo pubblico gli strumenti che ho costruito, riporto in vita Sgamers e aggiungo l'italiano a The Legend of Dragoon su PC.
 
 Fuori dal lavoro sto con la mia compagna, spesso a giocare insieme ai videogiochi, soprattutto a Genshin Impact. Il resto del tempo va nel fai-da-te: l'ultimo progetto è stato un mobile intero per la sala, e mi diverte occuparmi da solo della parte elettrica e idraulica di casa.
 

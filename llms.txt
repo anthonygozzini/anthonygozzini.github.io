@@ -6,9 +6,9 @@ I'm Anthony Gozzini, a CRM and lifecycle marketer with thirteen years in custome
 
 I work where data, communities and automation meet: segments and journeys in Amplitude, campaigns in ten languages, Telegram communities at scale, and tools I build myself when nothing on the shelf fits. I live between Novara, Varese and Milan, work remotely in English and Italian, and I'm looking for my next role.
 
-I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan, in English or Italian. The quickest way to talk is a 30-minute call. Email: anthony.gozzini@gmail.com. Book a call: https://cal.com/anthony-gozzini-amzx2u/30min
+I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara, Verbano-Cusio-Ossola and Milan, in English or Italian. The quickest way to talk is a 30-minute call. Email: anthony.gozzini@gmail.com. Book a call: https://cal.com/anthony-gozzini-amzx2u/30min
 
-Where I work: Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.
+Where I work: Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
 The site is in English at the root and in Italian under /it/. Every page has a markdown copy: add index.md to its URL.
 
@@ -52,11 +52,11 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 - [GitHub](https://github.com/anthonygozzini): code and releases
 - [Italian versions: Home](https://anthonygozzini.github.io/it/index.md): CRM e lifecycle marketing. Otto anni nella community di Trust Wallet, da volontario al team Marketing & Communications. Costruisco i miei strumenti.
 - [Italian versions: Chi sono](https://anthonygozzini.github.io/it/about/index.md): Tredici anni tra clienti e dati, gli ultimi nove nel Web3: dall'assistenza clienti a Cracovia alla gestione di CRM e lifecycle in Trust Wallet.
-- [Italian versions: Servizi](https://anthonygozzini.github.io/it/services/index.md): CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara e Milano.
+- [Italian versions: Servizi](https://anthonygozzini.github.io/it/services/index.md): CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara, VCO e Milano.
 - [Italian versions: Progetti](https://anthonygozzini.github.io/it/projects/index.md): Quello che costruisco fuori dal lavoro, pubblicato con il codice: GuardBot, channel-miner, bot Telegram per community crypto e Sgamers, il mio primo gioco.
 - [Italian versions: Articoli](https://anthonygozzini.github.io/it/writing/index.md): Quello che costruisco e come lo verifico, più la rubrica settimanale sul mercato crypto che ho scritto per Affidaty a inizio 2024.
 - [Italian versions: Strumenti](https://anthonygozzini.github.io/it/tools/index.md): Gli strumenti che uso per CRM, dati, community e sviluppo, da Amplitude e Databricks a Telegram e Claude, e per cosa uso ognuno.
-- [Italian versions: Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara e Milano. Prenota una call o scrivimi: email, Telegram.
+- [Italian versions: Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara, VCO e Milano. Prenota una call o scrivimi: email, Telegram.
 - [Italian versions: CRM e lifecycle marketing](https://anthonygozzini.github.io/it/services/crm-lifecycle/index.md): Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi e KPI.
 - [Italian versions: Gestione community](https://anthonygozzini.github.io/it/services/community/index.md): Community Telegram e Discord che restano utili mentre crescono, con moderazione, ambassador e automazioni anti-truffa.
 - [Italian versions: Bot Telegram su misura](https://anthonygozzini.github.io/it/services/telegram-bots/index.md): Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate.

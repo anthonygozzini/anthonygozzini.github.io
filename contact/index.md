@@ -2,7 +2,7 @@
 
 > Looking for my next role in CRM, lifecycle or community marketing, remote or around Varese and Milan. Book a call or write to me by email or Telegram.
 
-I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan, in English or Italian. The quickest way to talk is a 30-minute call.
+I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara, Verbano-Cusio-Ossola and Milan, in English or Italian. The quickest way to talk is a 30-minute call.
 
 - [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min)
 - Email: anthony.gozzini@gmail.com

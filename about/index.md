@@ -24,7 +24,7 @@ For the next year and a half I ran CRM and lifecycle for a wallet with millions 
 
 Across all of it I work with AI agents every day, for localization, analysis and code. They're fast, and they're often wrong in convincing ways, so I follow one rule: nothing they produce is trusted until it has been checked. This site was built the same way.
 
-My contract ended in August 2026. I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan. In the meantime I'm publishing the tools I've built, bringing Sgamers back to life and adding Italian to The Legend of Dragoon on PC.
+My contract ended in August 2026. I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara, Verbano-Cusio-Ossola and Milan. In the meantime I'm publishing the tools I've built, bringing Sgamers back to life and adding Italian to The Legend of Dragoon on PC.
 
 Outside work I'm with my partner, often playing video games together, Genshin Impact above all. The rest goes into DIY: my latest project was a whole piece of furniture for the living room, and I enjoy doing the electrical and plumbing work around the house myself.
 

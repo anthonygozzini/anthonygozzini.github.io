@@ -30,7 +30,7 @@ I'm Anthony Gozzini, a CRM & lifecycle marketer. I spent eight years inside Trus
 - [AI automation for marketing](https://anthonygozzini.github.io/services/ai-automation/index.md): Pipelines that take the volume out of localization, reporting and content, checked before anything ships.
 - [Multilingual campaigns](https://anthonygozzini.github.io/services/multilingual-campaigns/index.md): Localization workflows and campaign setup across languages, with targeting and QA before launch.
 
-Where I work: Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.
+Where I work: Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
 ## Recent writing
 

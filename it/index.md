@@ -30,7 +30,7 @@ Sono Anthony Gozzini e mi occupo di CRM e lifecycle marketing. Ho passato otto a
 - [Automazioni AI per il marketing](https://anthonygozzini.github.io/it/services/ai-automation/index.md): Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, controllate prima che esca qualsiasi cosa.
 - [Campagne multilingua](https://anthonygozzini.github.io/it/services/multilingual-campaigns/index.md): Flussi di localizzazione e campagne in più lingue, con targeting e controlli prima del lancio.
 
-Dove lavoro: Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese e Novara e a Milano.
+Dove lavoro: Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
 ## Articoli recenti
 
@@ -56,8 +56,8 @@ Dove lavoro: Da remoto per team di tutto il mondo, in italiano o in inglese. In 
 ## Pagine
 
 - [Chi sono](https://anthonygozzini.github.io/it/about/index.md): Tredici anni tra clienti e dati, gli ultimi nove nel Web3: dall'assistenza clienti a Cracovia alla gestione di CRM e lifecycle in Trust Wallet.
-- [Servizi](https://anthonygozzini.github.io/it/services/index.md): CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara e Milano.
+- [Servizi](https://anthonygozzini.github.io/it/services/index.md): CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara, VCO e Milano.
 - [Progetti](https://anthonygozzini.github.io/it/projects/index.md): Quello che costruisco fuori dal lavoro, pubblicato con il codice: GuardBot, channel-miner, bot Telegram per community crypto e Sgamers, il mio primo gioco.
 - [Articoli](https://anthonygozzini.github.io/it/writing/index.md): Quello che costruisco e come lo verifico, più la rubrica settimanale sul mercato crypto che ho scritto per Affidaty a inizio 2024.
 - [Strumenti](https://anthonygozzini.github.io/it/tools/index.md): Gli strumenti che uso per CRM, dati, community e sviluppo, da Amplitude e Databricks a Telegram e Claude, e per cosa uso ognuno.
-- [Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara e Milano. Prenota una call o scrivimi: email, Telegram.
+- [Contattami](https://anthonygozzini.github.io/it/contact/index.md): Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara, VCO e Milano. Prenota una call o scrivimi: email, Telegram.

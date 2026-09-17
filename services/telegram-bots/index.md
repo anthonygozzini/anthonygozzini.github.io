@@ -19,7 +19,7 @@ Bots that screen new members, run referral programs or mirror channels, tested a
 
 ## Where I work
 
-Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.
+Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
 [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 

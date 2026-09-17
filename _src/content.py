@@ -207,7 +207,7 @@ ABOUT = {
             "Trust Wallet stayed the constant. Over seven years as a volunteer I coordinated a squad of thirty ambassadors around the world and built anti-scam bots for the regional groups. In early 2025 I took Harvard's CS50, to fill the gaps the tutorials had left, and in April the team hired me into Marketing & Communications.",
             "For the next year and a half I ran CRM and lifecycle for a wallet with millions of users. I wrote the strategy across three pillars, new-user activation, cross-sell and retention, each with its own segments, triggers, messages and KPIs. I mapped where people dropped out of onboarding and turned those gaps into segments to target. I ran localization for announcements in ten languages and app push in eight, configured homepage banners for launches such as Cash App Pay and Banxa, wrote the playbook for high-severity incidents and looked after a Telegram network of more than fifteen regional communities.",
             "Across all of it I work with AI agents every day, for localization, analysis and code. They're fast, and they're often wrong in convincing ways, so I follow one rule: nothing they produce is trusted until it has been checked. This site was built the same way.",
-            "My contract ended in August 2026. I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan. In the meantime I'm publishing the tools I've built, bringing Sgamers back to life and adding Italian to The Legend of Dragoon on PC.",
+            "My contract ended in August 2026. I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara, Verbano-Cusio-Ossola and Milan. In the meantime I'm publishing the tools I've built, bringing Sgamers back to life and adding Italian to The Legend of Dragoon on PC.",
             "Outside work I'm with my partner, often playing video games together, Genshin Impact above all. The rest goes into DIY: my latest project was a whole piece of furniture for the living room, and I enjoy doing the electrical and plumbing work around the house myself.",
             "Support desks taught me to listen, communities taught me to moderate, bots taught me to build. I'm still doing all three.",
         ],
@@ -219,7 +219,7 @@ ABOUT = {
             "Trust Wallet è rimasta la costante. In sette anni da volontario ho coordinato una squadra di trenta ambassador in giro per il mondo e costruito bot anti-truffa per i gruppi regionali. All'inizio del 2025 ho seguito CS50 di Harvard, per colmare i vuoti lasciati dai tutorial, e ad aprile il team mi ha assunto in Marketing & Communications.",
             "Per il successivo anno e mezzo ho gestito CRM e lifecycle di un wallet con milioni di utenti. Ho scritto la strategia su tre pilastri, attivazione dei nuovi utenti, cross-sell e retention, ognuno con i suoi segmenti, trigger, messaggi e KPI. Ho mappato dove le persone abbandonavano l'onboarding e ho trasformato quei buchi in segmenti da raggiungere. Ho gestito la localizzazione degli annunci in dieci lingue e delle notifiche push in otto, configurato i banner della home per lanci come Cash App Pay e Banxa, scritto il playbook per gli incidenti più gravi e seguito una rete Telegram di oltre quindici community regionali.",
             "In tutto questo lavoro ogni giorno con agenti AI, per localizzazione, analisi e codice. Sono veloci e spesso sbagliano in modo convincente, quindi seguo una regola sola: niente di quello che producono è affidabile finché non è stato verificato. Anche questo sito è stato costruito così.",
-            "Il mio contratto è finito ad agosto 2026. Cerco il prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara e Milano. Nel frattempo pubblico gli strumenti che ho costruito, riporto in vita Sgamers e aggiungo l'italiano a The Legend of Dragoon su PC.",
+            "Il mio contratto è finito ad agosto 2026. Cerco il prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara, Verbano-Cusio-Ossola e Milano. Nel frattempo pubblico gli strumenti che ho costruito, riporto in vita Sgamers e aggiungo l'italiano a The Legend of Dragoon su PC.",
             "Fuori dal lavoro sto con la mia compagna, spesso a giocare insieme ai videogiochi, soprattutto a Genshin Impact. Il resto del tempo va nel fai-da-te: l'ultimo progetto è stato un mobile intero per la sala, e mi diverte occuparmi da solo della parte elettrica e idraulica di casa.",
             "L'assistenza mi ha insegnato ad ascoltare, le community a moderare, i bot a costruire. Faccio ancora tutte e tre le cose.",
         ],
@@ -524,18 +524,18 @@ NOT_FOUND = {
     "home": L("Back to the home page", "Torna alla home"),
 }
 
-AREA = L("Remote for teams anywhere, in English or Italian. In person across the provinces of Varese and Novara and in Milan.",
-         "Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese e Novara e a Milano.")
+AREA = L("Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.",
+         "Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.")
 
 SERVICES = {
     "title": L("Services", "Servizi"),
     "description": L(
         "CRM and lifecycle marketing, community management, Telegram bots and AI automation. Remote worldwide, in person around Varese, Novara and Milan.",
-        "CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara e Milano.",
+        "CRM e lifecycle marketing, community, bot Telegram e automazioni AI. Da remoto in tutto il mondo, in presenza tra Varese, Novara, VCO e Milano.",
     ),
     "intro": L(
-        "What I do for companies and communities, and the work that shows it. I work remotely with teams anywhere, in English or Italian, and in person across the provinces of Varese and Novara and in Milan.",
-        "Cosa faccio per aziende e community, e il lavoro che lo dimostra. Lavoro da remoto con team di tutto il mondo, in italiano o in inglese, e in presenza nelle province di Varese e Novara e a Milano.",
+        "What I do for companies and communities, and the work that shows it. I work remotely with teams anywhere, in English or Italian, and in person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.",
+        "Cosa faccio per aziende e community, e il lavoro che lo dimostra. Lavoro da remoto con team di tutto il mondo, in italiano o in inglese, e in presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.",
     ),
     "area_title": L("Where I work", "Dove lavoro"),
     "area": AREA,
@@ -547,6 +547,7 @@ SERVICES = {
     "areas_served": [
         {"name": L("Province of Varese", "Provincia di Varese"), "wikidata": "Q16299"},
         {"name": L("Province of Novara", "Provincia di Novara"), "wikidata": "Q16216"},
+        {"name": L("Province of Verbano-Cusio-Ossola", "Provincia del Verbano-Cusio-Ossola"), "wikidata": "Q16312"},
         {"name": L("Metropolitan City of Milan", "Città metropolitana di Milano"), "wikidata": "Q18288155"},
     ],
     "remote": L("Worldwide, remotely", "In tutto il mondo, da remoto"),
@@ -556,7 +557,7 @@ SERVICES = {
          "title": L("CRM & lifecycle marketing consultant", "Consulente CRM e lifecycle marketing a Varese"),
          "description": L(
              "CRM and lifecycle programs from segments to KPIs: activation, cross-sell and retention, as I built them for Trust Wallet. Remote or around Milan.",
-             "Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara e Milano."),
+             "Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara, VCO e Milano."),
          "summary": L("From an empty CRM to a plan your team can run: segments, triggers, messages and KPIs.",
                       "Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi e KPI."),
          "what": L([
@@ -703,11 +704,11 @@ CONTACT = {
     "title": L("Contact", "Contattami"),
     "description": L(
         "Looking for my next role in CRM, lifecycle or community marketing, remote or around Varese and Milan. Book a call or write to me by email or Telegram.",
-        "Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara e Milano. Prenota una call o scrivimi: email, Telegram.",
+        "Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara, VCO e Milano. Prenota una call o scrivimi: email, Telegram.",
     ),
     "intro": L(
-        "I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara and Milan, in English or Italian. The quickest way to talk is a 30-minute call.",
-        "Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara e Milano, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.",
+        "I'm looking for my next role in CRM, lifecycle or community marketing, full-time or fractional, remote or in person around Varese, Novara, Verbano-Cusio-Ossola and Milan, in English or Italian. The quickest way to talk is a 30-minute call.",
+        "Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara, Verbano-Cusio-Ossola e Milano, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.",
     ),
     "cta_call": L("Book a 30-minute call", "Prenota una call di 30 minuti"),
     "cta_email": L("Send an email", "Scrivimi una email"),

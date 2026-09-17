@@ -1,27 +1,27 @@
 {
  "": {
   "date": "2026-09-17",
-  "hash": "c72f5870d8a52a18"
+  "hash": "d0e8591f02696dd8"
  },
  "about/": {
   "date": "2026-09-17",
-  "hash": "55a7826b8a952cf3"
+  "hash": "d3cf5f28ecc3484e"
  },
  "contact/": {
   "date": "2026-09-17",
-  "hash": "2fd2a5971a12d6f8"
+  "hash": "6ec4020f98ab6389"
  },
  "it/": {
   "date": "2026-09-17",
-  "hash": "15b72ffb4ea75661"
+  "hash": "0787e629eb8d8728"
  },
  "it/about/": {
   "date": "2026-09-17",
-  "hash": "60f7ee41bee3f6cd"
+  "hash": "fcd2c704b67c2561"
  },
  "it/contact/": {
   "date": "2026-09-17",
-  "hash": "5e1844bcaab5826a"
+  "hash": "aa601e35f2de2de1"
  },
  "it/projects/": {
   "date": "2026-09-16",
@@ -29,27 +29,27 @@
  },
  "it/services/": {
   "date": "2026-09-17",
-  "hash": "2844e5ef2497f51b"
+  "hash": "21ad2193a0614761"
  },
  "it/services/ai-automation/": {
   "date": "2026-09-17",
-  "hash": "28a7cd311009b12e"
+  "hash": "eb5c41848945095c"
  },
  "it/services/community/": {
   "date": "2026-09-17",
-  "hash": "73d271baf95ad0f5"
+  "hash": "9413a5ad6679700d"
  },
  "it/services/crm-lifecycle/": {
   "date": "2026-09-17",
-  "hash": "4676831e82d259b7"
+  "hash": "02bed856e6bf4e1b"
  },
  "it/services/multilingual-campaigns/": {
   "date": "2026-09-17",
-  "hash": "6ef0f68f4027dcd0"
+  "hash": "518444cd997698c4"
  },
  "it/services/telegram-bots/": {
   "date": "2026-09-17",
-  "hash": "e4d7d28a5a307f7c"
+  "hash": "8cf7f2cde862b5b9"
  },
  "it/tools/": {
   "date": "2026-09-16",
@@ -73,27 +73,27 @@
  },
  "services/": {
   "date": "2026-09-17",
-  "hash": "a7f9ea5b1ba3c2dc"
+  "hash": "95a3071243273929"
  },
  "services/ai-automation/": {
   "date": "2026-09-17",
-  "hash": "6e2401dcbe380b72"
+  "hash": "be371ebb70e9ea0b"
  },
  "services/community/": {
   "date": "2026-09-17",
-  "hash": "dd5bc3e0bb9861ee"
+  "hash": "77b3cb188b5ebf26"
  },
  "services/crm-lifecycle/": {
   "date": "2026-09-17",
-  "hash": "b965539dfe2506ee"
+  "hash": "f80b60a10a507e19"
  },
  "services/multilingual-campaigns/": {
   "date": "2026-09-17",
-  "hash": "df2c02664ad07766"
+  "hash": "0a9266b304c26a98"
  },
  "services/telegram-bots/": {
   "date": "2026-09-17",
-  "hash": "b602c328fc6038fd"
+  "hash": "2e80a321ad14e8ee"
  },
  "tools/": {
   "date": "2026-09-16",

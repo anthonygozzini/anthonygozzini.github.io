@@ -1,8 +1,8 @@
 # Contattami — Anthony Gozzini
 
-> Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara e Milano. Prenota una call o scrivimi: email, Telegram.
+> Cerco un nuovo ruolo in CRM, lifecycle o community marketing, da remoto o tra Varese, Novara, VCO e Milano. Prenota una call o scrivimi: email, Telegram.
 
-Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara e Milano, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.
+Cerco il mio prossimo ruolo in CRM, lifecycle o community marketing, full-time o part-time, da remoto o in presenza tra Varese, Novara, Verbano-Cusio-Ossola e Milano, in italiano o in inglese. Il modo più veloce per parlarne è una call di 30 minuti.
 
 - [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min)
 - Email: anthony.gozzini@gmail.com
