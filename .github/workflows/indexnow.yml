@@ -1,0 +1,55 @@
+# After each push to main, once GitHub Pages has published it, tell the IndexNow search engines which pages changed.
+# Run it by hand with "all" ticked to send every page in the sitemap.
+name: IndexNow
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      all:
+        description: Send every page in the sitemap
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  pages: read
+concurrency:
+  group: indexnow
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Pages that changed
+        id: pages
+        env:
+          BEFORE: ${{ github.event.before }}
+          ALL: ${{ inputs.all }}
+        run: |
+          if [ "$ALL" = "true" ]; then args="--all"
+          elif [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then args="HEAD~1 HEAD"
+          else args="$BEFORE HEAD"; fi
+          echo "args=$args" >> "$GITHUB_OUTPUT"
+          python3 _src/indexnow.py $args --dry-run | tee pages.txt
+          if grep -qx "pagine da segnalare: 0" pages.txt; then echo "send=false" >> "$GITHUB_OUTPUT"; else echo "send=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Wait for GitHub Pages to publish this commit
+        if: steps.pages.outputs.send == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 60); do
+            status=$(gh api "repos/$GITHUB_REPOSITORY/pages/builds" --jq "[.[] | select(.commit == \"$GITHUB_SHA\")][0].status // \"\"")
+            echo "Pages: ${status:-not started}"
+            [ "$status" = "built" ] && exit 0
+            [ "$status" = "errored" ] && exit 1
+            sleep 15
+          done
+          exit 1
+      - name: Send to IndexNow
+        if: steps.pages.outputs.send == 'true'
+        env:
+          ARGS: ${{ steps.pages.outputs.args }}
+        run: python3 _src/indexnow.py $ARGS
