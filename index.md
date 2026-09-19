@@ -34,10 +34,10 @@ Where I work: Remote for teams anywhere, in English or Italian. In person across
 
 ## Recent writing
 
+- [Getting 100 in every PageSpeed category on GitHub Pages](https://anthonygozzini.github.io/writing/pagespeed-100-github-pages/index.md) (19 Sep 2026): Fonts, one image and a cache I don't control. What each fix cost in milliseconds, and the three items nobody can fix from a repository.
 - [How I rebuilt my first game from its only surviving build](https://anthonygozzini.github.io/writing/rebuilding-sgamers/index.md) (15 Sep 2026): The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.
 - [Blockchain and Crypto News: March 13 – 20, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-13-20mar-24-eng/) (18 Mar 2024, Affidaty): New EU sanctions and crypto laws, and the other stories that moved the market that week.
 - [Blockchain and Crypto World News: February 24 – March 1, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-24feb-1mar-24-2/) (4 Mar 2024, Affidaty): A historic surge for Bitcoin in February, and what else shaped the crypto market.
-- [Blockchain and Crypto World News: February 17-23, 2024](https://affidaty.io/blog/en/2024/02/blockchain-and-crypto-world-news-february-17-23-2024/) (23 Feb 2024, Affidaty): Humanity Protocol by Animoca and Polygon, a step forward for Web3 adoption, and the week's other news.
 
 ## Updates
 

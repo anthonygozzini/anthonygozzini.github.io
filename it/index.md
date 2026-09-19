@@ -34,10 +34,10 @@ Dove lavoro: Da remoto per team di tutto il mondo, in italiano o in inglese. In 
 
 ## Articoli recenti
 
+- [Come ho portato un sito su GitHub Pages a 100 in ogni categoria di PageSpeed](https://anthonygozzini.github.io/it/writing/pagespeed-100-github-pages/index.md) (19 set 2026): I caratteri, un'immagine e una cache che non controllo. Quanto è costata ogni correzione in millisecondi, e le tre voci che da un repository non si sistemano.
 - [Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md) (15 set 2026): La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati.
 - [News mondo Blockchain e Crypto: 13 – 20 marzo 2024](https://affidaty.io/blog/it/2024/03/news-blockchain-crypto-13-20mar-24/) (20 mar 2024, Affidaty): Hyperledger Fabric V2 come blockchain autorizzata e le altre notizie che hanno mosso il mercato quella settimana.
 - [News mondo Blockchain e Crypto: 24 febbraio – 1 marzo 2024](https://affidaty.io/blog/it/2024/03/news-blockchain-crypto-24feb-01mar-2024/) (1 mar 2024, Affidaty): L'impennata di BTC, SEC contro Kraken, i Layer 2 per Bitcoin e le altre notizie della settimana.
-- [News mondo Blockchain e Crypto: 17-23 febbraio 2024](https://affidaty.io/blog/it/2024/02/news-crypto-blockchain-23-febbraio/) (23 feb 2024, Affidaty): Humanity Protocol di Animoca e Polygon, un passo avanti per l'adozione del Web3, e le altre notizie della settimana.
 
 ## Aggiornamenti
 

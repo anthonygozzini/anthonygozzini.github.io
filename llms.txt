@@ -32,6 +32,7 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 
 ## Articles
 
+- [Getting 100 in every PageSpeed category on GitHub Pages](https://anthonygozzini.github.io/writing/pagespeed-100-github-pages/index.md) (19 Sep 2026): Fonts, one image and a cache I don't control. What each fix cost in milliseconds, and the three items nobody can fix from a repository.
 - [How I rebuilt my first game from its only surviving build](https://anthonygozzini.github.io/writing/rebuilding-sgamers/index.md) (15 Sep 2026): The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.
 
 ## Projects
@@ -62,6 +63,7 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 - [Italian versions: Bot Telegram su misura](https://anthonygozzini.github.io/it/services/telegram-bots/index.md): Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate.
 - [Italian versions: Automazioni AI per il marketing](https://anthonygozzini.github.io/it/services/ai-automation/index.md): Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, controllate prima che esca qualsiasi cosa.
 - [Italian versions: Campagne multilingua](https://anthonygozzini.github.io/it/services/multilingual-campaigns/index.md): Flussi di localizzazione e campagne in più lingue, con targeting e controlli prima del lancio.
+- [Italian versions: Come ho portato un sito su GitHub Pages a 100 in ogni categoria di PageSpeed](https://anthonygozzini.github.io/it/writing/pagespeed-100-github-pages/index.md) (19 set 2026): I caratteri, un'immagine e una cache che non controllo. Quanto è costata ogni correzione in millisecondi, e le tre voci che da un repository non si sistemano.
 - [Italian versions: Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md) (15 set 2026): La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati.
 - [Blockchain and Crypto News: March 13 – 20, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-13-20mar-24-eng/) (18 Mar 2024, Affidaty): New EU sanctions and crypto laws, and the other stories that moved the market that week.
 - [Blockchain and Crypto World News: February 24 – March 1, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-24feb-1mar-24-2/) (4 Mar 2024, Affidaty): A historic surge for Bitcoin in February, and what else shaped the crypto market.

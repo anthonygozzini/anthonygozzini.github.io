@@ -356,6 +356,65 @@ WRITING = {
         "All'inizio del 2024 ho scritto una rubrica settimanale sul mercato crypto per Affidaty, in italiano e in inglese. Ora scrivo di quello che costruisco e di come lo verifico.",
     ),
     "posts": [
+        {"slug": "pagespeed-100-github-pages", "date": "2026-09-19", "minutes": 5, "cover": "cover-pagespeed.jpg",
+         "title": L("Getting 100 in every PageSpeed category on GitHub Pages",
+                    "Come ho portato un sito su GitHub Pages a 100 in ogni categoria di PageSpeed"),
+         "excerpt": L("Fonts, one image and a cache I don't control. What each fix cost in milliseconds, and the three items nobody can fix from a repository.",
+                      "I caratteri, un'immagine e una cache che non controllo. Quanto è costata ogni correzione in millisecondi, e le tre voci che da un repository non si sistemano."),
+         "description": L("Fonts, one inlined image and a cache I can't change: what each fix cost in milliseconds, and what a repository alone can never fix.",
+                          "Caratteri, un'immagine dentro l'HTML e una cache che non posso cambiare: cosa è costata ogni correzione in millisecondi e cosa resta fuori portata."),
+         "body": L(
+             """<p>This site is plain HTML. A Python script turns one content file into pages, and GitHub Pages serves them for free. Nothing about it is heavy. Reaching 100 in every PageSpeed category still took a week of evenings, because most of what held it back was invisible until I measured it.</p>
+<p>The rule I set myself was simple: no insight left unread. A green score with a list of warnings under it is a score I don't trust.</p>
+<h2>The fonts took three attempts</h2>
+<p>The site is set in Geist. Preloading it was the obvious first move, and the worst: Chrome holds the first paint while a preloaded font is in flight, up to its own 1.5-second cap. The page appeared when the font did.</p>
+<p>A normal stylesheet link was worse in a different way. The text painted immediately in a fallback face and then jumped when Geist arrived: a layout shift of 0.317 on a page where nothing had ever moved.</p>
+<p>Putting the font inside the CSS as a data URI fixed both, and added a third problem: 14 KB of the stylesheet were now bytes no rule referenced, which Lighthouse counts as unused CSS.</p>
+<p>What finally worked: cut the two faces down to the characters the site actually draws, 13.8 KB and 2.3 KB, and hand them to the page as data blocks in script tags the browser never compiles. A three-line script turns each block into a FontFace before the first layout. The same bytes as a regular script were a 50 to 78 ms long task; as data blocks they cost nothing.</p>
+<p>One detail I didn't see coming: the arrows in the copy are missing from Google's Latin cut of Geist, and every missing character sent Chrome hunting through the system fonts. That search was 10 of the 14 ms of the home page's first layout. Vercel's own package has the arrows.</p>
+<h2>One image decides the LCP</h2>
+<p>On every page the largest element is a cover image. Served from a CDN it needs a second connection before it can even start: on PageSpeed's phone that was 0.7 s of extra LCP, on its desktop 0.5 s. Served from GitHub Pages it lands in the caching report instead.</p>
+<p>So the one size both of PageSpeed's screens need travels inside the HTML as an AVIF, and the larger copies stay on the CDN for dense screens. The page carries its own most important pixels; everything else is still fetched only when a browser needs it.</p>
+<h2>The cache I don't control</h2>
+<p>GitHub Pages sends the same ten-minute cache for every file and offers no way to change it. Ten minutes is short enough that PageSpeed asks for a longer one on every static file.</p>
+<p>Files that are committed now travel through a CDN with the commit written into the URL, which makes them immutable for a year. The page itself keeps its ten minutes, because that is the file I actually want re-fetched.</p>
+<h2>Each page gets only the CSS it can use</h2>
+<p>Every page carries its own stylesheet, cut to the rules that can match what is on it. Cutting styles by hand is how sites break quietly, so the build does it and a second script proves it: it opens every page in a headless browser, on three screen sizes, in four states, once with the cut stylesheet and once with the full one, and compares every computed property of every element and pseudo-element. On the last run that was 356,148 values and zero differences.</p>
+<h2>The long task was the favicon</h2>
+<p>PageSpeed kept reporting a long task it could only label "unattributable". It was the favicon: an SVG with a text element in it. An SVG can't use the page's fonts, so on every load the browser went looking through the system ones, 9 to 17 ms of it. Now those two letters are outlines, drawn by the same script that cuts the fonts.</p>
+<p>The saved theme and the time-of-day greeting moved out of the parsing task for the same reason. Reading them from local storage while the page was being parsed was enough to push that task past 50 ms.</p>
+<h2>What a repository can't fix</h2>
+<p>Some items stay open and always will. A content security policy, HSTS, COOP, X-Frame-Options and Trusted Types are all response headers, and GitHub Pages doesn't let you send any. Fixing them means a domain of my own and a service in front of the site. The CDN is also flagged, correctly, as a third party, and one browser-support item counts against any use of FontFace at all.</p>
+<p>I'd rather say that out loud than pretend the list is empty.</p>
+<h2>The part worth copying</h2>
+<p>Not the tricks: the checks. One command rebuilds the site, confirms the output matches what is committed, then verifies every internal link, every description, the structured data, the markdown copies, the pinned CDN files and the embedded fonts. The style check compares computed values. A third script measures what PageSpeed's phone would really download for each image, because Lighthouse ignores pixel density when it decides an image is too big. Then Lighthouse runs on all 27 pages, phone and desktop: 54 runs, 100 everywhere.</p>
+<p>The site and all of it are <a href="https://github.com/anthonygozzini/anthonygozzini.github.io">in the open</a>. A number you have checked is worth more than a number you hope for.</p>""",
+             """<p>Questo sito è HTML semplice. Uno script Python trasforma un file di contenuti in pagine, e GitHub Pages le serve gratis. Non c'è niente di pesante. Arrivare a 100 in ogni categoria di PageSpeed mi è costato comunque una settimana di serate, perché quasi tutto quello che lo rallentava era invisibile finché non l'ho misurato.</p>
+<p>La regola che mi sono dato è semplice: nessun avviso lasciato lì. Un punteggio verde con sotto un elenco di segnalazioni è un punteggio di cui non mi fido.</p>
+<h2>I caratteri mi sono costati tre tentativi</h2>
+<p>Il sito usa Geist. Precaricarlo sembrava la mossa ovvia ed è stata la peggiore: Chrome trattiene il primo disegno della pagina finché un carattere precaricato è in viaggio, fino al suo limite di 1,5 secondi. La pagina compariva quando compariva il carattere.</p>
+<p>Collegarlo come un normale foglio di stile è andata peggio in un altro modo. Il testo si vedeva subito con un carattere di ripiego e poi saltava all'arrivo di Geist: uno spostamento di 0,317 su una pagina dove non si era mai mosso niente.</p>
+<p>Mettere il carattere dentro il CSS come dato ha risolto tutti e due i problemi e ne ha aggiunto un terzo: 14 KB del foglio di stile erano byte che nessuna regola usava, e Lighthouse li conta come CSS inutilizzato.</p>
+<p>Quello che ha funzionato: ridurre i due caratteri ai soli segni che il sito disegna davvero, 13,8 KB e 2,3 KB, e passarli alla pagina dentro blocchi di dati che il browser non compila mai. Uno script di tre righe li trasforma in caratteri veri prima del primo disegno. Gli stessi byte, messi in uno script normale, erano un'attività da 50-78 ms; come blocchi di dati non costano niente.</p>
+<p>Un dettaglio che non avevo previsto: le frecce che uso nei testi mancano dalla versione ridotta di Geist di Google, e ogni segno mancante mandava Chrome a cercare tra i caratteri di sistema. Quella ricerca erano 10 dei 14 ms del primo calcolo della home. Il pacchetto di Vercel le ha.</p>
+<h2>Una sola immagine decide il tempo di caricamento</h2>
+<p>In ogni pagina l'elemento più grande è un'immagine di copertina. Presa da una CDN ha bisogno di una seconda connessione prima ancora di partire: sul telefono di PageSpeed erano 0,7 s in più, sul desktop 0,5 s. Presa da GitHub Pages finisce invece nell'elenco dei file con cache troppo corta.</p>
+<p>Così l'unica misura che serve a tutti e due gli schermi di PageSpeed viaggia dentro l'HTML in formato AVIF, e le copie più grandi restano sulla CDN per gli schermi ad alta densità. La pagina si porta dietro i pixel che contano; tutto il resto si scarica solo se serve.</p>
+<h2>La cache che non controllo</h2>
+<p>GitHub Pages manda dieci minuti di cache per qualsiasi file e non permette di cambiarli. Dieci minuti sono abbastanza pochi da far chiedere a PageSpeed una cache più lunga su ogni file statico.</p>
+<p>I file già salvati nel repository passano da una CDN che mette il numero della versione dentro l'indirizzo: così restano validi per un anno. La pagina invece tiene i suoi dieci minuti, perché è proprio il file che voglio venga riletto.</p>
+<h2>A ogni pagina solo il CSS che le serve</h2>
+<p>Ogni pagina si porta il proprio foglio di stile, tagliato sulle regole che possono riguardare quello che contiene. Tagliare gli stili a mano è il modo classico di rompere un sito senza accorgersene, quindi lo fa il generatore e un secondo script lo dimostra: apre ogni pagina in un browser senza finestra, su tre schermi, in quattro stati, prima con lo stile tagliato e poi con quello intero, e confronta ogni proprietà calcolata di ogni elemento. L'ultima volta erano 356.148 valori e zero differenze.</p>
+<h2>L'attività lunga era la favicon</h2>
+<p>PageSpeed continuava a segnalare un'attività lunga che riusciva solo a chiamare "non attribuibile". Era la favicon: un'immagine SVG con dentro del testo. Un'immagine SVG non può usare i caratteri della pagina, quindi a ogni caricamento il browser andava a cercarne uno tra quelli di sistema, dai 9 ai 17 ms. Adesso quelle due lettere sono tracciati, disegnati dallo stesso script che riduce i caratteri.</p>
+<p>Il tema salvato e il saluto in base all'ora sono usciti dalla fase di lettura della pagina per lo stesso motivo: leggerli dalla memoria del browser mentre la pagina veniva letta bastava a portare quell'attività oltre i 50 ms.</p>
+<h2>Quello che un repository non può risolvere</h2>
+<p>Alcune voci restano aperte e resteranno così. Content Security Policy, HSTS, COOP, X-Frame-Options e Trusted Types sono intestazioni della risposta del server, e GitHub Pages non permette di mandarne nessuna. Per sistemarle servono un dominio mio e un servizio davanti al sito. Anche la CDN viene segnalata, giustamente, come servizio di terze parti, e una voce sulla compatibilità dei browser conta contro chiunque usi i caratteri via FontFace.</p>
+<p>Preferisco dirlo che far finta che l'elenco sia vuoto.</p>
+<h2>La parte che vale la pena copiare</h2>
+<p>Non i trucchi: i controlli. Un comando ricostruisce il sito, verifica che il risultato sia identico a quello salvato, poi controlla ogni link interno, ogni descrizione, i dati strutturati, le copie in markdown, i file sulla CDN e i caratteri incorporati. Il controllo degli stili confronta i valori calcolati. Un terzo script misura cosa scaricherebbe davvero il telefono di PageSpeed per ogni immagine, perché Lighthouse ignora la densità dello schermo quando decide che un'immagine è troppo grande. Poi Lighthouse gira su tutte le 27 pagine, telefono e desktop: 54 esecuzioni, 100 ovunque.</p>
+<p>Il sito e tutto questo sono <a href="https://github.com/anthonygozzini/anthonygozzini.github.io">pubblici</a>. Un numero che hai verificato vale più di un numero che speri.</p>"""),
+         },
         {"slug": "rebuilding-sgamers", "date": "2026-09-15", "minutes": 5, "cover": "cover-sgamers.jpg",
          "title": L("How I rebuilt my first game from its only surviving build", "Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta"),
          "excerpt": L("The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.",

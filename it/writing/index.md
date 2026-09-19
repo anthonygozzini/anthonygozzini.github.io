@@ -6,6 +6,7 @@ All'inizio del 2024 ho scritto una rubrica settimanale sul mercato crypto per Af
 
 ## I miei articoli
 
+- [Come ho portato un sito su GitHub Pages a 100 in ogni categoria di PageSpeed](https://anthonygozzini.github.io/it/writing/pagespeed-100-github-pages/index.md) (19 set 2026): I caratteri, un'immagine e una cache che non controllo. Quanto è costata ogni correzione in millisecondi, e le tre voci che da un repository non si sistemano.
 - [Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md) (15 set 2026): La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati.
 
 ## Rubrica Affidaty · 2024

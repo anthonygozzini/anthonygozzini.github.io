@@ -6,6 +6,7 @@ In early 2024 I wrote a weekly crypto market column for Affidaty, in Italian and
 
 ## My articles
 
+- [Getting 100 in every PageSpeed category on GitHub Pages](https://anthonygozzini.github.io/writing/pagespeed-100-github-pages/index.md) (19 Sep 2026): Fonts, one image and a cache I don't control. What each fix cost in milliseconds, and the three items nobody can fix from a repository.
 - [How I rebuilt my first game from its only surviving build](https://anthonygozzini.github.io/writing/rebuilding-sgamers/index.md) (15 Sep 2026): The project folder of my 2018 Unity game was gone; the compiled game wasn't. How an AI agent and I turned it back into a project, and the two bugs that almost stopped us.
 
 ## Affidaty column · 2024
