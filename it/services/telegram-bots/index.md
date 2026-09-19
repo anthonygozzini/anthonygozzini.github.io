@@ -21,6 +21,20 @@ Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con 
 
 Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
+## Domande frequenti
+
+### In quanto tempo è pronto un bot?
+
+Dipende da cosa deve fare. Parto da una versione minima funzionante che puoi già provare, poi aggiungo il resto: vedi qualcosa girare subito, non alla fine.
+
+### Il codice è mio?
+
+Sì. Ricevi il codice, i test e un solo file di configurazione da modificare senza toccare il codice, e puoi farlo girare dove vuoi.
+
+### Dove gira il bot?
+
+Su un tuo server o su un servizio di hosting. I miei bot sono in Python semplice e non hanno bisogno di un database, a meno che il lavoro non lo richieda.
+
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Altri servizi

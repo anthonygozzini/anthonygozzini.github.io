@@ -20,6 +20,20 @@ From an empty CRM to a plan your team can run: segments, triggers, messages and 
 
 Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
+## Common questions
+
+### Do you work remotely?
+
+Yes. I work remotely with teams anywhere, in English or Italian, and in person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
+
+### Where do you start?
+
+From what you already have. I look at the data, the tools and where people drop out, then write the plan: segments, triggers, messages and the KPI for each one.
+
+### Which tools do you work with?
+
+Salesforce and HubSpot for customer data, Amplitude and Databricks SQL for funnels and segments. If you use something else, I learn it: the method doesn't change.
+
 [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Other services

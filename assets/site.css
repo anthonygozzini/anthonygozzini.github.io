@@ -193,6 +193,9 @@ picture { display: contents; }
 .offer h3 a:hover { color: var(--accent); }
 .service-list { margin-top: 30px; border-top: 1px solid var(--line); }
 .section .service-list { margin-top: 0; }
+.faq { display: flex; flex-direction: column; gap: 20px; }
+.faq-item h3 { font-size: 15px; font-weight: 500; color: var(--ink); }
+.faq-item p { margin-top: 6px; font-size: 14.5px; line-height: 1.6; color: var(--muted); }
 .checks { display: flex; flex-direction: column; gap: 12px; }
 .checks li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.6; color: var(--text); }
 .checks .i { margin-top: 4px; color: var(--accent); }

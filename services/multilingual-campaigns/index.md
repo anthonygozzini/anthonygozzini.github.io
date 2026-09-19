@@ -20,6 +20,20 @@ Localization workflows and campaign setup across languages, with targeting and Q
 
 Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
+## Common questions
+
+### How many languages can you cover?
+
+Up to ten with a review step, as at Trust Wallet. I write English and Italian myself; the rest go through a reviewer.
+
+### Do you use machine translation?
+
+As a starting point, never as the final text. Technical terms follow a glossary, and every language gets read by a person before launch.
+
+### What happens before launch?
+
+Targeting, character limits for each surface, links, and the calendar: campaigns that collide with each other are the most common avoidable mistake.
+
 [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Other services

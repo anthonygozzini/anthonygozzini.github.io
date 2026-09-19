@@ -20,6 +20,20 @@ Flussi di localizzazione e campagne in più lingue, con targeting e controlli pr
 
 Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
+## Domande frequenti
+
+### Quante lingue si possono coprire?
+
+Fino a dieci con un passaggio di revisione, come in Trust Wallet. Italiano e inglese li scrivo io, le altre passano da un revisore.
+
+### Usi la traduzione automatica?
+
+Come punto di partenza, mai come testo finale. I termini tecnici seguono un glossario, e ogni lingua viene letta da una persona prima del lancio.
+
+### Cosa si controlla prima del lancio?
+
+Il targeting, i limiti di caratteri di ogni canale, i link e il calendario: le campagne che si accavallano sono l'errore evitabile più comune.
+
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Altri servizi

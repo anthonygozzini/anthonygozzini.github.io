@@ -21,6 +21,20 @@ Bots that screen new members, run referral programs or mirror channels, tested a
 
 Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
+## Common questions
+
+### How long does a bot take?
+
+It depends on what it has to do. I start from a working minimum version you can try, then add the rest: you see something running early, not at the end.
+
+### Is the code mine?
+
+Yes. You get the code, the tests and one configuration file you can change without touching the code, and you can run it wherever you want.
+
+### Where does the bot run?
+
+On your own server or on a hosting service. My bots are plain Python and need no database unless the job asks for one.
+
 [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Other services

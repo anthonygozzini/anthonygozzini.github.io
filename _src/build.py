@@ -387,6 +387,9 @@ def service_graph(page, s, description):
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": tr(C.SERVICES["title"], lang), "item": base + Page(lang, "services/").full},
             {"@type": "ListItem", "position": 2, "name": tr(s["name"], lang), "item": url}]},
+        {"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [
+            {"@type": "Question", "name": tr(q["q"], lang),
+             "acceptedAnswer": {"@type": "Answer", "text": tr(q["a"], lang)}} for q in s["faq"]]},
     ]
 
 
@@ -845,6 +848,7 @@ def render_service(page, s):
     S = C.SERVICES
     what = "".join(f'<li>{icon("check")}<span>{esc(w)}</span></li>' for w in tr(s["what"], lang))
     proof = "".join(f'<li>{icon("check")}<span><a href="{page.link(p["href"])}">{esc(tr(p["text"], lang))}</a></span></li>' for p in s["proof"])
+    faq = "".join(f'<div class="faq-item"><h3>{esc(tr(q["q"], lang))}</h3><p>{esc(tr(q["a"], lang))}</p></div>' for q in s["faq"])
     others = "".join(service_row(page, o) for o in S["items"] if o is not s)
     return f"""<nav class="crumbs" aria-label="Breadcrumb"><a href="{page.link('services/')}">{esc(tr(S["title"], lang))}</a><span aria-hidden="true">›</span><span class="crumb-current">{esc(tr(s["name"], lang))}</span></nav>
 <header class="page-head"><h1>{esc(tr(s["title"], lang))}</h1><p class="lead">{esc(tr(s["summary"], lang))}</p></header>
@@ -852,6 +856,7 @@ def render_service(page, s):
 <section class="section"><h2>{esc(tr(S["what"], lang))}</h2><ul class="checks">{what}</ul></section>
 <section class="section"><h2>{esc(tr(S["proof"], lang))}</h2><ul class="checks">{proof}</ul></section>
 <section class="section"><h2>{esc(tr(S["area_title"], lang))}</h2><p class="section-lead">{esc(tr(S["area"], lang))}</p></section>
+<section class="section"><h2>{esc(tr(S["faq"], lang))}</h2><div class="faq">{faq}</div></section>
 <section class="section"><h2>{esc(tr(S["others"], lang))}</h2><div class="service-list">{others}</div></section>"""
 
 
@@ -1070,6 +1075,8 @@ def md_service(lang, s):
         f'## {tr(S["what"], lang)}', md_list(f'- {w}' for w in tr(s["what"], lang)),
         f'## {tr(S["proof"], lang)}', md_list(f'- [{tr(p["text"], lang)}]({md_href(p["href"], lang)})' for p in s["proof"]),
         f'## {tr(S["area_title"], lang)}', tr(S["area"], lang),
+        f'## {tr(S["faq"], lang)}',
+        "\n\n".join(f'### {tr(q["q"], lang)}\n\n{tr(q["a"], lang)}' for q in s["faq"]),
         f'[{tr(C.CONTACT["cta_call"], lang)}]({C.SITE["cal"]}) · Email: {C.SITE["email"]}',
         f'## {tr(S["others"], lang)}', md_list(md_service_line(o, lang) for o in S["items"] if o is not s),
     ])

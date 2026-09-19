@@ -20,6 +20,20 @@ Da un CRM vuoto a un piano che il team può seguire: segmenti, trigger, messaggi
 
 Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
+## Domande frequenti
+
+### Lavori da remoto?
+
+Sì. Lavoro da remoto con team di tutto il mondo, in italiano o in inglese, e in presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
+
+### Da dove si parte?
+
+Da quello che hai già. Guardo i dati, gli strumenti e i punti in cui le persone si perdono, poi scrivo il piano: segmenti, trigger, messaggi e il KPI di ognuno.
+
+### Con quali strumenti lavori?
+
+Salesforce e HubSpot per i dati dei clienti, Amplitude e Databricks SQL per funnel e segmenti. Se usi altro lo imparo: il metodo non cambia.
+
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Altri servizi

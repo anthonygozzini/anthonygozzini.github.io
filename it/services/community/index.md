@@ -21,6 +21,20 @@ Community Telegram e Discord che restano utili mentre crescono, con moderazione,
 
 Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
+## Domande frequenti
+
+### Quali piattaforme gestisci?
+
+Telegram e Discord. Ho gestito per sette anni la community Telegram globale di Trust Wallet e una rete di oltre quindici community regionali.
+
+### Moderi tutti i giorni o prepari il sistema per il mio team?
+
+Tutte e due. Posso moderare io, oppure preparare regole, team di admin e playbook e passarli alle tue persone.
+
+### Come si tengono fuori le truffe?
+
+Con un filtro prima che qualcuno entri nei gruppi privati, automazioni che tolgono di mezzo gli impostori soliti, e un playbook scritto per il giorno in cui qualcosa va storto.
+
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Altri servizi

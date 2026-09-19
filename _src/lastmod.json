@@ -33,23 +33,23 @@
  },
  "it/services/ai-automation/": {
   "date": "2026-09-20",
-  "hash": "a9a864f870fc7bbe"
+  "hash": "9fe4543bb4a7ad49"
  },
  "it/services/community/": {
   "date": "2026-09-20",
-  "hash": "02e29f33fba6dbee"
+  "hash": "dbb4c428846b21f6"
  },
  "it/services/crm-lifecycle/": {
   "date": "2026-09-20",
-  "hash": "98ba6c84c804d999"
+  "hash": "83a84a2fa740b139"
  },
  "it/services/multilingual-campaigns/": {
   "date": "2026-09-20",
-  "hash": "ab5d3c614e8df957"
+  "hash": "d793f5286f0837b8"
  },
  "it/services/telegram-bots/": {
   "date": "2026-09-20",
-  "hash": "17340718c36200e4"
+  "hash": "7d7df07e8f379264"
  },
  "it/tools/": {
   "date": "2026-09-16",
@@ -81,23 +81,23 @@
  },
  "services/ai-automation/": {
   "date": "2026-09-20",
-  "hash": "be371ebb70e9ea0b"
+  "hash": "1be8ebcd6f66c35e"
  },
  "services/community/": {
   "date": "2026-09-20",
-  "hash": "77b3cb188b5ebf26"
+  "hash": "bc981d8e17258915"
  },
  "services/crm-lifecycle/": {
   "date": "2026-09-20",
-  "hash": "f80b60a10a507e19"
+  "hash": "fd59355b9efb5082"
  },
  "services/multilingual-campaigns/": {
   "date": "2026-09-20",
-  "hash": "0a9266b304c26a98"
+  "hash": "0573c56cc1d0d13c"
  },
  "services/telegram-bots/": {
   "date": "2026-09-20",
-  "hash": "2e80a321ad14e8ee"
+  "hash": "b3f9b39f2620ccb0"
  },
  "tools/": {
   "date": "2026-09-16",

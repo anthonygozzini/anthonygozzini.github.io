@@ -21,6 +21,20 @@ Telegram and Discord communities that stay useful as they grow, with moderation,
 
 Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
+## Common questions
+
+### Which platforms do you manage?
+
+Telegram and Discord. I ran Trust Wallet's global Telegram community for seven years and a network of more than fifteen regional communities.
+
+### Do you moderate every day, or set it up for my team?
+
+Either. I can run moderation myself, or set up the rules, the admin team and the playbook and hand them over to your people.
+
+### How do you deal with scams?
+
+With screening before anyone joins a private group, automation that removes the usual impostors, and a written playbook for the day something goes wrong.
+
 [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Other services

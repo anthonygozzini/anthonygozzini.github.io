@@ -21,6 +21,20 @@ Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti,
 
 Da remoto per team di tutto il mondo, in italiano o in inglese. In presenza nelle province di Varese, Novara e Verbano-Cusio-Ossola e a Milano.
 
+## Domande frequenti
+
+### L'AI non si inventa le cose?
+
+Può farlo, ed è il motivo per cui ogni flusso che costruisco finisce con una verifica: i numeri si controllano sulla fonte e niente esce prima di passarla.
+
+### Su cosa conviene davvero usarla?
+
+Il lavoro ripetitivo che ha una risposta giusta: localizzazione, report, bozze, fonti lunghe da trasformare in testo consultabile. Non le decisioni.
+
+### Serve pagare un abbonamento AI?
+
+Di solito uno, e prima di partire ti dico quale conviene per il tuo caso e più o meno quanto consuma.
+
 [Prenota una call di 30 minuti](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Altri servizi

@@ -21,6 +21,20 @@ Pipelines that take the volume out of localization, reporting and content, check
 
 Remote for teams anywhere, in English or Italian. In person across the provinces of Varese, Novara and Verbano-Cusio-Ossola and in Milan.
 
+## Common questions
+
+### Doesn't AI make things up?
+
+It can, which is why every pipeline I build ends with a verification step: numbers are checked against the source and nothing ships before it passes.
+
+### What is it actually good for?
+
+Work that is repetitive and has a right answer: localization, reports, drafts, turning long sources into searchable text. Not decisions.
+
+### Do I need to pay for an AI subscription?
+
+Usually one, and I tell you which one fits your case and roughly what it will consume before we start.
+
 [Book a 30-minute call](https://cal.com/anthony-gozzini-amzx2u/30min) · Email: anthony.gozzini@gmail.com
 
 ## Other services
