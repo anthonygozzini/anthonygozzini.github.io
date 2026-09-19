@@ -1,4 +1,4 @@
-# Community manager Telegram e Discord a Varese
+# Community manager Telegram e Discord
 
 > Community Telegram e Discord che restano utili mentre crescono: moderazione, ambassador, automazioni anti-truffa. Sette anni in Trust Wallet.
 

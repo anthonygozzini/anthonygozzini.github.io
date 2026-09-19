@@ -1,4 +1,4 @@
-# Consulente CRM e lifecycle marketing a Varese
+# Consulente CRM e lifecycle marketing
 
 > Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara, VCO e Milano.
 

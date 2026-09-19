@@ -1,4 +1,4 @@
-# Campagne e localizzazione multilingua a Varese
+# Campagne e localizzazione multilingua
 
 > Localizzazione, notifiche push e banner in app in più lingue, con targeting e controlli prima del lancio. Dieci lingue in Trust Wallet.
 

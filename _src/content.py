@@ -614,7 +614,7 @@ SERVICES = {
     "items": [
         {"slug": "crm-lifecycle", "icon": "briefcase",
          "name": L("CRM & lifecycle marketing", "CRM e lifecycle marketing"),
-         "title": L("CRM & lifecycle marketing consultant", "Consulente CRM e lifecycle marketing a Varese"),
+         "title": L("CRM & lifecycle marketing consultant", "Consulente CRM e lifecycle marketing"),
          "description": L(
              "CRM and lifecycle programs from segments to KPIs: activation, cross-sell and retention, as I built them for Trust Wallet. Remote or around Milan.",
              "Programmi CRM e lifecycle dai segmenti ai KPI: attivazione, cross-sell e retention, come per Trust Wallet. Da remoto o tra Varese, Novara, VCO e Milano."),
@@ -641,7 +641,7 @@ SERVICES = {
          ]},
         {"slug": "community", "icon": "users",
          "name": L("Community management", "Gestione community"),
-         "title": L("Telegram & Discord community manager", "Community manager Telegram e Discord a Varese"),
+         "title": L("Telegram & Discord community manager", "Community manager Telegram e Discord"),
          "description": L(
              "Telegram and Discord communities that stay useful as they grow: moderation, ambassadors, anti-scam automation. Seven years at Trust Wallet.",
              "Community Telegram e Discord che restano utili mentre crescono: moderazione, ambassador, automazioni anti-truffa. Sette anni in Trust Wallet."),
@@ -671,7 +671,7 @@ SERVICES = {
          ]},
         {"slug": "telegram-bots", "icon": "bot",
          "name": L("Custom Telegram bots", "Bot Telegram su misura"),
-         "title": L("Custom Telegram bot developer", "Sviluppo di bot Telegram su misura a Varese"),
+         "title": L("Custom Telegram bot developer", "Sviluppo di bot Telegram su misura"),
          "description": L(
              "Telegram bots that screen new members, run referral programs or mirror channels, with tests and versioned releases. Built for paying clients.",
              "Bot Telegram che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate. Nati per clienti paganti."),
@@ -701,7 +701,7 @@ SERVICES = {
          ]},
         {"slug": "ai-automation", "icon": "code",
          "name": L("AI automation for marketing", "Automazioni AI per il marketing"),
-         "title": L("AI automation for marketing teams", "Automazioni con AI per il marketing a Varese"),
+         "title": L("AI automation for marketing teams", "Automazioni con AI per il marketing"),
          "description": L(
              "AI pipelines that take the volume out of localization, reporting and content, with the verification step that makes their output safe to use.",
              "Pipeline di AI che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, con la verifica che rende il risultato sicuro da usare."),
@@ -731,7 +731,7 @@ SERVICES = {
          ]},
         {"slug": "multilingual-campaigns", "icon": "send",
          "name": L("Multilingual campaigns", "Campagne multilingua"),
-         "title": L("Multilingual campaign operations", "Campagne e localizzazione multilingua a Varese"),
+         "title": L("Multilingual campaign operations", "Campagne e localizzazione multilingua"),
          "description": L(
              "Localization workflows, push notifications and in-app banners across languages, with targeting and QA before launch. Ten languages at Trust Wallet.",
              "Localizzazione, notifiche push e banner in app in più lingue, con targeting e controlli prima del lancio. Dieci lingue in Trust Wallet."),

@@ -1,4 +1,4 @@
-# Sviluppo di bot Telegram su misura a Varese
+# Sviluppo di bot Telegram su misura
 
 > Bot Telegram che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate. Nati per clienti paganti.
 

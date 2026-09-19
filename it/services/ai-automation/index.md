@@ -1,4 +1,4 @@
-# Automazioni con AI per il marketing a Varese
+# Automazioni con AI per il marketing
 
 > Pipeline di AI che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, con la verifica che rende il risultato sicuro da usare.
 
