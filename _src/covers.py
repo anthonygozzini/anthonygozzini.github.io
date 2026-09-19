@@ -109,6 +109,16 @@ COVERS = {
 .lod .chips{display:flex;gap:14px;justify-content:center;margin-top:34px}
 .lod .chips span{border:1px solid rgba(243,230,208,.35);border-radius:999px;padding:9px 20px;font-size:22px}""",
         '<div class="lod"><div class="big">IT</div><p class="title">The Legend of Dragoon</p><p class="sub">Severed Chains · PC</p><div class="chips"><span>611 / 950</span><span>mod · in progress</span></div></div>'),
+    "cover-pagespeed.jpg": page("""body{background:linear-gradient(115deg,#E0E7EF,#ECEFF3 50%,#F2ECEF)}
+.ps{display:flex;gap:64px;align-items:flex-start}
+.item{display:flex;flex-direction:column;align-items:center;gap:24px}
+.ring{width:232px;height:232px;border-radius:50%;border:14px solid #0CCE6B;background:#fff;display:grid;place-items:center;box-shadow:0 18px 44px rgba(0,0,0,.10)}
+.ring span{font-size:82px;font-weight:600;color:#121417;letter-spacing:-.03em}
+.item p{font-size:27px;color:#4A515B}""",
+        '<div class="ps">'
+        + "".join(f'<div class="item"><div class="ring"><span>100</span></div><p>{label}</p></div>'
+                  for label in ("Performance", "Accessibility", "Best practices", "SEO"))
+        + "</div>"),
     "og.jpg": page("""body{background:linear-gradient(115deg,#E0E7EF,#ECEFF3 50%,#F2ECEF);place-items:stretch}
 .og{display:flex;align-items:center;gap:56px;padding:0 90px}
 .og img{width:240px;height:240px;border-radius:50%;object-fit:cover;box-shadow:0 20px 50px rgba(0,0,0,.15)}
