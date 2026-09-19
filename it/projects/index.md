@@ -12,7 +12,7 @@ Prima di comprare un token, GuardBot simula davvero un acquisto e una vendita su
 
 Tag: Python, MCP, Progetto personale
 
-Link: [Codice](https://github.com/anthonygozzini/guardbot), [Demo di 35 secondi](https://anthonygozzini.github.io/guardbot/demo.html)
+Link: [Codice](https://github.com/anthonygozzini/guardbot), [Demo di 35 secondi](https://anthonygozzini.github.io/guardbot/demo.html), [Pagina del progetto](https://anthonygozzini.github.io/guardbot/)
 
 ## channel-miner (2026)
 

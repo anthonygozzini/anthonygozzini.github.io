@@ -12,7 +12,7 @@ Before you buy a token, GuardBot simulates a real buy and a real sell against li
 
 Tags: Python, MCP, Side project
 
-Links: [Code](https://github.com/anthonygozzini/guardbot), [35-second demo](https://anthonygozzini.github.io/guardbot/demo.html)
+Links: [Code](https://github.com/anthonygozzini/guardbot), [35-second demo](https://anthonygozzini.github.io/guardbot/demo.html), [Project page](https://anthonygozzini.github.io/guardbot/)
 
 ## channel-miner (2026)
 
