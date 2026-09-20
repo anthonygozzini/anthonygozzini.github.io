@@ -90,8 +90,8 @@ img{max-width: 100%; display: block;}
 .seg-btn[aria-pressed="true"],.seg-btn[aria-current="true"]{background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .08);}
 .seg-lang .seg-btn{font-family: var(--mono); font-size: 12px;}
 .mtop,.tabbar{display: none;}
-.greeting-name{display: block; margin-top: 8px; font-size: .32em; line-height: 1.2; letter-spacing: -.02em; color: var(--muted);}
-.greeting{margin-bottom: 22px; font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink);}
+.greeting-name{margin: 8px 0 22px; font-size: clamp(1.05rem, 2.3vw, 1.8rem); font-weight: 400; line-height: 1.2; letter-spacing: -.02em; color: var(--muted);}
+.greeting{margin-bottom: 0; font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink);}
 .intro{max-width: 72ch; font-size: 15px; color: var(--text);}
 .intro-more{margin-top: 12px; font-size: 15px;}
 .intro-more a{color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong);}
@@ -170,9 +170,10 @@ picture{display: contents;}
 <main id="main" class="panel">
 <div class="page page-wide">
 <section class="hero">
-<h1 class="greeting"><span class="greeting-word">Hello</span>, <span class="greeting-name">I&#x27;m Anthony Gozzini</span></h1>
+<p class="greeting"><span class="greeting-word">Hello</span>,</p>
+<h1 class="greeting-name">CRM &amp; lifecycle marketing, community, and the tools I build</h1>
 <script>requestAnimationFrame(function(){var w=["Good morning", "Good afternoon", "Good evening"],h=new Date().getHours(),g=document.querySelector('.greeting-word');if(g)g.textContent=h>=5&&h<12?w[0]:h>=12&&h<18?w[1]:w[2]})</script>
-<p class="intro">I&#x27;m a CRM &amp; lifecycle marketer. I spent eight years inside Trust Wallet&#x27;s community, seven as a volunteer and then on the Marketing &amp; Communications team, and I build my own tools.</p>
+<p class="intro">Eight years inside Trust Wallet&#x27;s community, seven as a volunteer and then on the Marketing &amp; Communications team. When the tools I need don&#x27;t exist, I build them and publish the code.</p>
 <p class="intro-more"><a href="about/">More about me →</a></p>
 </section>
 <section class="tips" aria-label="Tips"><div class="tip tip-desktop"><p>Move around quickly with keyboard shortcuts 1 → 7. Try pressing 2, 3 and 4.</p></div><div class="tip"><p>Grew up near Varese, six years in Kraków, in crypto since 2017 — <a href="about/">Read my story →</a></p></div><div class="tip"><p>Looking for my next role in CRM, lifecycle or community marketing — <a href="contact/">How to reach me →</a></p></div><div class="tip"><p>Happy to talk: pick a 30-minute slot that suits you — <a href="https://cal.com/anthony-gozzini-amzx2u/30min" target="_blank" rel="noopener">Book a call ↗</a></p></div><div class="tip"><p>I publish what I build, with tests and versioned releases — <a href="projects/">See projects →</a></p></div><div class="tip"><p>In 2024 I wrote a weekly crypto market column; now I write about what I build — <a href="writing/">Read my articles →</a></p></div><div class="tip"><p>I work with AI agents every day, and nothing they produce ships unchecked — <a href="about/#how-i-work">How I work →</a></p></div><div class="tip"><p>Prefer a PDF? My one-page CV is ready — <a href="assets/Anthony-Gozzini-CV.pdf" download>Download CV ↓</a></p></div></section>

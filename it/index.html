@@ -90,8 +90,8 @@ img{max-width: 100%; display: block;}
 .seg-btn[aria-pressed="true"],.seg-btn[aria-current="true"]{background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0, 0, 0, .08);}
 .seg-lang .seg-btn{font-family: var(--mono); font-size: 12px;}
 .mtop,.tabbar{display: none;}
-.greeting-name{display: block; margin-top: 8px; font-size: .32em; line-height: 1.2; letter-spacing: -.02em; color: var(--muted);}
-.greeting{margin-bottom: 22px; font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink);}
+.greeting-name{margin: 8px 0 22px; font-size: clamp(1.05rem, 2.3vw, 1.8rem); font-weight: 400; line-height: 1.2; letter-spacing: -.02em; color: var(--muted);}
+.greeting{margin-bottom: 0; font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink);}
 .intro{max-width: 72ch; font-size: 15px; color: var(--text);}
 .intro-more{margin-top: 12px; font-size: 15px;}
 .intro-more a{color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong);}
@@ -170,9 +170,10 @@ picture{display: contents;}
 <main id="main" class="panel">
 <div class="page page-wide">
 <section class="hero">
-<h1 class="greeting"><span class="greeting-word">Ciao</span>, <span class="greeting-name">sono Anthony Gozzini</span></h1>
+<p class="greeting"><span class="greeting-word">Ciao</span>,</p>
+<h1 class="greeting-name">CRM e lifecycle marketing, community e strumenti che costruisco da solo</h1>
 <script>requestAnimationFrame(function(){var w=["Buongiorno", "Buon pomeriggio", "Buonasera"],h=new Date().getHours(),g=document.querySelector('.greeting-word');if(g)g.textContent=h>=5&&h<12?w[0]:h>=12&&h<18?w[1]:w[2]})</script>
-<p class="intro">Mi occupo di CRM e lifecycle marketing. Ho passato otto anni nella community di Trust Wallet, sette da volontario e poi nel team Marketing &amp; Communications, e gli strumenti che mi servono li costruisco da solo.</p>
+<p class="intro">Otto anni nella community di Trust Wallet, sette da volontario e poi nel team Marketing &amp; Communications. Quando gli strumenti che mi servono non esistono, li costruisco da solo e ne pubblico il codice.</p>
 <p class="intro-more"><a href="../it/about/">Scopri chi sono →</a></p>
 </section>
 <section class="tips" aria-label="Tips"><div class="tip tip-desktop"><p>Muoviti velocemente con le scorciatoie da tastiera 1 → 7. Prova a premere 2, 3 e 4.</p></div><div class="tip"><p>Cresciuto in provincia di Varese, sei anni a Cracovia, nelle crypto dal 2017 — <a href="../it/about/">Leggi la mia storia →</a></p></div><div class="tip"><p>Cerco il prossimo ruolo in CRM, lifecycle o community marketing — <a href="../it/contact/">Come contattarmi →</a></p></div><div class="tip"><p>Parliamone: scegli uno slot da 30 minuti quando ti è comodo — <a href="https://cal.com/anthony-gozzini-amzx2u/30min" target="_blank" rel="noopener">Prenota una call ↗</a></p></div><div class="tip"><p>Pubblico quello che costruisco, con test e release versionate — <a href="../it/projects/">Vedi i progetti →</a></p></div><div class="tip"><p>Nel 2024 ho scritto una rubrica settimanale sul mercato crypto; ora scrivo di quello che costruisco — <a href="../it/writing/">Leggi gli articoli →</a></p></div><div class="tip"><p>Lavoro ogni giorno con agenti AI, e niente di quello che producono esce senza controllo — <a href="../it/about/#how-i-work">Come lavoro →</a></p></div><div class="tip"><p>Preferisci un PDF? Il mio CV di una pagina è pronto — <a href="../assets/Anthony-Gozzini-CV.pdf" download>Scarica il CV ↓</a></p></div></section>
