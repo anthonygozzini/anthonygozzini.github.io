@@ -52,6 +52,8 @@ FAVICON = ROOT / "assets" / "favicon.svg"
 # pages' <link>, and as favicon.ico at the root for crawlers that look there.
 FAVICON_PNG = ROOT / "assets" / "favicon-192.png"
 FAVICON_ICO = ROOT / "favicon.ico"
+APPLE_ICON = ROOT / "assets" / "apple-touch-icon.png"
+APPLE_SIZE = 180
 RASTER_SIZE = 192
 ICO_SIZES = [(16, 16), (32, 32), (48, 48)]
 # The "AG" mark: 24 px Geist semibold, centred on x = 32 with its baseline at y = 41, in a 64 px dark tile.
@@ -112,10 +114,11 @@ def write_favicon():
     mark = raster_mark(glyphs, list(zip(names, placed)), scale, RASTER_SIZE)
     mark.save(FAVICON_PNG, optimize=True)
     mark.save(FAVICON_ICO, sizes=ICO_SIZES)
+    raster_mark(glyphs, list(zip(names, placed)), scale, APPLE_SIZE, radius=0).convert("RGB").save(APPLE_ICON, optimize=True)
     return width * scale, sum(kerns) * scale
 
 
-def raster_mark(glyphs, placed, scale, size):
+def raster_mark(glyphs, placed, scale, size, radius=14):
     """The SVG favicon drawn at size x size: the rounded tile (supersampled for smooth corners) with the letters on top."""
     from fontTools.pens.freetypePen import FreeTypePen
     from fontTools.pens.transformPen import TransformPen
@@ -127,7 +130,7 @@ def raster_mark(glyphs, placed, scale, size):
         glyphs[name].draw(TransformPen(pen, (scale * k, 0, 0, scale * k, left * scale * k, (64 - MARK["baseline"]) * k)))
     letters = pen.image(width=size, height=size)
     big = Image.new("L", (size * 8, size * 8), 0)
-    ImageDraw.Draw(big).rounded_rectangle([0, 0, size * 8 - 1, size * 8 - 1], radius=14 * k * 8, fill=255)
+    ImageDraw.Draw(big).rounded_rectangle([0, 0, size * 8 - 1, size * 8 - 1], radius=radius * k * 8, fill=255)
     tile = big.resize((size, size), Image.LANCZOS)
     out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     out.paste(Image.new("RGBA", (size, size), (0x12, 0x14, 0x17, 255)), (0, 0), tile)
@@ -145,7 +148,8 @@ def main():
         print(f"{output}: {len(data)} byte, {len(covered)} caratteri" + (f", assenti nel font: {''.join(missing)}" if missing else ""))
     width, kern = write_favicon()
     print(f"favicon.svg: lettere in tracciati, larghezza {width:.2f} px, crenatura {kern:.3f} px; "
-          f"{FAVICON_PNG.name} {FAVICON_PNG.stat().st_size} byte, {FAVICON_ICO.name} {FAVICON_ICO.stat().st_size} byte")
+          f"{FAVICON_PNG.name} {FAVICON_PNG.stat().st_size} byte, {FAVICON_ICO.name} {FAVICON_ICO.stat().st_size} byte, "
+          f"{APPLE_ICON.name} {APPLE_ICON.stat().st_size} byte")
     (FONTS / "coverage.txt").write_text("".join(f"{name}\t{chars}\n" for name, chars in coverage.items()), encoding="utf-8")
     return 0
 
