@@ -234,11 +234,11 @@ def ext_attrs(href):
 
 def card(href, title, text, meta="", top="", external=False, tag="a"):
     arrow = f'<span class="card-arrow">{icon("arrow")}</span>' if external else ""
-    open_tag = f'<a class="card" href="{href}"{ext_attrs(href) if external else ""}>' if tag == "a" else '<div class="card">'
-    close_tag = "</a>" if tag == "a" else "</div>"
-    return (f'{open_tag}{top}<h3 class="card-title">{esc(title)}{arrow}</h3>'
+    name = (f'<a class="card-hit" href="{href}"{ext_attrs(href) if external else ""}>{esc(title)}</a>'
+            if tag == "a" else esc(title))
+    return (f'<div class="card">{top}<h3 class="card-title">{name}{arrow}</h3>'
             f'<p class="card-text">{esc(text)}</p>'
-            + (f'<p class="card-meta">{esc(meta)}</p>' if meta else "") + close_tag)
+            + (f'<p class="card-meta">{esc(meta)}</p>' if meta else "") + "</div>")
 
 
 def lang_switch(page):
@@ -749,10 +749,11 @@ def render_writing(page):
     for i, p in enumerate(W["posts"]):
         href = page.link(f'writing/{p["slug"]}/')
         meta = f'{fmt_day(p["date"], lang)} · {p["minutes"]} {tr(C.UI["min_read"], lang)}'
-        mine.append(f'<a class="card card-feature" href="{href}"><div class="card-cover">{post_cover(page, p, "feature", "high" if i == 0 else "lazy")}</div>'
+        mine.append(f'<div class="card card-feature"><div class="card-cover">{post_cover(page, p, "feature", "high" if i == 0 else "lazy")}</div>'
                     f'<div class="card-feature-body"><p class="card-meta">{esc(meta)}</p>'
-                    f'<h3 class="card-title">{esc(tr(p["title"], lang))}</h3><p class="card-text">{esc(tr(p["excerpt"], lang))}</p>'
-                    f'<span class="card-cta">{esc(tr(C.UI["read"], lang))}{icon("right")}</span></div></a>')
+                    f'<h3 class="card-title"><a class="card-hit" href="{href}">{esc(tr(p["title"], lang))}</a></h3>'
+                    f'<p class="card-text">{esc(tr(p["excerpt"], lang))}</p>'
+                    f'<span class="card-cta">{esc(tr(C.UI["read"], lang))}{icon("right")}</span></div></div>')
     affidaty = "".join(affidaty_card(page, a, "grid3") for a in W["affidaty"])
     return f"""<header class="page-head"><h1>{esc(tr(W["title"], lang))}</h1><p class="lead">{esc(tr(W["intro"], lang))}</p></header>
 <section class="block block-first"><h2 class="block-title">{esc(tr(W["mine_label"], lang))}</h2><div class="features">{"".join(mine)}</div></section>
@@ -782,11 +783,12 @@ def render_tools(page):
         f'<button type="button" role="tab" class="tab" data-filter="{k}" aria-selected="{"true" if k == "all" else "false"}">{esc(v)}</button>'
         for k, v in tabs)
     rows = "".join(
-        f'<a class="tool-row" href="{t["url"]}" target="_blank" rel="noopener" data-cat="{t["cat"]}">'
+        f'<div class="tool-row" data-cat="{t["cat"]}">'
         f'{logo(page, t["key"], t["name"], "tile tile-lg")}'
-        f'<div class="tool-main"><p class="tool-name">{esc(t["name"])}<span class="tool-arrow">{icon("arrow")}</span></p>'
+        f'<div class="tool-main"><p class="tool-name"><a class="card-hit" href="{t["url"]}" target="_blank" rel="noopener">{esc(t["name"])}</a>'
+        f'<span class="tool-arrow">{icon("arrow")}</span></p>'
         f'<p class="tool-use">{esc(tr(t["use"], lang))}</p></div>'
-        f'<span class="tool-cat">{esc(tr(T["categories"][t["cat"]], lang))}</span></a>'
+        f'<span class="tool-cat">{esc(tr(T["categories"][t["cat"]], lang))}</span></div>'
         for t in T["items"])
     return f"""<header class="page-head"><h1>{esc(tr(T["title"], lang))}</h1><p class="lead">{esc(tr(T["intro"], lang))}</p></header>
 <div class="tabs" role="tablist" aria-label="{esc(tr(T["title"], lang))}">{tab_html}</div>
@@ -830,9 +832,10 @@ def render_contact(page):
 
 def service_row(page, s):
     lang = page.lang
-    return (f'<a class="tool-row" href="{page.link("services/" + s["slug"] + "/")}"><span class="tile tile-lg tile-icon">{icon(s["icon"])}</span>'
-            f'<div class="tool-main"><p class="tool-name">{esc(tr(s["name"], lang))}<span class="tool-arrow">{icon("right")}</span></p>'
-            f'<p class="tool-use">{esc(tr(s["summary"], lang))}</p></div></a>')
+    return (f'<div class="tool-row"><span class="tile tile-lg tile-icon">{icon(s["icon"])}</span>'
+            f'<div class="tool-main"><p class="tool-name"><a class="card-hit" href="{page.link("services/" + s["slug"] + "/")}">{esc(tr(s["name"], lang))}</a>'
+            f'<span class="tool-arrow">{icon("right")}</span></p>'
+            f'<p class="tool-use">{esc(tr(s["summary"], lang))}</p></div></div>')
 
 
 def render_services(page):

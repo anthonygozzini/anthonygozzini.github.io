@@ -122,10 +122,15 @@ img { max-width: 100%; display: block; }
 .card-feature .card-meta { margin: 0; padding: 0; }
 .card-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13.5px; font-weight: 500; color: var(--ink); }
 .card-cta .i { width: 14px; height: 14px; }
-a.card-feature:hover .card-cta { color: var(--accent); }
+.card-feature:has(.card-hit:hover) .card-cta { color: var(--accent); }
 
-.card { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; padding: 12px 12px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: inherit; text-decoration: none; transition: background-color .15s, border-color .15s; }
-a.card:hover { background: var(--card-hover); border-color: var(--line-strong); }
+/* The link covers its whole card, so the card is clickable while the link's name stays the title. */
+.card-hit { color: inherit; text-decoration: none; }
+.card-hit::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 0; padding: 12px 12px 14px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; color: inherit; text-decoration: none; transition: background-color .15s, border-color .15s; }
+.card:has(.card-hit:hover) { background: var(--card-hover); border-color: var(--line-strong); }
+.card:has(.card-hit:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.card-hit:focus-visible { outline: none; }
 .card-cover { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 8px; overflow: hidden; border-radius: 7px; background: var(--line); }
 picture { display: contents; }
 .card-cover img, .card-cover svg, .project-cover img, .project-cover svg, .post-cover img, .post-cover svg { width: 100%; height: 100%; display: block; object-fit: cover; }
@@ -222,8 +227,9 @@ picture { display: contents; }
 .tab { margin-bottom: -1px; padding: 8px 0 10px; border: 0; border-bottom: 2px solid transparent; background: none; font: 500 13.5px/1 var(--sans); color: var(--muted); white-space: nowrap; cursor: pointer; }
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-.tool-row { display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
-.tool-row:hover .tool-name { color: var(--accent); }
+.tool-row { position: relative; display: grid; grid-template-columns: 42px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none; }
+.tool-row:has(.card-hit:hover) .tool-name { color: var(--accent); }
+.tool-row:has(.card-hit:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
 .tool-name { display: flex; align-items: center; gap: 5px; font-size: 14.5px; font-weight: 500; color: var(--ink); }
 .tool-arrow { display: flex; color: var(--faint); }
 .tool-arrow .i { width: 12px; height: 12px; }
