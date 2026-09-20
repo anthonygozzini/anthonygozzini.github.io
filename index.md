@@ -2,7 +2,7 @@
 
 > CRM & lifecycle marketer. Eight years inside Trust Wallet's community, from volunteer to the Marketing & Communications team. I build my own tools.
 
-I'm Anthony Gozzini, a CRM & lifecycle marketer. I spent eight years inside Trust Wallet's community, seven as a volunteer and then on the Marketing & Communications team, and I build my own tools.
+I'm a CRM & lifecycle marketer. I spent eight years inside Trust Wallet's community, seven as a volunteer and then on the Marketing & Communications team, and I build my own tools.
 
 - Grew up near Varese, six years in Kraków, in crypto since 2017: [Read my story](https://anthonygozzini.github.io/about/index.md)
 - Looking for my next role in CRM, lifecycle or community marketing: [How to reach me](https://anthonygozzini.github.io/contact/index.md)
