@@ -12,6 +12,7 @@ import html
 import json
 import re
 import subprocess
+import urllib.parse
 import sys
 from pathlib import Path
 
@@ -141,6 +142,7 @@ ICONS = {
     "mail": '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',
     "download": '<path d="M12 4v12M7 11l5 5 5-5M5 20h14"/>',
     "check": '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+    "x": '<path fill="currentColor" stroke="none" d="M17.7 3h3.3l-7.2 8.3L22 21h-6.6l-5.2-6.8L4.2 21H.9l7.7-8.8L.6 3h6.8l4.7 6.2zm-1.2 16h1.8L7.6 4.8H5.7z"/>',
     "star": '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.1 5.9-.8z"/>',
     "pin": '<path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
     "copy": '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/>',
@@ -222,7 +224,7 @@ def cover(page, file, alt, sizes, priority="lazy"):
 def logo(page, key, name, cls="tile"):
     for ext in ("svg", "png"):
         if (ROOT / "assets" / "logos" / f"{key}.{ext}").exists():
-            return f'<span class="{cls}"><img src="{page.asset(f"logos/{key}.{ext}")}" alt="" loading="lazy"></span>'
+            return f'<span class="{cls}"><img src="{page.asset(f"logos/{key}.{ext}")}" alt="{esc(name)}" loading="lazy"></span>'
     warnings.append(f"logo mancante: {key}")
     initials = "".join(w[0] for w in name.split()[:2]).upper()
     return f'<span class="{cls} tile-text" aria-hidden="true">{esc(initials)}</span>'
@@ -760,6 +762,18 @@ def render_writing(page):
 <section class="block"><h2 class="block-title">{esc(tr(W["affidaty_label"], lang))}</h2><div class="grid grid-3">{affidaty}</div></section>"""
 
 
+def share(page, title):
+    """Plain links, no widget and no script: the sharing buttons an SEO checker asks for, without a tracker."""
+    url = urllib.parse.quote(C.SITE["url"] + "/" + page.full, safe="")
+    text = urllib.parse.quote(title, safe="")
+    links = [("linkedin", "LinkedIn", f"https://www.linkedin.com/sharing/share-offsite/?url={url}"),
+             ("x", "X", f"https://x.com/intent/post?url={url}&text={text}")]
+    label = esc(tr(C.UI["share"], page.lang))
+    buttons = "".join(f'<a class="btn btn-share" href="{href}" target="_blank" rel="noopener">{icon(ic)}<span>{label} {name}</span></a>'
+                      for ic, name, href in links)
+    return f'<div class="share">{buttons}</div>'
+
+
 def render_post(page, post):
     lang = page.lang
     return f"""<nav class="crumbs" aria-label="Breadcrumb"><a href="{page.link('writing/')}">{esc(tr(C.WRITING["title"], lang))}</a><span aria-hidden="true">›</span><span class="crumb-current">{esc(tr(post["title"], lang))}</span></nav>
@@ -772,7 +786,8 @@ def render_post(page, post):
 <p class="post-date">{esc(tr(C.UI["published"], lang))} <time datetime="{post["date"]}">{fmt_day(post["date"], lang)}</time></p></div></div>
 </header>
 <div class="post-cover">{post_cover(page, post, "post", "high")}</div>
-<article class="prose">{tr(post["body"], lang).replace("{play}", page.raw("play/sgamers/"))}</article>"""
+<article class="prose">{tr(post["body"], lang).replace("{play}", page.raw("play/sgamers/"))}</article>
+{share(page, tr(post["title"], lang))}"""
 
 
 def render_tools(page):

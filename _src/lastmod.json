@@ -1,7 +1,7 @@
 {
  "": {
   "date": "2026-09-21",
-  "hash": "67bc23d5ce5ac3f9"
+  "hash": "843ddb05c8ae2c32"
  },
  "about/": {
   "date": "2026-09-17",
@@ -13,7 +13,7 @@
  },
  "it/": {
   "date": "2026-09-21",
-  "hash": "f7cbb711e137e6cb"
+  "hash": "c34eb7e082399f6a"
  },
  "it/about/": {
   "date": "2026-09-17",
@@ -52,20 +52,20 @@
   "hash": "7d7df07e8f379264"
  },
  "it/tools/": {
-  "date": "2026-09-16",
-  "hash": "67216c00280f02da"
+  "date": "2026-09-21",
+  "hash": "d57900d020951785"
  },
  "it/writing/": {
   "date": "2026-09-19",
   "hash": "66de0996363a6647"
  },
  "it/writing/pagespeed-100-github-pages/": {
-  "date": "2026-09-19",
-  "hash": "676b1346a7cd1169"
+  "date": "2026-09-21",
+  "hash": "fa47dfa7933f5cb9"
  },
  "it/writing/rebuilding-sgamers/": {
-  "date": "2026-09-15",
-  "hash": "ede2ec74f10a53e7"
+  "date": "2026-09-21",
+  "hash": "09ba22cb617c7daa"
  },
  "play/sgamers/": {
   "date": "2026-09-16",
@@ -100,19 +100,19 @@
   "hash": "b3f9b39f2620ccb0"
  },
  "tools/": {
-  "date": "2026-09-16",
-  "hash": "d2d0f8b199a5353f"
+  "date": "2026-09-21",
+  "hash": "976b8286df49c87c"
  },
  "writing/": {
   "date": "2026-09-19",
   "hash": "d1aff76b99c075db"
  },
  "writing/pagespeed-100-github-pages/": {
-  "date": "2026-09-19",
-  "hash": "49402c94234c4ac1"
+  "date": "2026-09-21",
+  "hash": "28ada8632a4873fd"
  },
  "writing/rebuilding-sgamers/": {
-  "date": "2026-09-15",
-  "hash": "ac3ecb0ed30a62b6"
+  "date": "2026-09-21",
+  "hash": "9fc89e14943b3e8c"
  }
 }

@@ -47,6 +47,7 @@ UI = {
     "pages": L("Pages", "Pagine"),
     "min_read": L("min read", "min di lettura"),
     "read": L("Read the article", "Leggi l'articolo"),
+    "share": L("Share on", "Condividi su"),
     "published": L("Published", "Pubblicato il"),
     "by": L("By", "Di"),
     "on_affidaty": L("On Affidaty", "Su Affidaty"),
