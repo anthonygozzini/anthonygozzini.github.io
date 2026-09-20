@@ -87,6 +87,7 @@ img { max-width: 100%; display: block; }
 .mtop, .tabbar { display: none; }
 
 /* home */
+.greeting-name { display: block; margin-top: 8px; font-size: .32em; line-height: 1.2; letter-spacing: -.02em; color: var(--muted); }
 .greeting { margin-bottom: 22px; font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink); }
 .intro { max-width: 72ch; font-size: 15px; color: var(--text); }
 .intro-more { margin-top: 12px; font-size: 15px; }

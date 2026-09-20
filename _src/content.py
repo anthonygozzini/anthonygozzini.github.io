@@ -33,6 +33,7 @@ SITE = {
 
 UI = {
     "greeting_fallback": L("Hello", "Ciao"),
+    "greeting_name": L("I'm Anthony Gozzini", "sono Anthony Gozzini"),
     "greetings": L(["Good morning", "Good afternoon", "Good evening"], ["Buongiorno", "Buon pomeriggio", "Buonasera"]),
     "resources": L("Resources", "Risorse"),
     "connect": L("Connect", "Contatti"),
@@ -70,8 +71,8 @@ NAV = [
 HOME = {
     "title": L("Anthony Gozzini — CRM & Lifecycle Marketing", "Anthony Gozzini — CRM e Lifecycle Marketing"),
     "intro": L(
-        "I'm Anthony Gozzini, a CRM & lifecycle marketer. I spent eight years inside Trust Wallet's community, seven as a volunteer and then on the Marketing & Communications team, and I build my own tools.",
-        "Sono Anthony Gozzini e mi occupo di CRM e lifecycle marketing. Ho passato otto anni nella community di Trust Wallet, sette da volontario e poi nel team Marketing & Communications, e gli strumenti che mi servono li costruisco da solo.",
+        "I'm a CRM & lifecycle marketer. I spent eight years inside Trust Wallet's community, seven as a volunteer and then on the Marketing & Communications team, and I build my own tools.",
+        "Mi occupo di CRM e lifecycle marketing. Ho passato otto anni nella community di Trust Wallet, sette da volontario e poi nel team Marketing & Communications, e gli strumenti che mi servono li costruisco da solo.",
     ),
     "intro_link": L("More about me", "Scopri chi sono"),
     "tips": [

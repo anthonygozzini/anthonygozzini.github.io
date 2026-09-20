@@ -540,6 +540,7 @@ def document_shell(page, key, title, description, body, width, meta):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 {head_tags(page, title, description, meta)}<meta name="theme-color" content="#E9EDF2">
 <link rel="icon" href="{page.asset('favicon-192.png')}" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="{page.asset('apple-touch-icon.png')}">
 <link rel="icon" href="{page.asset('favicon.svg')}" type="image/svg+xml">
 <style>{CSS_SLOT}</style>
 {font_blocks()}{THEME_SCRIPT}
@@ -569,7 +570,7 @@ def greeting_script(lang):
     """Swap the fallback greeting for the time of day before the first layout, so the heading never changes size on screen.
     It runs in the first animation frame, like THEME_SCRIPT, to stay out of the task that parses the page."""
     words = json.dumps(tr(C.UI["greetings"], lang), ensure_ascii=False)
-    return ("requestAnimationFrame(function(){var w=" + words + ",h=new Date().getHours(),g=document.querySelector('.greeting');"
+    return ("requestAnimationFrame(function(){var w=" + words + ",h=new Date().getHours(),g=document.querySelector('.greeting-word');"
             "if(g)g.textContent=h>=5&&h<12?w[0]:h>=12&&h<18?w[1]:w[2]})")
 
 
@@ -651,7 +652,7 @@ def render_home(page):
         for k in H["home_tools"])
 
     return f"""<section class="hero">
-<h1 class="greeting">{esc(tr(C.UI["greeting_fallback"], lang))}</h1>
+<h1 class="greeting"><span class="greeting-word">{esc(tr(C.UI["greeting_fallback"], lang))}</span>, <span class="greeting-name">{esc(tr(C.UI["greeting_name"], lang))}</span></h1>
 <script>{greeting_script(lang)}</script>
 <p class="intro">{esc(tr(H["intro"], lang))}</p>
 <p class="intro-more"><a href="{page.link('about/')}">{esc(tr(H["intro_link"], lang))} →</a></p>
