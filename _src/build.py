@@ -654,7 +654,7 @@ def render_home(page):
         for k in H["home_tools"])
 
     return f"""<section class="hero">
-<p class="greeting"><span class="greeting-word">{esc(tr(C.UI["greeting_fallback"], lang))}</span>,</p>
+<p class="greeting"><span class="greeting-word">{esc(tr(C.UI["greeting_fallback"], lang))}</span>, {esc(tr(C.UI["greeting_who"], lang))}</p>
 <h1 class="greeting-name">{esc(tr(C.UI["greeting_name"], lang))}</h1>
 <script>{greeting_script(lang)}</script>
 <p class="intro">{esc(tr(H["intro"], lang))}</p>

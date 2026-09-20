@@ -33,6 +33,7 @@ SITE = {
 
 UI = {
     "greeting_fallback": L("Hello", "Ciao"),
+    "greeting_who": L("I'm Anthony Gozzini", "sono Anthony Gozzini"),
     "greeting_name": L("CRM & lifecycle marketing, community, and the tools I build",
                        "CRM e lifecycle marketing, community e strumenti che costruisco da solo"),
     "greetings": L(["Good morning", "Good afternoon", "Good evening"], ["Buongiorno", "Buon pomeriggio", "Buonasera"]),

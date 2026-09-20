@@ -88,7 +88,7 @@ img { max-width: 100%; display: block; }
 
 /* home */
 .greeting-name { margin: 8px 0 22px; font-size: clamp(1.05rem, 2.3vw, 1.8rem); font-weight: 400; line-height: 1.2; letter-spacing: -.02em; color: var(--muted); }
-.greeting { margin-bottom: 0; font-size: clamp(3rem, 7.2vw, 5.6rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink); }
+.greeting { margin-bottom: 0; font-size: clamp(2.3rem, 5.2vw, 4rem); font-weight: 400; line-height: 1; letter-spacing: -.04em; color: var(--ink); }
 .intro { max-width: 72ch; font-size: 15px; color: var(--text); }
 .intro-more { margin-top: 12px; font-size: 15px; }
 .intro-more a, .section-lead a, .section-more a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
@@ -328,7 +328,7 @@ picture { display: contents; }
   .channel-card:has(.copy-btn) .channel-hit { padding-right: 96px; }
   .channel-card .copy-btn { top: 50%; transform: translateY(-50%); }
   .page-head h1 { font-size: 30px; }
-  .greeting { font-size: 3.1rem; }
+  .greeting { font-size: 2.3rem; }
   /* Hidden from sight only: the link's accessible name stays its own text, which screen readers and agents read. */
   .mtop .brand-name { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 }
