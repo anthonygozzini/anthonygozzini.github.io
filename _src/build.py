@@ -234,11 +234,14 @@ def ext_attrs(href):
     return ' target="_blank" rel="noopener"' if href.startswith("http") else ""
 
 
-def card(href, title, text, meta="", top="", external=False, tag="a"):
+def card(href, title, text, meta="", top="", external=False, tag="a", heading=True):
+    """heading=False for the small cards of a hub page: their titles stay links, but a page of cards should not
+    carry more headings than paragraphs."""
     arrow = f'<span class="card-arrow">{icon("arrow")}</span>' if external else ""
     name = (f'<a class="card-hit" href="{href}"{ext_attrs(href) if external else ""}>{esc(title)}</a>'
             if tag == "a" else esc(title))
-    return (f'<div class="card">{top}<h3 class="card-title">{name}{arrow}</h3>'
+    h = "h3" if heading else "p"
+    return (f'<div class="card">{top}<{h} class="card-title">{name}{arrow}</{h}>'
             f'<p class="card-text">{esc(text)}</p>'
             + (f'<p class="card-meta">{esc(meta)}</p>' if meta else "") + "</div>")
 
@@ -286,10 +289,18 @@ def sidebar(page, key):
     return "".join(out)
 
 
+LANGUAGE_NAMES = {"en": "English", "it": "Italiano"}
+
+
 def mobile_top(page):
+    """The phone's bar repeats the sidebar's links, so it words them differently: the mark alone for the home link and
+    the other language by its full name, instead of a second "Anthony Gozzini" and a second "EN / IT"."""
     label = esc(tr(C.UI["theme"], page.lang))
-    return (f'<header class="mtop"><a class="brand" href="{page.link("")}"><span class="brand-mark" aria-hidden="true">AG</span><span class="brand-name">Anthony Gozzini</span></a>'
-            f'<div class="mtop-actions">{lang_switch(page)}<button type="button" class="icon-btn" data-theme-cycle aria-label="{label}">'
+    other = next(code for code in LANGS if code != page.lang)
+    language = (f'<div class="seg seg-lang"><a class="seg-btn" href="{page.link(page.path, other)}" hreflang="{other}" lang="{other}">'
+                f'{LANGUAGE_NAMES[other]}</a></div>')
+    return (f'<header class="mtop"><a class="brand" href="{page.link("")}" aria-label="Anthony Gozzini"><span class="brand-mark" aria-hidden="true">AG</span></a>'
+            f'<div class="mtop-actions">{language}<button type="button" class="icon-btn" data-theme-cycle aria-label="{label}">'
             f'{icon("sun", "i i-light")}{icon("moon", "i i-dark")}{icon("monitor", "i i-auto")}</button></div></header>')
 
 
@@ -558,7 +569,7 @@ def document_shell(page, key, title, description, body, width, meta):
 <div class="page page-{width}">
 {body}
 </div>
-<footer class="foot"><p>© 2026 Anthony Gozzini</p><p>{esc(tr(C.UI["footer"], lang))}</p></footer>
+<footer class="foot"><p>© 2026 Anthony Gozzini</p>{"" if 'class="share"' in body or meta.get("noindex") else foot_share(page, title)}<p>{esc(tr(C.UI["footer"], lang))}</p></footer>
 </main>
 </div>
 {tabbar(page, key)}
@@ -588,8 +599,8 @@ def update_card(page, u):
     meta = fmt_month(u["date"], lang)
     if u.get("href"):
         href = page.link(u["href"])
-        return card(href, tr(u["title"], lang), tr(u["text"], lang), meta, top, external=href.startswith("http"))
-    return card("", tr(u["title"], lang), tr(u["text"], lang), meta, top, tag="div")
+        return card(href, tr(u["title"], lang), tr(u["text"], lang), meta, top, external=href.startswith("http"), heading=False)
+    return card("", tr(u["title"], lang), tr(u["text"], lang), meta, top, tag="div", heading=False)
 
 
 def post_cover(page, post, sizes, priority="lazy"):
@@ -605,7 +616,7 @@ def affidaty_card(page, a, sizes):
 
 def service_card(page, s):
     return card(page.link(f'services/{s["slug"]}/'), tr(s["name"], page.lang), tr(s["summary"], page.lang), "",
-                f'<span class="tile tile-icon">{icon(s["icon"])}</span>')
+                f'<span class="tile tile-icon">{icon(s["icon"])}</span>', heading=False)
 
 
 def cta(page):
@@ -645,12 +656,12 @@ def render_home(page):
 
     S = C.SERVICES
     service_cards = "".join(service_card(page, s) for s in S["items"]) + card(
-        page.link("services/#area"), tr(S["area_title"], lang), tr(S["area"], lang), "", f'<span class="tile tile-icon">{icon("pin")}</span>')
+        page.link("services/#area"), tr(S["area_title"], lang), tr(S["area"], lang), "", f'<span class="tile tile-icon">{icon("pin")}</span>', heading=False)
 
     updates = "".join(update_card(page, u) for u in C.UPDATES[:4])
     tools = {t["key"]: t for t in C.TOOLS["items"]}
     tool_cards = "".join(
-        card(tools[k]["url"], tools[k]["name"], tr(tools[k]["use"], lang), "", logo(page, k, tools[k]["name"], "tile"), external=True)
+        card(tools[k]["url"], tools[k]["name"], tr(tools[k]["use"], lang), "", logo(page, k, tools[k]["name"], "tile"), external=True, heading=False)
         for k in H["home_tools"])
 
     return f"""<section class="hero">
@@ -763,16 +774,28 @@ def render_writing(page):
 <section class="block"><h2 class="block-title">{esc(tr(W["affidaty_label"], lang))}</h2><div class="grid grid-3">{affidaty}</div></section>"""
 
 
-def share(page, title):
-    """Plain links, no widget and no script: the sharing buttons an SEO checker asks for, without a tracker."""
+def share_links(page, title):
+    """Plain links, no widget and no script: sharing without a tracker. (icon, network, address)."""
     url = urllib.parse.quote(C.SITE["url"] + "/" + page.full, safe="")
     text = urllib.parse.quote(title, safe="")
-    links = [("linkedin", "LinkedIn", f"https://www.linkedin.com/sharing/share-offsite/?url={url}"),
-             ("x", "X", f"https://x.com/intent/post?url={url}&text={text}")]
+    return [("linkedin", "LinkedIn", f"https://www.linkedin.com/sharing/share-offsite/?url={url}"),
+            ("x", "X", f"https://twitter.com/intent/tweet?url={url}&text={text}"),
+            ("send", "Telegram", f"https://t.me/share/url?url={url}&text={text}")]
+
+
+def share(page, title):
     label = esc(tr(C.UI["share"], page.lang))
     buttons = "".join(f'<a class="btn btn-share" href="{href}" target="_blank" rel="noopener">{icon(ic)}<span>{label} {name}</span></a>'
-                      for ic, name, href in links)
+                      for ic, name, href in share_links(page, title))
     return f'<div class="share">{buttons}</div>'
+
+
+def foot_share(page, title):
+    """The same links, small, in the footer of the pages that have no share row of their own."""
+    label = esc(tr(C.UI["share"], page.lang))
+    links = " · ".join(f'<a href="{href}" target="_blank" rel="noopener" aria-label="{label} {name}">{name}</a>'
+                        for _, name, href in share_links(page, title))
+    return f'<p class="foot-share">{label} {links}</p>'
 
 
 def render_post(page, post):
