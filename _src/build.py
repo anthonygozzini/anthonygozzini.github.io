@@ -1276,9 +1276,14 @@ def main():
 
     sitemap = "".join(f"<url><loc>{C.SITE['url']}/{u}</loc><lastmod>{d}</lastmod></url>" for u, d in urls)
     (ROOT / "sitemap.xml").write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{sitemap}</urlset>\n', encoding="utf-8")
+    # The same addresses as plain text, one per line, which Google also accepts. Search Console left sitemap.xml at
+    # "couldn't fetch" without ever downloading it (a known pattern on *.github.io, 2026-09): a second file under another
+    # name and format is a fresh fetch for Google, and costs nothing.
+    (ROOT / "sitemap.txt").write_text("".join(f"{C.SITE['url']}/{u}\n" for u, _ in urls), encoding="utf-8")
     # Search engines index the HTML pages; the markdown copies are for AI agents, so keep them out of search results.
     (ROOT / "robots.txt").write_text("User-agent: Googlebot\nUser-agent: Bingbot\nDisallow: /*.md$\n\n"
-                                     f"User-agent: *\nAllow: /\n\nSitemap: {C.SITE['url']}/sitemap.xml\n", encoding="utf-8")
+                                     f"User-agent: *\nAllow: /\n\nSitemap: {C.SITE['url']}/sitemap.xml\n"
+                                     f"Sitemap: {C.SITE['url']}/sitemap.txt\n", encoding="utf-8")
     (ROOT / "llms.txt").write_text(llms_txt(), encoding="utf-8")
     if not PREVIEW:
         kept = {u: stamps[u] for u, _ in urls}

@@ -6,3 +6,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://anthonygozzini.github.io/sitemap.xml
+Sitemap: https://anthonygozzini.github.io/sitemap.txt
