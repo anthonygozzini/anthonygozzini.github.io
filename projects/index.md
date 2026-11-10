@@ -12,6 +12,8 @@ Before you buy a token, GuardBot simulates a real buy and a real sell against li
 
 Tags: Python, MCP, Side project
 
+[Read the case study](https://anthonygozzini.github.io/projects/guardbot/index.md)
+
 Links: [Code](https://github.com/anthonygozzini/guardbot), [35-second demo](https://anthonygozzini.github.io/guardbot/demo.html), [Project page](https://anthonygozzini.github.io/guardbot/)
 
 ## channel-miner (2026)
@@ -22,6 +24,8 @@ Point it at a YouTube channel and it collects every video and turns it into text
 
 Tags: Python, Shell, Side project
 
+[Read the case study](https://anthonygozzini.github.io/projects/channel-miner/index.md)
+
 Links: [Code](https://github.com/anthonygozzini/channel-miner), [See it run](https://anthonygozzini.github.io/channel-miner/demo.html)
 
 ## Telegram Gatekeeper Bot (2023 – 2026)
@@ -31,6 +35,8 @@ Screens people before they join a private Telegram group.
 Applicants answer a short questionnaire in a private chat. The bot checks the answers and looks for signs of fake or farmed accounts, such as no username, a name full of digits or a social profile already used by someone else. Then it either admits them with a single-use invite link or sends the request to the admins with Approve and Reject buttons. Questions, rules and messages live in one config file, so the same bot works for any community. Version 3 is the generic rewrite of a bot I first built for private crypto groups in 2023.
 
 Tags: Python, SQLite, 40 tests, v3.0.0
+
+[Read the case study](https://anthonygozzini.github.io/projects/gatekeeper/index.md)
 
 Links: [Code](https://github.com/anthonygozzini/telegram-gatekeeper-bot), [Releases](https://github.com/anthonygozzini/telegram-gatekeeper-bot/releases)
 
@@ -51,6 +57,8 @@ Referral links, points and a leaderboard for a Telegram community.
 Members join the channel and the group, submit their wallet address and get a personal referral link. Every person they bring in earns them points, and admins can see the top referrers at any time. I built it for a crypto creator's community in 2024; version 1.1.0 restores the join checks and wallet submission from the full client version.
 
 Tags: Python, Client work, v1.1.0
+
+[Read the case study](https://anthonygozzini.github.io/projects/referral/index.md)
 
 Links: [Code](https://github.com/anthonygozzini/Telegram-Referral-System), [Releases](https://github.com/anthonygozzini/Telegram-Referral-System/releases)
 

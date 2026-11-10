@@ -10,6 +10,10 @@ https://anthonygozzini.github.io/services/community/
 https://anthonygozzini.github.io/services/telegram-bots/
 https://anthonygozzini.github.io/services/ai-automation/
 https://anthonygozzini.github.io/services/multilingual-campaigns/
+https://anthonygozzini.github.io/projects/guardbot/
+https://anthonygozzini.github.io/projects/channel-miner/
+https://anthonygozzini.github.io/projects/gatekeeper/
+https://anthonygozzini.github.io/projects/referral/
 https://anthonygozzini.github.io/writing/pagespeed-100-github-pages/
 https://anthonygozzini.github.io/writing/rebuilding-sgamers/
 https://anthonygozzini.github.io/it/
@@ -24,6 +28,10 @@ https://anthonygozzini.github.io/it/services/community/
 https://anthonygozzini.github.io/it/services/telegram-bots/
 https://anthonygozzini.github.io/it/services/ai-automation/
 https://anthonygozzini.github.io/it/services/multilingual-campaigns/
+https://anthonygozzini.github.io/it/projects/guardbot/
+https://anthonygozzini.github.io/it/projects/channel-miner/
+https://anthonygozzini.github.io/it/projects/gatekeeper/
+https://anthonygozzini.github.io/it/projects/referral/
 https://anthonygozzini.github.io/it/writing/pagespeed-100-github-pages/
 https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/
 https://anthonygozzini.github.io/play/sgamers/

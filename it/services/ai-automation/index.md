@@ -13,8 +13,8 @@ Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti,
 
 ## Dove l'ho già fatto
 
-- [channel-miner ha trasformato 377 ore di video, in 179 puntate, in 237 MB di testo da cercare.](https://anthonygozzini.github.io/it/projects/index.md)
-- [GuardBot include un server MCP, così anche gli agenti AI possono usarlo come strumento.](https://anthonygozzini.github.io/it/projects/index.md)
+- [channel-miner ha trasformato 377 ore di video, in 179 puntate, in 237 MB di testo da cercare.](https://anthonygozzini.github.io/it/projects/channel-miner/index.md)
+- [GuardBot include un server MCP, così anche gli agenti AI possono usarlo come strumento.](https://anthonygozzini.github.io/it/projects/guardbot/index.md)
 - [Come io e un agente AI abbiamo ricostruito un gioco dall'unica build rimasta, controllando ogni passaggio.](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md)
 
 ## Dove lavoro

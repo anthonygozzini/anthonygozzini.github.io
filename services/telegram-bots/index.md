@@ -13,8 +13,8 @@ Bots that screen new members, run referral programs or mirror channels, tested a
 
 ## Where I have done it
 
-- [Telegram Gatekeeper Bot: screening for private groups, 40 tests, version 3.0.0.](https://anthonygozzini.github.io/projects/index.md)
-- [Telegram Referral System: built for a crypto creator's community.](https://anthonygozzini.github.io/projects/index.md)
+- [Telegram Gatekeeper Bot: screening for private groups, 40 tests, version 3.0.0.](https://anthonygozzini.github.io/projects/gatekeeper/index.md)
+- [Telegram Referral System: built for a crypto creator's community.](https://anthonygozzini.github.io/projects/referral/index.md)
 - [Telegram Channel Message Copier: ran for a client posting to six channels.](https://anthonygozzini.github.io/projects/index.md)
 
 ## Where I work

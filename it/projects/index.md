@@ -12,6 +12,8 @@ Prima di comprare un token, GuardBot simula davvero un acquisto e una vendita su
 
 Tag: Python, MCP, Progetto personale
 
+[Leggi il case study](https://anthonygozzini.github.io/it/projects/guardbot/index.md)
+
 Link: [Codice](https://github.com/anthonygozzini/guardbot), [Demo di 35 secondi](https://anthonygozzini.github.io/guardbot/demo.html), [Pagina del progetto](https://anthonygozzini.github.io/guardbot/)
 
 ## channel-miner (2026)
@@ -22,6 +24,8 @@ Gli dai un canale YouTube: raccoglie tutti i video e li trasforma in testo da ce
 
 Tag: Python, Shell, Progetto personale
 
+[Leggi il case study](https://anthonygozzini.github.io/it/projects/channel-miner/index.md)
+
 Link: [Codice](https://github.com/anthonygozzini/channel-miner), [Guardalo in azione](https://anthonygozzini.github.io/channel-miner/demo.html)
 
 ## Telegram Gatekeeper Bot (2023 – 2026)
@@ -31,6 +35,8 @@ Filtra chi vuole entrare in un gruppo Telegram privato.
 Chi vuole entrare risponde a un breve questionario in chat privata. Il bot controlla le risposte e cerca i segnali di account falsi o farmati, come la mancanza di username, un nome pieno di numeri o un profilo social già usato da qualcun altro. Poi lo fa entrare con un link d'invito monouso oppure passa la richiesta agli admin, con i pulsanti Approva e Rifiuta. Domande, regole e messaggi stanno in un solo file di configurazione, quindi lo stesso bot funziona per qualsiasi community. La versione 3 è la riscrittura generica di un bot che avevo costruito nel 2023 per gruppi crypto privati.
 
 Tag: Python, SQLite, 40 test, v3.0.0
+
+[Leggi il case study](https://anthonygozzini.github.io/it/projects/gatekeeper/index.md)
 
 Link: [Codice](https://github.com/anthonygozzini/telegram-gatekeeper-bot), [Release](https://github.com/anthonygozzini/telegram-gatekeeper-bot/releases)
 
@@ -51,6 +57,8 @@ Link referral, punti e classifica per una community Telegram.
 Gli iscritti entrano nel canale e nel gruppo, inviano l'indirizzo del proprio wallet e ricevono un link referral personale. Ogni persona che portano vale punti, e gli admin possono vedere in qualsiasi momento chi ha invitato di più. L'ho costruito nel 2024 per la community di un creator crypto; la versione 1.1.0 recupera la verifica delle iscrizioni e l'invio del wallet dalla versione completa fatta per il cliente.
 
 Tag: Python, Per un cliente, v1.1.0
+
+[Leggi il case study](https://anthonygozzini.github.io/it/projects/referral/index.md)
 
 Link: [Codice](https://github.com/anthonygozzini/Telegram-Referral-System), [Release](https://github.com/anthonygozzini/Telegram-Referral-System/releases)
 

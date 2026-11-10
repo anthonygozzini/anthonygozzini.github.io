@@ -406,6 +406,25 @@ def service_graph(page, s, description):
     ]
 
 
+def project_graph(page, slug, description):
+    base = C.SITE["url"] + "/"
+    url = base + page.full
+    lang = page.lang
+    p = case_project(slug)
+    code = next((l["href"] for l in p["links"] if l["href"].startswith("https://github.com/")), None)
+    software = {"@type": "SoftwareSourceCode", "@id": url + "#project", "name": tr(p["name"], lang), "description": description,
+                "url": url, "image": base + "assets/img/" + p["cover"], "inLanguage": lang,
+                "author": {"@type": "Person", "@id": base + "#person", "name": C.SITE["name"], "url": base}}
+    if code:
+        software["codeRepository"] = code
+    return [
+        software,
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": tr(C.PROJECTS["title"], lang), "item": base + Page(lang, "projects/").full},
+            {"@type": "ListItem", "position": 2, "name": tr(p["name"], lang), "item": url}]},
+    ]
+
+
 def head_tags(page, title, description, meta):
     """Title, description, canonical, language alternates, markdown copy, JSON-LD and social tags."""
     lang = page.lang
@@ -643,7 +662,7 @@ def render_home(page):
 
     projects = [p for p in C.PROJECTS["items"] if p.get("home")]
     project_cards = "".join(
-        card(page.link("projects/") + f'#{p["slug"]}', tr(p["name"], lang), tr(p["summary"], lang), p["year"],
+        card(project_href(page, p), tr(p["name"], lang), tr(p["summary"], lang), p["year"],
              f'<div class="card-cover">{cover(page, p["cover"], tr(p["name"], lang), "grid", "high" if i == 0 else "lazy")}</div>')
         for i, p in enumerate(projects))
 
@@ -731,22 +750,36 @@ def render_about(page):
 <section class="section" id="how-i-work"><h2>{esc(tr(A["how"], lang))}</h2><div class="principles">{principles}</div></section>"""
 
 
+def project_href(page, p):
+    return page.link(f'projects/{p["slug"]}/') if p["slug"] in C.CASES else page.link("projects/") + f'#{p["slug"]}'
+
+
+def project_links(page, p, case_link=False):
+    lang = page.lang
+    name = tr(p["name"], lang)
+    links = []
+    if case_link:
+        links.append(f'<a href="{page.link("projects/" + p["slug"] + "/")}">{esc(tr(C.PROJECTS["case_link"], lang))}'
+                     f'<span class="sr-only">: {esc(name)}</span>{icon("right")}</a>')
+    for link in p["links"]:
+        href = page.raw(link["href"]) if link.get("raw") else page.link(link["href"])
+        glyph = icon("right") if link.get("internal") or link.get("raw") else icon("arrow")
+        links.append(f'<a href="{href}"{ext_attrs(href)}>{esc(tr(link["label"], lang))}<span class="sr-only">: {esc(name)}</span>{glyph}</a>')
+    return f'<div class="project-links">{"".join(links)}</div>' if links else ""
+
+
 def render_projects(page):
     lang = page.lang
     P = C.PROJECTS
     items = []
     for i, p in enumerate(P["items"]):
         name = tr(p["name"], lang)
-        links = []
-        for link in p["links"]:
-            href = page.raw(link["href"]) if link.get("raw") else page.link(link["href"])
-            glyph = icon("right") if link.get("internal") or link.get("raw") else icon("arrow")
-            links.append(f'<a href="{href}"{ext_attrs(href)}>{esc(tr(link["label"], lang))}<span class="sr-only">: {esc(name)}</span>{glyph}</a>')
-        links_html = f'<div class="project-links">{"".join(links)}</div>' if links else ""
+        links_html = project_links(page, p, case_link=p["slug"] in C.CASES)
+        title = f'<a href="{page.link("projects/" + p["slug"] + "/")}">{esc(name)}</a>' if p["slug"] in C.CASES else esc(name)
         items.append(f"""<article class="project" id="{p['slug']}">
 <div class="project-cover">{cover(page, p['cover'], name, "project", "high" if i == 0 else "lazy")}</div>
 <div class="project-body">
-<div class="project-head"><h2>{esc(name)}</h2><span class="project-year">{esc(p['year'])}</span></div>
+<div class="project-head"><h2>{title}</h2><span class="project-year">{esc(p['year'])}</span></div>
 <p class="project-summary">{esc(tr(p['summary'], lang))}</p>
 <p class="project-text">{esc(tr(p['text'], lang))}</p>
 <p class="project-tags">{' · '.join(esc(t) for t in tr(p['tags'], lang))}</p>
@@ -754,6 +787,45 @@ def render_projects(page):
 </div></article>""")
     return f"""<header class="page-head"><h1>{esc(tr(P["title"], lang))}</h1><p class="lead">{esc(tr(P["intro"], lang))}</p></header>
 <div class="projects">{"".join(items)}</div>"""
+
+
+def case_project(slug):
+    return next(p for p in C.PROJECTS["items"] if p["slug"] == slug)
+
+
+def project_row(page, p):
+    lang = page.lang
+    return (f'<div class="tool-row"><span class="tile tile-lg tile-icon">{icon("code")}</span>'
+            f'<div class="tool-main"><p class="tool-name"><a class="card-hit" href="{page.link("projects/" + p["slug"] + "/")}">{esc(tr(p["name"], lang))}</a>'
+            f'<span class="tool-arrow">{icon("right")}</span></p>'
+            f'<p class="tool-use">{esc(tr(p["summary"], lang))}</p></div></div>')
+
+
+def render_project(page, slug):
+    lang = page.lang
+    P = C.PROJECTS
+    case = C.CASES[slug]
+    p = case_project(slug)
+    name = tr(p["name"], lang)
+    service = next(s for s in C.SERVICES["items"] if s["slug"] == case["service"])
+    paragraphs = "".join(f'<p class="section-lead">{esc(t)}</p>' for t in tr(case["built"], lang))
+    results = "".join(f'<li>{icon("check")}<span>{esc(r)}</span></li>' for r in tr(case["results"], lang))
+    choices = "".join(f'<div class="faq-item"><h3>{esc(tr(q["q"], lang))}</h3><p>{esc(tr(q["a"], lang))}</p></div>' for q in case["choices"])
+    limits = tr(case["limits"], lang)
+    limits_html = (f'<section class="section"><h2>{esc(tr(P["limits"], lang))}</h2><ul class="checks">'
+                   + "".join(f'<li>{icon("check")}<span>{esc(l)}</span></li>' for l in limits) + "</ul></section>") if limits else ""
+    others = "".join(project_row(page, case_project(s)) for s in C.CASES if s != slug)
+    return f"""<nav class="crumbs" aria-label="Breadcrumb"><a href="{page.link('projects/')}">{esc(tr(P["title"], lang))}</a><span aria-hidden="true">›</span><span class="crumb-current">{esc(name)}</span></nav>
+<header class="page-head"><h1>{esc(tr(case["title"], lang))}</h1><p class="lead">{esc(tr(p["summary"], lang))}</p></header>
+<div class="project-cover">{cover(page, p["cover"], name, "project", "high")}</div>
+<section class="section"><h2>{esc(tr(P["problem"], lang))}</h2><p class="section-lead">{esc(tr(case["problem"], lang))}</p></section>
+<section class="section"><h2>{esc(tr(P["built"], lang))}</h2>{paragraphs}</section>
+<section class="section"><h2>{esc(tr(P["results"], lang))}</h2><ul class="checks">{results}</ul></section>
+<section class="section"><h2>{esc(tr(P["choices"], lang))}</h2><div class="faq">{choices}</div></section>
+{limits_html}
+<section class="section"><h2>{esc(tr(P["links"], lang))}</h2>{project_links(page, p)}<p class="project-tags">{' · '.join(esc(t) for t in tr(p['tags'], lang))}</p></section>
+<section class="section"><h2>{esc(tr(P["service"], lang))}</h2><div class="service-list">{service_row(page, service)}</div>{cta(page)}</section>
+<section class="section"><h2>{esc(tr(P["others"], lang))}</h2><div class="service-list">{others}</div></section>"""
 
 
 def render_writing(page):
@@ -1079,9 +1151,33 @@ def md_projects(lang):
     for p in P["items"]:
         parts += [f'## {tr(p["name"], lang)} ({p["year"]})', tr(p["summary"], lang), tr(p["text"], lang),
                   f'{tr(C.MD["tags"], lang)}: {", ".join(tr(p["tags"], lang))}']
+        if p["slug"] in C.CASES:
+            parts.append(f'[{tr(P["case_link"], lang)}]({site_url("projects/" + p["slug"] + "/", lang, True)})')
         if p["links"]:
             parts.append(f'{tr(C.MD["links"], lang)}: ' + ", ".join(md_project_link(l, lang) for l in p["links"]))
     return md_join(parts)
+
+
+def md_project(lang, slug):
+    P = C.PROJECTS
+    case = C.CASES[slug]
+    p = case_project(slug)
+    service = next(s for s in C.SERVICES["items"] if s["slug"] == case["service"])
+    limits = tr(case["limits"], lang)
+    return md_join([
+        f'# {tr(case["title"], lang)}', f'> {tr(case["description"], lang)}', tr(p["summary"], lang),
+        f'## {tr(P["problem"], lang)}', tr(case["problem"], lang),
+        f'## {tr(P["built"], lang)}', *tr(case["built"], lang),
+        f'## {tr(P["results"], lang)}', md_list(f'- {r}' for r in tr(case["results"], lang)),
+        f'## {tr(P["choices"], lang)}', "\n\n".join(f'### {tr(q["q"], lang)}\n\n{tr(q["a"], lang)}' for q in case["choices"]),
+        *([f'## {tr(P["limits"], lang)}', md_list(f'- {l}' for l in limits)] if limits else []),
+        f'## {tr(P["links"], lang)}', ", ".join(md_project_link(l, lang) for l in p["links"]),
+        f'## {tr(P["service"], lang)}', md_service_line(service, lang),
+        f'[{tr(C.CONTACT["cta_call"], lang)}]({C.SITE["cal"]}) · Email: {C.SITE["email"]}',
+        f'## {tr(P["others"], lang)}',
+        md_list(f'- [{tr(case_project(o)["name"], lang)}]({site_url("projects/" + o + "/", lang, True)}): {tr(case_project(o)["summary"], lang)}'
+                for o in C.CASES if o != slug),
+    ])
 
 
 def md_writing(lang):
@@ -1174,11 +1270,13 @@ def llms_txt():
     projects = []
     for p in C.PROJECTS["items"]:
         code = next((l["href"] for l in p["links"] if l["href"].startswith("https://github.com/")), None)
-        projects.append(f'- [{tr(p["name"], en)}]({code or site_url("projects/", en, True)}): {tr(p["summary"], en)}')
+        href = site_url("projects/" + p["slug"] + "/", en, True) if p["slug"] in C.CASES else code or site_url("projects/", en, True)
+        projects.append(f'- [{tr(p["name"], en)}]({href}): {tr(p["summary"], en)}')
     projects.append(f'- [{C.PLAY["title"].rsplit(" — ", 1)[0]}]({site_url(C.PLAY["path"], md=True)}): {C.PLAY["description"]}')
     italian = [f'- [Home]({site_url("", "it", True)}): {tr(S["description"], "it")}']
     italian += [f'- [{tr(n["label"], "it")}]({site_url(n["path"], "it", True)}): {tr(SECTIONS[n["key"]]["description"], "it")}' for n in C.NAV if n["key"] in SECTIONS]
     italian += [md_service_line(s, "it") for s in C.SERVICES["items"]]
+    italian += [f'- [{tr(case_project(slug)["name"], "it")}]({site_url("projects/" + slug + "/", "it", True)}): {tr(case_project(slug)["summary"], "it")}' for slug in C.CASES]
     italian += [md_post_line(p, "it") for p in C.WRITING["posts"]]
     return md_join([
         f'# {S["name"]}', f'> {tr(S["description"], en)}',
@@ -1250,6 +1348,14 @@ def main():
             emit(page, "services", f'{tr(s["title"], lang)} — Anthony Gozzini', description, render_service(page, s), "narrow", "WebPage",
                  md_service(lang, s), extra=lambda date, page=page, s=s, description=description: service_graph(page, s, description),
                  main=C.SITE["url"] + "/" + page.full + "#service")
+        for slug in C.CASES:
+            page = Page(lang, f'projects/{slug}/')
+            description = tr(C.CASES[slug]["description"], lang)
+            p = case_project(slug)
+            meta = {"image": p["cover"], "image_alt": tr(p["name"], lang)}
+            emit(page, "projects", f'{tr(C.CASES[slug]["title"], lang)} — Anthony Gozzini', description, render_project(page, slug), "narrow", "WebPage",
+                 md_project(lang, slug), meta, lambda date, page=page, slug=slug, description=description: project_graph(page, slug, description),
+                 main=C.SITE["url"] + "/" + page.full + "#project")
         for post in C.WRITING["posts"]:
             page = Page(lang, f'writing/{post["slug"]}/')
             description = tr(post["description"], lang)
@@ -1288,7 +1394,7 @@ def main():
     if not PREVIEW:
         kept = {u: stamps[u] for u, _ in urls}
         STAMPS_FILE.write_text(json.dumps(kept, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    expected = len(LANGS) * (1 + len(pages) + len(C.SERVICES["items"]) + len(C.WRITING["posts"])) + 2
+    expected = len(LANGS) * (1 + len(pages) + len(C.SERVICES["items"]) + len(C.CASES) + len(C.WRITING["posts"])) + 2
     print(f"pagine scritte: {len(written)} (attese {expected}){' · modalità anteprima' if PREVIEW else ''}")
     print(f"copie markdown scritte: {len(markdown)} (attese {len(urls)})")
     if not_on_cdn:

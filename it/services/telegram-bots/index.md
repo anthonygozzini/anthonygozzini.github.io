@@ -13,8 +13,8 @@ Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con 
 
 ## Dove l'ho già fatto
 
-- [Telegram Gatekeeper Bot: filtro per i gruppi privati, 40 test, versione 3.0.0.](https://anthonygozzini.github.io/it/projects/index.md)
-- [Telegram Referral System: costruito per la community di un creator crypto.](https://anthonygozzini.github.io/it/projects/index.md)
+- [Telegram Gatekeeper Bot: filtro per i gruppi privati, 40 test, versione 3.0.0.](https://anthonygozzini.github.io/it/projects/gatekeeper/index.md)
+- [Telegram Referral System: costruito per la community di un creator crypto.](https://anthonygozzini.github.io/it/projects/referral/index.md)
 - [Telegram Channel Message Copier: ha lavorato per un cliente che pubblicava su sei canali.](https://anthonygozzini.github.io/it/projects/index.md)
 
 ## Dove lavoro

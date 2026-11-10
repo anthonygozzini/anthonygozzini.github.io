@@ -13,8 +13,8 @@ Pipelines that take the volume out of localization, reporting and content, check
 
 ## Where I have done it
 
-- [channel-miner turned 377 hours of video, across 179 episodes, into 237 MB of searchable text.](https://anthonygozzini.github.io/projects/index.md)
-- [GuardBot includes an MCP server, so AI agents can use it as a tool.](https://anthonygozzini.github.io/projects/index.md)
+- [channel-miner turned 377 hours of video, across 179 episodes, into 237 MB of searchable text.](https://anthonygozzini.github.io/projects/channel-miner/index.md)
+- [GuardBot includes an MCP server, so AI agents can use it as a tool.](https://anthonygozzini.github.io/projects/guardbot/index.md)
 - [How an AI agent and I rebuilt a game from its only surviving build, checking every step.](https://anthonygozzini.github.io/writing/rebuilding-sgamers/index.md)
 
 ## Where I work

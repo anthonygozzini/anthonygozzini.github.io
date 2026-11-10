@@ -37,11 +37,11 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 
 ## Projects
 
-- [GuardBot](https://github.com/anthonygozzini/guardbot): Pre-trade safety for EVM, Solana and TRON, from simulated trades instead of a vendor API.
-- [channel-miner](https://github.com/anthonygozzini/channel-miner): Read a YouTube channel instead of watching it.
-- [Telegram Gatekeeper Bot](https://github.com/anthonygozzini/telegram-gatekeeper-bot): Screens people before they join a private Telegram group.
+- [GuardBot](https://anthonygozzini.github.io/projects/guardbot/index.md): Pre-trade safety for EVM, Solana and TRON, from simulated trades instead of a vendor API.
+- [channel-miner](https://anthonygozzini.github.io/projects/channel-miner/index.md): Read a YouTube channel instead of watching it.
+- [Telegram Gatekeeper Bot](https://anthonygozzini.github.io/projects/gatekeeper/index.md): Screens people before they join a private Telegram group.
 - [Sgamers](https://github.com/anthonygozzini/sgamers): My first game, made in Unity in 2018 and rebuilt in 2026.
-- [Telegram Referral System](https://github.com/anthonygozzini/Telegram-Referral-System): Referral links, points and a leaderboard for a Telegram community.
+- [Telegram Referral System](https://anthonygozzini.github.io/projects/referral/index.md): Referral links, points and a leaderboard for a Telegram community.
 - [Telegram Channel Message Copier](https://github.com/anthonygozzini/Telegram-Channel-Message-Copier-Bot): Mirrors posts from one Telegram channel to others.
 - [The Legend of Dragoon in Italian](https://anthonygozzini.github.io/projects/index.md): An Italian language mod for the fan-made PC version of a 1999 PlayStation RPG.
 - [Sgamers: play my first Unity game in your browser](https://anthonygozzini.github.io/play/sgamers/index.md): Play Sgamers, the short 3D game I made in Unity in 2018 and rebuilt in 2026, right in your browser: arrow keys or A and D to move, Space to jump.
@@ -63,6 +63,10 @@ The site is in English at the root and in Italian under /it/. Every page has a m
 - [Italian versions: Bot Telegram su misura](https://anthonygozzini.github.io/it/services/telegram-bots/index.md): Bot che filtrano chi entra, gestiscono programmi referral o copiano canali, con test e release versionate.
 - [Italian versions: Automazioni AI per il marketing](https://anthonygozzini.github.io/it/services/ai-automation/index.md): Pipeline che tolgono il lavoro ripetitivo da localizzazione, report e contenuti, controllate prima che esca qualsiasi cosa.
 - [Italian versions: Campagne multilingua](https://anthonygozzini.github.io/it/services/multilingual-campaigns/index.md): Flussi di localizzazione e campagne in più lingue, con targeting e controlli prima del lancio.
+- [Italian versions: GuardBot](https://anthonygozzini.github.io/it/projects/guardbot/index.md): Sicurezza prima di comprare, su EVM, Solana e TRON, con scambi simulati invece di un'API esterna.
+- [Italian versions: channel-miner](https://anthonygozzini.github.io/it/projects/channel-miner/index.md): Leggere un canale YouTube invece di guardarlo.
+- [Italian versions: Telegram Gatekeeper Bot](https://anthonygozzini.github.io/it/projects/gatekeeper/index.md): Filtra chi vuole entrare in un gruppo Telegram privato.
+- [Italian versions: Telegram Referral System](https://anthonygozzini.github.io/it/projects/referral/index.md): Link referral, punti e classifica per una community Telegram.
 - [Italian versions: Come ho portato un sito su GitHub Pages a 100 in ogni categoria di PageSpeed](https://anthonygozzini.github.io/it/writing/pagespeed-100-github-pages/index.md) (19 set 2026): I caratteri, un'immagine e una cache che non controllo. Quanto è costata ogni correzione in millisecondi, e le tre voci che da un repository non si sistemano.
 - [Italian versions: Come ho ricostruito il mio primo gioco dall'unica build sopravvissuta](https://anthonygozzini.github.io/it/writing/rebuilding-sgamers/index.md) (15 set 2026): La cartella del progetto del mio gioco Unity del 2018 non c'era più, il gioco compilato sì. Come io e un agente AI l'abbiamo fatto tornare un progetto, e i due errori che ci hanno quasi fermati.
 - [Blockchain and Crypto News: March 13 – 20, 2024](https://affidaty.io/blog/en/2024/03/news-blockchain-crypto-13-20mar-24-eng/) (18 Mar 2024, Affidaty): New EU sanctions and crypto laws, and the other stories that moved the market that week.
